@@ -1,4 +1,270 @@
-local api = require('extra')(require('love-api.love_api'))
+local rawApi = require('love-api.love_api')
+
+local FAST_MODE = false
+
+local conf = {
+    name = 'conf',
+    description = 'If a file called conf.lua is present in your game folder (or .love file), it is run before the LÖVE modules are loaded. You can use this file to overwrite the love.conf function, which is later called by the LÖVE \'boot\' script. Using the love.conf function, you can set some configuration options, and change things like the default size of the window, which modules are loaded, and other stuff.',
+    variants = {
+        {
+            arguments = {
+                {
+                    type = 'table',
+                    name = 't',
+                    description = 'The love.conf function takes one argument: a table filled with all the default values which you can overwrite to your liking. If you want to change the default window size, for instance, do:\n\nfunction love.conf(t)\n    t.window.width = 1024\n    t.window.height = 768\nend\n\nIf you don\'t need the physics module or joystick module, do the following.\n\nfunction love.conf(t)\n    t.modules.joystick = false\n    t.modules.physics = false\nend\n\nSetting unused modules to false is encouraged when you release your game. It reduces startup time slightly (especially if the joystick module is disabled) and reduces memory usage (slightly).\n\nNote that you can\'t disable love.filesystem; it\'s mandatory. The same goes for the love module itself. love.graphics needs love.window to be enabled.',
+                    table = {
+                        {
+                            type = 'string',
+                            name = 'identity',
+                            default = 'nil',
+                            description = 'This flag determines the name of the save directory for your game. Note that you can only specify the name, not the location where it will be created:\nt.identity = "gabe_HL3" -- Correct\n\nt.identity = "c:/Users/gabe/HL3" -- Incorrect\nAlternatively love.filesystem.setIdentity can be used to set the save directory outside of the config file.'
+                        },
+                        {
+                            type = 'string',
+                            name = 'version',
+                            default = '"11.1"',
+                            description = 't.version should be a string, representing the version of LÖVE for which your game was made. It should be formatted as "X.Y.Z" where X is the major release number, Y the minor, and Z the patch level. It allows LÖVE to display a warning if it isn\'t compatible. Its default is the version of LÖVE running.'
+                        },
+                        {
+                            type = 'boolean',
+                            name = 'console',
+                            default = 'false',
+                            description = 'Determines whether a console should be opened alongside the game window (Windows only) or not. Note: On OSX you can get console output by running LÖVE through the terminal.'
+                        },
+                        {
+                            type = 'boolean',
+                            name = 'accelerometerjoystick',
+                            default = 'true',
+                            description = 'Sets whether the device accelerometer on iOS and Android should be exposed as a 3-axis Joystick. Disabling the accelerometer when it\'s not used may reduce CPU usage.'
+                        },
+                        {
+                            type = 'boolean',
+                            name = 'externalstorage',
+                            default = 'false',
+                            description = 'Sets whether files are saved in external storage (true) or internal storage (false) on Android.'
+                        },
+                        {
+                            type = 'boolean',
+                            name = 'gammacorrect',
+                            default = 'false',
+                            description = 'Determines whether gamma-correct rendering is enabled, when the system supports it.'
+                        },
+                        {
+                            type = 'table',
+                            name = 'window',
+                            description = 'It is possible to defer window creation until love.window.setMode is first called in your code. To do so, set t.window = nil in love.conf (or t.screen = nil in older versions.) If this is done, LÖVE may crash if any function from love.graphics is called before the first love.window.setMode in your code.\n\nThe t.window table was named t.screen in versions prior to 0.9.0. The t.screen table doesn\'t exist in love.conf in 0.9.0, and the t.window table doesn\'t exist in love.conf in 0.8.0. This means love.conf will fail to execute (therefore it will fall back to default values) if care is not taken to use the correct table for the LÖVE version being used.',
+                            table = {
+                                {
+                                    type = 'string',
+                                    name = 'title',
+                                    default = '"Untitled"',
+                                    description = 'Sets the title of the window the game is in. Alternatively love.window.setTitle can be used to change the window title outside of the config file.'
+                                },
+                                {
+                                    type = 'string',
+                                    name = 'icon',
+                                    default = 'nil',
+                                    description = 'A filepath to an image to use as the window\'s icon. Not all operating systems support very large icon images. The icon can also be changed with love.window.setIcon.'
+                                },
+                                {
+                                    type = 'number',
+                                    name = 'width',
+                                    default = '800',
+                                    description = 'Sets the window\'s dimensions. If these flags are set to 0 LÖVE automatically uses the user\'s desktop dimensions.'
+                                },
+                                {
+                                    type = 'string',
+                                    name = 'height',
+                                    default = '600',
+                                    description = 'Sets the window\'s dimensions. If these flags are set to 0 LÖVE automatically uses the user\'s desktop dimensions.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'borderless',
+                                    default = 'false',
+                                    description = 'Removes all border visuals from the window. Note that the effects may wary between operating systems.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'resizable',
+                                    default = 'false',
+                                    description = 'If set to true this allows the user to resize the game\'s window.'
+                                },
+                                {
+                                    type = 'number',
+                                    name = 'minwidth',
+                                    default = '1',
+                                    description = 'Sets the minimum width and height for the game\'s window if it can be resized by the user. If you set lower values to window.width and window.height LÖVE will always favor the minimum dimensions set via window.minwidth and window.minheight.'
+                                },
+                                {
+                                    type = 'number',
+                                    name = 'minheight',
+                                    default = '1',
+                                    description = 'Sets the minimum width and height for the game\'s window if it can be resized by the user. If you set lower values to window.width and window.height LÖVE will always favor the minimum dimensions set via window.minwidth and window.minheight.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'fullscreen',
+                                    default = 'false',
+                                    description = 'Whether to run the game in fullscreen (true) or windowed (false) mode. The fullscreen can also be toggled via love.window.setFullscreen or love.window.setMode.'
+                                },
+                                {
+                                    type = 'string',
+                                    name = 'fullscreentype',
+                                    default = '"desktop"',
+                                    description = 'Specifies the type of fullscreen mode to use (normal or desktop). Generally the desktop is recommended, as it is less restrictive than normal mode on some operating systems.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'vsync',
+                                    default = 'true',
+                                    description = 'Enables or deactivates vertical synchronization. Vsync tries to keep the game at a steady framerate and can prevent issues like screen tearing. It is recommended to keep vsync activated if you don\'t know about the possible implications of turning it off.'
+                                },
+                                {
+                                    type = 'number',
+                                    name = 'msaa',
+                                    default = '0',
+                                    description = 'The number of samples to use with multi-sampled antialiasing.'
+                                },
+                                {
+                                    type = 'number',
+                                    name = 'display',
+                                    default = '1',
+                                    description = 'The index of the display to show the window in, if multiple monitors are available.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'highdpi',
+                                    default = 'false',
+                                    description = 'See love.window.getPixelScale, love.window.toPixels, and love.window.fromPixels. It is recommended to keep this option disabled if you can\'t test your game on a Mac or iOS system with a Retina display, because code will need tweaking to make sure things look correct.'
+                                },
+                                {
+                                    type = 'number',
+                                    name = 'x',
+                                    default = 'nil',
+                                    description = 'Determines the position of the window on the user\'s screen. Alternatively love.window.setPosition can be used to change the position on the fly.'
+                                },
+                                {
+                                    type = 'number',
+                                    name = 'y',
+                                    default = 'nil',
+                                    description = 'Determines the position of the window on the user\'s screen. Alternatively love.window.setPosition can be used to change the position on the fly.'
+                                }
+                            }
+                        },
+                        {
+                            type = 'table',
+                            name = 'modules',
+                            description = 'Module options.',
+                            table = {
+                                {
+                                    type = 'boolean',
+                                    name = 'audio',
+                                    default = 'true',
+                                    description = 'Enable the audio module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'event',
+                                    default = 'true',
+                                    description = 'Enable the event module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'graphics',
+                                    default = 'true',
+                                    description = 'Enable the graphics module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'image',
+                                    default = 'true',
+                                    description = 'Enable the image module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'joystick',
+                                    default = 'true',
+                                    description = 'Enable the joystick module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'keyboard',
+                                    default = 'true',
+                                    description = 'Enable the keyboard module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'math',
+                                    default = 'true',
+                                    description = 'Enable the math module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'mouse',
+                                    default = 'true',
+                                    description = 'Enable the mouse module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'physics',
+                                    default = 'true',
+                                    description = 'Enable the physics module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'sound',
+                                    default = 'true',
+                                    description = 'Enable the sound module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'system',
+                                    default = 'true',
+                                    description = 'Enable the system module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'timer',
+                                    default = 'true',
+                                    description = 'Enable the timer module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'touch',
+                                    default = 'true',
+                                    description = 'Enable the touch module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'video',
+                                    default = 'true',
+                                    description = 'Enable the video module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'window',
+                                    default = 'true',
+                                    description = 'Enable the window module.'
+                                },
+                                {
+                                    type = 'boolean',
+                                    name = 'thread',
+                                    default = 'true',
+                                    description = 'Enable the thread module.'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+table.insert(rawApi.callbacks, conf)
+
+local api = require('love-api.extra')(rawApi)
 
 local order = {
     Source = {
@@ -106,89 +372,89 @@ local order = {
                 },
             },
         },
-        Mesh = {
-            functions = {
-                'setTexture',
-                'getVertexFormat',
-                'setVertex',
-                'setVertices',
-                'attachAttribute',
-                'setVertexAttribute',
-                'is/setAttributeEnabled',
-                'setVertexMap',
-                'getVertexCount',
-                'setDrawMode',
-                'setDrawRange',
+    },    
+    Mesh = {
+        functions = {
+            'setTexture',
+            'getVertexFormat',
+            'setVertex',
+            'setVertices',
+            'attachAttribute',
+            'setVertexAttribute',
+            'is/setAttributeEnabled',
+            'setVertexMap',
+            'getVertexCount',
+            'setDrawMode',
+            'setDrawRange',
+        },
+    },
+    Image = {
+        functions = {
+            'getFlags',
+            'setFilter',
+            'setMipmapFilter',
+            'setWrap',
+            'refresh',
+            'getData',
+            {
+                name = 'Dimensions',
+                items = {
+                    'getDimensions',
+                    'getWidth',
+                    'getHeight',
+                }
             },
         },
-        Image = {
-            functions = {
-                'getFlags',
-                'setFilter',
-                'setMipmapFilter',
-                'setWrap',
-                'refresh',
-                'getData',
-                {
-                    name = 'Dimensions',
-                    items = {
-                        'getDimensions',
-                        'getWidth',
-                        'getHeight',
-                    }
-                },
+    },
+    ParticleSystem = {
+        functions = {
+            'start',
+            'stop',
+            'pause',
+            'reset',
+            'update',
+            'emit',
+            'isActive',
+            'isPaused',
+            'isStopped',
+            'clone',
+            'setBufferSize',
+            'getCount',
+            {
+                name = 'Emitter',
+                items = {
+                    'setPosition',
+                    'moveTo',
+                    'setEmissionRate',
+                    'setEmitterLifetime',
+                    'setEmissionArea',
+                }
             },
-        },
-        ParticleSystem = {
-            functions = {
-                'start',
-                'stop',
-                'pause',
-                'reset',
-                'update',
-                'emit',
-                'isActive',
-                'isPaused',
-                'isStopped',
-                'clone',
-                'setBufferSize',
-                'getCount',
-                {
-                    name = 'Emitter',
-                    items = {
-                        'setPosition',
-                        'moveTo',
-                        'setAreaSpread',
-                        'setEmissionRate',
-                        'setEmitterLifetime',
-                    }
-                },
-                {
-                    name = 'Particles',
-                    items = {
-                        'setColors',
-                        'setDirection',
-                        'setInsertMode',
-                        'setLinearAcceleration',
-                        'setLinearDamping',
-                        'setOffset',
-                        'setParticleLifetime',
-                        'setRadialAcceleration',
-                        'setTangentialAcceleration',
-                        'setRelativeRotation',
-                        'setRotation',
-                        'setSizes',
-                        'setSizeVariation',
-                        'setSpeed',
-                        'setSpin',
-                        'setSpinVariation',
-                        'setSpread',
-                        'setTexture',
-                        'setQuads',
-                    }
+            {
+                name = 'Particles',
+                items = {
+                    'setColors',
+                    'setDirection',
+                    'setInsertMode',
+                    'setLinearAcceleration',
+                    'setLinearDamping',
+                    'setOffset',
+                    'setParticleLifetime',
+                    'setRadialAcceleration',
+                    'setTangentialAcceleration',
+                    'setRelativeRotation',
+                    'setRotation',
+                    'setSizes',
+                    'setSizeVariation',
+                    'setSpeed',
+                    'setSpin',
+                    'setSpinVariation',
+                    'setSpread',
+                    'setTexture',
+                    'setQuads',
                 }
             }
-        },
+        }
     },
     Shader = {
         functions = {
@@ -233,173 +499,6 @@ local order = {
                     'getWidth',
                     'getHeight',
                 }
-            },
-        },
-    },
-    ImageData = {
-        functions = {
-            'setPixel',
-            'mapPixel',
-            'paste',
-            'encode',
-            {
-                name = 'Dimensions',
-                items = {
-                    'getDimensions',
-                    'getWidth',
-                    'getHeight',
-                }
-            },
-        },
-    },
-    ['love'] = {
-        callbacks = {
-            'load',
-            'update',
-            'draw',
-            'quit',
-            'run',
-            'conf',
-            {
-                name = 'Input',
-                items = {
-                    'keypressed',
-                    'keyreleased',
-                    'textedited',
-                    'textinput',
-                    'mousepressed',
-                    'mousereleased',
-                    'mousemoved',
-                    'mousefocus',
-                    'wheelmoved',
-                    'touchmoved',
-                    'touchpressed',
-                    'touchreleased',
-                    'joystickpressed',
-                    'joystickreleased',
-                    'joystickaxis',
-                    'joystickhat',
-                    'joystickadded',
-                    'joystickremoved',
-                    'gamepadpressed',
-                    'gamepadreleased',
-                    'gamepadaxis',
-                },
-            },
-            {
-
-                name = 'Window',
-                items = {
-                    'resize',
-                    'visible',
-                    'focus',
-                    'filedropped',
-                    'directorydropped',
-                },
-            },
-            {
-                name = 'Error handling',
-                items = {
-                    'errhand',
-                    'threaderror',
-                    'lowmemory',
-                },
-            },
-        },
-    },
-    audio = {
-        functions = {
-            {
-                name = 'Playback',
-                items = {
-                    'play',
-                    'stop',
-                    'pause',
-                    'resume',
-                    'rewind',
-                },
-            },
-            {
-                name = 'Listener',
-                items = {
-                    'setPosition',
-                    'setOrientation',
-                    'setVelocity',
-                    'setDistanceModel',
-                    'setDopplerScale',
-                },
-            },
-            {
-                name = 'Other',
-                items = {
-                    'setVolume',
-                    'getSourceCount',
-                },
-            },
-        },
-    },
-    event = {
-        functions = {
-            'push',
-            'poll',
-            'pump',
-            'wait',
-            'clear',
-            'quit',
-        },
-    },
-    filesystem = {
-        functions = {
-            {
-                name = 'Mounting',
-                items = {
-                    'mount',
-                    'unmount',
-                }
-            },
-            {
-                name = 'Directory paths',
-                items = {
-                    'getAppdataDirectory',
-                    'getRealDirectory',
-                    'getSaveDirectory',
-                    'getSourceBaseDirectory',
-                    'getUserDirectory',
-                    'getWorkingDirectory',
-                },
-            },
-            {
-                name = 'File properties',
-                items = {
-                    'isFile',
-                    'isDirectory',
-                    'isSymname',
-                    'exists',
-                    'getLastModified',
-                    'getSize',
-                },
-            },
-            {
-                name = 'File operations',
-                items = {
-                    'read',
-                    'lines',
-                    'write',
-                    'append',
-                    'remove',
-                },
-            },
-            {
-                name = 'Other',
-                items = {
-                    'setSymnamesEnabled',
-                    'isFused',
-                    'createDirectory',
-                    'getDirectoryItems',
-                    'getIdentity',
-                    'load',
-                    'setRequirePath',
-                },
             },
         },
     },
@@ -713,33 +812,163 @@ local order = {
             'getPressure',
         },
     },
-    ['love.window'] = {
+    ['love.audio'] = {
         functions = {
-            'setTitle',
-            'setIcon',
-            'getFullscreenModes',
-            'setMode',
-            'setFullscreen',
-            'setPosition',
-            'hasFocus',
-            'hasMouseFocus',
-            'maximize',
-            'minimize',
-            'isMaximized',
-            'isVisible',
-            'isOpen',
-            'close',
-            'requestAttention',
-            'getDisplayName',
-            'setDisplaySleepEnabled',
-            'showMessageBox',
-            'fromPixels',
-            'getPixelScale',
-        }
-    }
-}
+            {
+                name = 'Playback',
+                items = {
+                    'play',
+                    'stop',
+                    'pause',
+                    'resume',
+                    'rewind',
+                },
+            },
+            {
+                name = 'Listener',
+                items = {
+                    'setPosition',
+                    'setOrientation',
+                    'setVelocity',
+                    'setDistanceModel',
+                    'setDopplerScale',
+                },
+            },
+            {
+                name = 'Other',
+                items = {
+                    'setVolume',
+                    'getSourceCount',
+                },
+            },
+        },
+    },
+    ['love.event'] = {
+        functions = {
+            'push',
+            'poll',
+            'pump',
+            'wait',
+            'clear',
+            'quit',
+        },
+    },
+    ['love.filesystem'] = {
+        functions = {
+            {
+                name = 'Mounting',
+                items = {
+                    'mount',
+                    'unmount',
+                }
+            },
+            {
+                name = 'Directory paths',
+                items = {
+                    'getAppdataDirectory',
+                    'getRealDirectory',
+                    'getSaveDirectory',
+                    'getSourceBaseDirectory',
+                    'getUserDirectory',
+                    'getWorkingDirectory',
+                },
+            },
+            {
+                name = 'File operations',
+                items = {
+                    'read',
+                    'lines',
+                    'write',
+                    'append',
+                    'remove',
+                },
+            },
+            {
+                name = 'Other',
+                items = {
+                    'setSymnamesEnabled',
+                    'isFused',
+                    'createDirectory',
+                    'getDirectoryItems',
+                    'getIdentity',
+                    'load',
+                    'setRequirePath',
+                },
+            },
+        },
+    },
+    ImageData = {
+        functions = {
+            'setPixel',
+            'mapPixel',
+            'paste',
+            'encode',
+            {
+                name = 'Dimensions',
+                items = {
+                    'getDimensions',
+                    'getWidth',
+                    'getHeight',
+                }
+            },
+        },
+    },
+    ['love'] = {
+        callbacks = {
+            'load',
+            'update',
+            'draw',
+            'quit',
+            'run',
+            'conf',
+            {
+                name = 'Input',
+                items = {
+                    'keypressed',
+                    'keyreleased',
+                    'textedited',
+                    'textinput',
+                    'mousepressed',
+                    'mousereleased',
+                    'mousemoved',
+                    'mousefocus',
+                    'wheelmoved',
+                    'touchmoved',
+                    'touchpressed',
+                    'touchreleased',
+                    'joystickpressed',
+                    'joystickreleased',
+                    'joystickaxis',
+                    'joystickhat',
+                    'joystickadded',
+                    'joystickremoved',
+                    'gamepadpressed',
+                    'gamepadreleased',
+                    'gamepadaxis',
+                },
+            },
+            {
 
-local FAST_MODE = true
+                name = 'Window',
+                items = {
+                    'resize',
+                    'visible',
+                    'focus',
+                    'filedropped',
+                    'directorydropped',
+                },
+            },
+            {
+                name = 'Error handling',
+                items = {
+                    'errorhandler',
+                    'threaderror',
+                    'lowmemory',
+                },
+            },
+        },
+    },
+}
 
 local output = {}
 
@@ -1005,9 +1234,12 @@ local function doFunctions(functions)
             end
 
             for _, ra in ipairs(t) do
-                local function f(ra, prefix)
+                local function f(ra, prefix, endBracket)
                     A(tr(''))
                     local namePart = prefix..ra.name
+                    if endBracket then
+                        namePart = namePart..']'
+                    end
                     if ra.default then
                         namePart = namePart..' '..span('('..ra.default..')', 'default')
                     end
@@ -1033,7 +1265,11 @@ local function doFunctions(functions)
                     A(tr())
 
                     for i, v in ipairs(ra.table or {}) do
-                        f(v, prefix..ra.name..'.')
+                        if tonumber(v.name) then                            
+                            f(v, prefix..ra.name..'[', true)
+                        else   
+                            f(v, prefix..ra.name..'.')
+                        end
                     end
                 end
 
@@ -1104,10 +1340,28 @@ local function main()
 <title>L&Ouml;VE ]]..api.version..[[ Reference</title>
 <link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">    
 <style>
+html {
+    --background-color: #dcdcdc;
+    --section-background-color: #ffffff;
+    --text-color: #333333;
+    --link-color: #0089ad;
+    --function-color: #e658a0;
+    --return-color: #ab38c1;
+    --argument-color: #d77818;
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        --background-color: #000000;
+        --section-background-color: #191919;
+        --text-color: #c1c1c1;
+    }
+}
+  
 * {
     margin: 0;
     padding: 0;
-    color: #333;
+    color: var(--text-color);
 }
 
 body {
@@ -1116,11 +1370,11 @@ body {
 }
 
 .section_heading a, .prefix a {
-    color: #333;
+    color: var(--text-color);
 }
 
 a {
-    color: #059dc5; /* Blue */
+    color: var(--link-color);
 }
 
 a:link {
@@ -1131,9 +1385,8 @@ a:hover  {
     text-decoration: underline;
 }
 
-.section_heading a:hover,
 .function_heading a:hover {
-    text-decoration: none;
+    text-decoration-color: var(--text-color);
 }
 
 .section_heading a,
@@ -1148,15 +1401,22 @@ a:hover  {
 }
 
 .container {
-    margin-left: 84px;
+    margin-left: 100px;
 }
 
 p, td {
-    font-size: 10pt;
+    font-size: 16px;
+}
+
+.section_heading {
+    font-size: 28px;
+}
+
+.function_heading {
+    font-size: 28px;
 }
 
 .synopsis {
-    font-size: 12pt;
     margin-top: 20px;
     margin-bottom: 12px;
 }
@@ -1164,12 +1424,7 @@ p, td {
 .function_heading {
     margin-bottom: 14px;
     margin-top: 6px;
-    font-size: 16pt;
     line-height: 1;
-}
-
-.section_heading {
-    font-size: 28px;
 }
 
 .synopsis,
@@ -1231,34 +1486,37 @@ td {
 
 .function_heading a,
 .constant_name {
-    color: #E658A0; /* Pink */
+    color: var(--function-color);
+}
+
+.returns, .arguments {
+    font-weight: bold;
 }
 
 .returns {
-    color: #ab38c1; /* Purple */
+    color: var(--return-color);
 }
 
 .arguments {
-    color: #d77818; /* Orange */
+    color: var(--argument-color);
 }
 
 .synopsis_background {
     padding: 2px 5px 2px 5px;
-    background-color: #efefef;
+    background-color: var(--background-color);;
     border-radius: 6px;
     box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
 }
 
 body {
-    background-color: #efefef; /* Grey */
+    background-color: var(--background-color);
 }
 
 .section {
     padding: 12px;
     padding-left: 22px;
     margin-bottom: 12px;
-    background-color: #ffffff;
+    background-color: var(--section-background-color);;
     border-radius: 8px 0 0 8px;
 }
 
@@ -1307,8 +1565,7 @@ td {
     A([[
 <div style="margin-left: 22px; margin-top: 12px; margin-bottom: 12px;">
 <p style="margin: 8px 0;">This is an unofficial one-page reference for the L&Ouml;VE ]]..api.version..[[ API.</p>
-<p style="margin: 8px 0;">Please note that this reference isn't complete! For the most up-to-date documentation go to <a href="https://love2d.org/wiki">love2d.org/wiki</a></p>
-<p style="margin: 8px 0;">If you find an error, you can create a pull request or issue at <a href="https://github.com/love2d-community/love-api">github.com/love2d-community/love-api</a></p>
+<p style="margin: 8px 0;">Please note that this reference may not be complete or accurate! For the most up-to-date documentation go to <a href="https://love2d.org/wiki">love2d.org/wiki</a></p>
 <p style="margin: 8px 0;">To save this page for offline viewing: Ctrl-S then select "Web Page, HTML only" instead of "Web Page, complete"
 </div>
     ]])
