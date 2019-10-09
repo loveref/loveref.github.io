@@ -10592,9 +10592,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_subsection_heading">Emitter</p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getPosition">get</a><span class = "slash">/</span><a href="#ParticleSystem:setPosition">setPosition</a></p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:moveTo">moveTo</a></p>
-<p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getAreaSpread">get</a><span class = "slash">/</span><a href="#ParticleSystem:setAreaSpread">setAreaSpread</a></p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getEmissionRate">get</a><span class = "slash">/</span><a href="#ParticleSystem:setEmissionRate">setEmissionRate</a></p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getEmitterLifetime">get</a><span class = "slash">/</span><a href="#ParticleSystem:setEmitterLifetime">setEmitterLifetime</a></p>
+<p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getEmissionArea">get</a><span class = "slash">/</span><a href="#ParticleSystem:setEmissionArea">setEmissionArea</a></p>
 <p class = "section_navigation_subsection_heading">Particles</p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getColors">get</a><span class = "slash">/</span><a href="#ParticleSystem:setColors">setColors</a></p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getDirection">get</a><span class = "slash">/</span><a href="#ParticleSystem:setDirection">setDirection</a></p>
@@ -10615,7 +10615,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getSpread">get</a><span class = "slash">/</span><a href="#ParticleSystem:setSpread">setSpread</a></p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getTexture">get</a><span class = "slash">/</span><a href="#ParticleSystem:setTexture">setTexture</a></p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getQuads">get</a><span class = "slash">/</span><a href="#ParticleSystem:setQuads">setQuads</a></p>
-<p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:getEmissionArea">get</a><span class = "slash">/</span><a href="#ParticleSystem:setEmissionArea">setEmissionArea</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
 <p class = "section_navigation_link"><a href="#Drawable">Drawable</a></p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
@@ -10642,28 +10641,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">numparticles</td>
 <td class = "ra_type">number</td>
 <td>The amount of particles to emit. The number of emitted particles will be truncated if the particle system's max buffer size is reached.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#ParticleSystem:getAreaSpread" name = "ParticleSystem:getAreaSpread"><span>ParticleSystem:</span><wbr>getAreaSpread</a></p>
-<p class = "function_description">Gets the area-based spawn parameters for the particles.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">distribution</span>, <span class = "returns">dx</span>, <span class = "returns">dy</span> = ParticleSystem:<wbr>getAreaSpread()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">distribution</td>
-<td class = "ra_type"><a href="#AreaSpreadDistribution">AreaSpreadDistribution</a></td>
-<td>The type of distribution for new particles.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">dx</td>
-<td class = "ra_type">number</td>
-<td>The maximum spawn distance from the emitter along the x-axis for uniform distribution, or the standard deviation along the x-axis for normal distribution.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">dy</td>
-<td class = "ra_type">number</td>
-<td>The maximum spawn distance from the emitter along the y-axis for uniform distribution, or the standard deviation along the y-axis for normal distribution.</td>
 </tr>
 </table>
 </div>
@@ -11182,28 +11159,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "function_description">Resets the particle emitter, removing any existing particles and resetting the lifetime counter.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative">ParticleSystem:<wbr>reset()</span></span></p>
 <table class = "ra_table">
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#ParticleSystem:setAreaSpread" name = "ParticleSystem:setAreaSpread"><span>ParticleSystem:</span><wbr>setAreaSpread</a></p>
-<p class = "function_description">Sets area-based spawn parameters for the particles. Newly created particles will spawn in an area around the emitter based on the parameters to this function.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">ParticleSystem:<wbr>setAreaSpread( <span class = "arguments">distribution</span>, <span class = "arguments">dx</span>, <span class = "arguments">dy</span> )</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "arguments ra_name">distribution</td>
-<td class = "ra_type"><a href="#AreaSpreadDistribution">AreaSpreadDistribution</a></td>
-<td>The type of distribution for new particles.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">dx</td>
-<td class = "ra_type">number</td>
-<td>The maximum spawn distance from the emitter along the x-axis for uniform distribution, or the standard deviation along the x-axis for normal distribution.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">dy</td>
-<td class = "ra_type">number</td>
-<td>The maximum spawn distance from the emitter along the y-axis for uniform distribution, or the standard deviation along the y-axis for normal distribution.</td>
-</tr>
 </table>
 </div>
 <div class = "section">
@@ -17150,7 +17105,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isGrabbed">is</a><span class = "slash">/</span><a href="#love.mouse.setGrabbed">setGrabbed</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getRelativeMode">get</a><span class = "slash">/</span><a href="#love.mouse.setRelativeMode">setRelativeMode</a></p>
 <p class = "section_navigation_subsection_heading">Cursor</p>
-<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.hasCursor">has</a><span class = "slash">/</span><a href="#love.mouse.setCursor">setCursor</a></p>
+<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getCursor">get</a><span class = "slash">/</span><a href="#love.mouse.setCursor">setCursor</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getSystemCursor">getSystemCursor</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isVisible">is</a><span class = "slash">/</span><a href="#love.mouse.setVisible">setVisible</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isCursorSupported">isCursorSupported</a></p>
@@ -21785,7 +21740,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getJointSpeed">getJointSpeed</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getMotorTorque">getMotorTorque</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getLimits">get</a><span class = "slash">/</span><a href="#RevoluteJoint:setLimits">setLimits</a></p>
-<p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:areLimitsEnabled">are</a><span class = "slash">/</span><a href="#RevoluteJoint:setLimitsEnabled">setLimitsEnabled</a></p>
+<p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:hasLimitsEnabled">has</a><span class = "slash">/</span><a href="#RevoluteJoint:setLimitsEnabled">setLimitsEnabled</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getLowerLimit">get</a><span class = "slash">/</span><a href="#RevoluteJoint:setLowerLimit">setLowerLimit</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getMaxMotorTorque">get</a><span class = "slash">/</span><a href="#RevoluteJoint:setMaxMotorTorque">setMaxMotorTorque</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:isMotorEnabled">is</a><span class = "slash">/</span><a href="#RevoluteJoint:setMotorEnabled">setMotorEnabled</a></p>
@@ -23690,7 +23645,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.window.<a href="#love.window.getDPIScale">getDPIScale</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.getDisplayName">getDisplayName</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.getFullscreenModes">getFullscreenModes</a></p>
-<p class = "section_navigation_link">love.window.<a href="#love.window.getPixelScale">getPixelScale</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.hasFocus">hasFocus</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.hasMouseFocus">hasMouseFocus</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.isMaximized">isMaximized</a></p>
@@ -23934,10 +23888,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td>Removed in 0.10.0 (use love.graphics.isGammaCorrect instead). True if sRGB gamma correction is applied when drawing to the screen.</td>
 </tr>
 </table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#love.window.getPixelScale" name = "love.window.getPixelScale"><span>love.window.</span><wbr>getPixelScale</a></p>
-<p class = "function_description">Gets the DPI scale factor associated with the window.<br /><br />The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.getPixelScale() would return 2.0 in that case.<br /><br />The love.window.fromPixels and love.window.toPixels functions can also be used to convert between units.<br /><br />The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.</p>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.window.getPosition" name = "love.window.getPosition"><span>love.window.</span><wbr>getPosition</a></p>
