@@ -1,5 +1,5 @@
 <html><head>
-<title>L&Ouml;VE 11.2 Reference</title>
+<title>L&Ouml;VE 11.3 Reference</title>
 <link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">    
 <style>
 html {
@@ -232,7 +232,7 @@ td {
 </div>
 <div class = "container">
 <div style="margin-left: 22px; margin-top: 12px; margin-bottom: 12px;">
-<p style="margin: 8px 0;">This is an unofficial one-page reference for the L&Ouml;VE 11.2 API.</p>
+<p style="margin: 8px 0;">This is an unofficial one-page reference for the L&Ouml;VE 11.3 API.</p>
 <p style="margin: 8px 0;">Please note that this reference may not be complete or accurate! For the most up-to-date documentation go to <a href="https://love2d.org/wiki">love2d.org/wiki</a></p>
 <p style="margin: 8px 0;">To save this page for offline viewing: Ctrl-S then select "Web Page, HTML only" instead of "Web Page, complete"
 </div>
@@ -283,6 +283,7 @@ td {
 <p class = "section_navigation_link">love.<a href="#love.errorhandler">errorhandler</a></p>
 <p class = "section_navigation_link">love.<a href="#love.threaderror">threaderror</a></p>
 <p class = "section_navigation_link">love.<a href="#love.lowmemory">lowmemory</a></p>
+<p class = "section_navigation_link">love.<a href="#love.displayrotated">displayrotated</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">love.<a href="#love.getVersion">getVersion</a></p>
 <p class = "section_navigation_link">love.<a href="#love.hasDeprecationOutput">has</a><span class = "slash">/</span><a href="#love.setDeprecationOutput">setDeprecationOutput</a></p>
@@ -340,6 +341,277 @@ td {
 </table>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#love.conf" name = "love.conf"><span>love.</span><wbr>conf</a></p>
+<p class = "function_description">If a file called conf.lua is present in your game folder (or .love file), it is run before the L&Ouml;VE modules are loaded. You can use this file to overwrite the love.conf function, which is later called by the L&Ouml;VE 'boot' script. Using the love.conf function, you can set some configuration options, and change things like the default size of the window, which modules are loaded, and other stuff.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">love.<wbr>conf( <span class = "arguments">t</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">t</td>
+<td class = "ra_type">table</td>
+<td>The <a href="#love.conf">love.conf</a> function takes one argument: a table filled with all the default values which you can overwrite to your liking. If you want to change the default window size, for instance, do:
+
+function <a href="#love.conf">love.conf</a>(t)
+    t.window.width = 1024
+    t.window.height = 768
+end
+
+If you don't need the physics module or joystick module, do the following.
+
+function <a href="#love.conf">love.conf</a>(t)
+    t.modules.joystick = false
+    t.modules.physics = false
+end
+
+Setting unused modules to false is encouraged when you release your game. It reduces startup time slightly (especially if the joystick module is disabled) and reduces memory usage (slightly).
+
+Note that you can't disable love.filesystem; it's mandatory. The same goes for the love module itself. love.graphics needs love.window to be enabled.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.identity <span class = "default">(nil)</span></td>
+<td class = "ra_type">string</td>
+<td>This flag determines the name of the save directory for your game. Note that you can only specify the name, not the location where it will be created:
+t.identity = "gabe_HL3" -- Correct
+
+t.identity = "c:/Users/gabe/HL3" -- Incorrect
+Alternatively <a href="#love.filesystem.setIdentity">love.filesystem.setIdentity</a> can be used to set the save directory outside of the config file.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.appendidentity <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>This flag determines if game directory should be searched first then save directory (true) or otherwise (false)</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.version <span class = "default">("11.3")</span></td>
+<td class = "ra_type">string</td>
+<td>t.version should be a string, representing the version of L&Ouml;VE for which your game was made. It should be formatted as "X.Y.Z" where X is the major release number, Y the minor, and Z the patch level. It allows L&Ouml;VE to display a warning if it isn't compatible. Its default is the version of L&Ouml;VE running.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.console <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Determines whether a console should be opened alongside the game window (Windows only) or not. Note: On OSX you can get console output by running L&Ouml;VE through the terminal.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.accelerometerjoystick <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Sets whether the device accelerometer on iOS and Android should be exposed as a 3-axis <a href="#Joystick">Joystick</a>. Disabling the accelerometer when it's not used may reduce CPU usage.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.externalstorage <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Sets whether files are saved in external storage (true) or internal storage (false) on Android.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.gammacorrect <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Determines whether gamma-correct rendering is enabled, when the system supports it.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.audio</td>
+<td class = "ra_type">table</td>
+<td>Audio options.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.audio.mic <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Request microphone permission from the user. When user allows it, <a href="#love.audio.getRecordingDevices">love.audio.getRecordingDevices</a> will lists recording devices available. Otherwise, <a href="#love.audio.getRecordingDevices">love.audio.getRecordingDevices</a> returns empty table and a message is shown to inform user when called.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.audio.mixwithsystem <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Sets whether background audio / music from other apps should play while L&Ouml;VE is open. See <a href="#love.system.hasBackgroundMusic">love.system.hasBackgroundMusic</a> for more details.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window</td>
+<td class = "ra_type">table</td>
+<td>It is possible to defer window creation until <a href="#love.window.setMode">love.window.setMode</a> is first called in your code. To do so, set t.window = nil in <a href="#love.conf">love.conf</a> (or t.screen = nil in older versions.) If this is done, L&Ouml;VE may crash if any function from love.graphics is called before the first <a href="#love.window.setMode">love.window.setMode</a> in your code.
+
+The t.window table was named t.screen in versions prior to 0.9.0. The t.screen table doesn't exist in <a href="#love.conf">love.conf</a> in 0.9.0, and the t.window table doesn't exist in <a href="#love.conf">love.conf</a> in 0.8.0. This means <a href="#love.conf">love.conf</a> will fail to execute (therefore it will fall back to default values) if care is not taken to use the correct table for the L&Ouml;VE version being used.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.title <span class = "default">("Untitled")</span></td>
+<td class = "ra_type">string</td>
+<td>Sets the title of the window the game is in. Alternatively <a href="#love.window.setTitle">love.window.setTitle</a> can be used to change the window title outside of the config file.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.icon <span class = "default">(nil)</span></td>
+<td class = "ra_type">string</td>
+<td>A filepath to an image to use as the window's icon. Not all operating systems support very large icon images. The icon can also be changed with <a href="#love.window.setIcon">love.window.setIcon</a>.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.width <span class = "default">(800)</span></td>
+<td class = "ra_type">number</td>
+<td>Sets the window's dimensions. If these flags are set to 0 L&Ouml;VE automatically uses the user's desktop dimensions.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.height <span class = "default">(600)</span></td>
+<td class = "ra_type">string</td>
+<td>Sets the window's dimensions. If these flags are set to 0 L&Ouml;VE automatically uses the user's desktop dimensions.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.borderless <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Removes all border visuals from the window. Note that the effects may wary between operating systems.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.resizable <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>If set to true this allows the user to resize the game's window.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.minwidth <span class = "default">(1)</span></td>
+<td class = "ra_type">number</td>
+<td>Sets the minimum width and height for the game's window if it can be resized by the user. If you set lower values to window.width and window.height L&Ouml;VE will always favor the minimum dimensions set via window.minwidth and window.minheight.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.minheight <span class = "default">(1)</span></td>
+<td class = "ra_type">number</td>
+<td>Sets the minimum width and height for the game's window if it can be resized by the user. If you set lower values to window.width and window.height L&Ouml;VE will always favor the minimum dimensions set via window.minwidth and window.minheight.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.fullscreen <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Whether to run the game in fullscreen (true) or windowed (false) mode. The fullscreen can also be toggled via <a href="#love.window.setFullscreen">love.window.setFullscreen</a> or <a href="#love.window.setMode">love.window.setMode</a>.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.fullscreentype <span class = "default">("desktop")</span></td>
+<td class = "ra_type">string</td>
+<td>Specifies the type of fullscreen mode to use (normal or desktop). Generally the desktop is recommended, as it is less restrictive than normal mode on some operating systems.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.usedpiscale <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Sets whetever to enable or disable automatic DPI scaling.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.vsync <span class = "default">(true)</span></td>
+<td class = "ra_type">number</td>
+<td>Enables or deactivates vertical synchronization. Vsync tries to keep the game at a steady framerate and can prevent issues like screen tearing. It is recommended to keep vsync activated if you don't know about the possible implications of turning it off. Before L&Ouml;VE 11.0, this value was boolean (true or false). Since L&Ouml;VE 11.0, this value is number (1 to enable vsync, 0 to disable vsync, -1 to use adaptive vsync when supported).
+
+Note that in iOS, vertical synchronization is always enabled and cannot be changed.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.depth <span class = "default">(nil)</span></td>
+<td class = "ra_type">number</td>
+<td>The number of bits per sample in the depth buffer (16/24/32, default nil)</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.stencil <span class = "default">(nil)</span></td>
+<td class = "ra_type">number</td>
+<td>Then number of bits per sample in the depth buffer (generally 8, default nil)</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.msaa <span class = "default">(0)</span></td>
+<td class = "ra_type">number</td>
+<td>The number of samples to use with multi-sampled antialiasing.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.display <span class = "default">(1)</span></td>
+<td class = "ra_type">number</td>
+<td>The index of the display to show the window in, if multiple monitors are available.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.highdpi <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>See love.window.getPixelScale, <a href="#love.window.toPixels">love.window.toPixels</a>, and <a href="#love.window.fromPixels">love.window.fromPixels</a>. It is recommended to keep this option disabled if you can't test your game on a Mac or iOS system with a Retina display, because code will need tweaking to make sure things look correct.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.x <span class = "default">(nil)</span></td>
+<td class = "ra_type">number</td>
+<td>Determines the position of the window on the user's screen. Alternatively <a href="#love.window.setPosition">love.window.setPosition</a> can be used to change the position on the fly.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.window.y <span class = "default">(nil)</span></td>
+<td class = "ra_type">number</td>
+<td>Determines the position of the window on the user's screen. Alternatively <a href="#love.window.setPosition">love.window.setPosition</a> can be used to change the position on the fly.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules</td>
+<td class = "ra_type">table</td>
+<td>Module options.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.audio <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the audio module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.event <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the event module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.graphics <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the graphics module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.image <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the image module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.joystick <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the joystick module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.keyboard <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the keyboard module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.math <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the math module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.mouse <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the mouse module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.physics <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the physics module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.sound <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the sound module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.system <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the system module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.timer <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the timer module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.touch <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the touch module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.video <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the video module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.window <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the window module.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">t.modules.thread <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Enable the thread module.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "function_heading"><a href = "#love.directorydropped" name = "love.directorydropped"><span>love.</span><wbr>directorydropped</a></p>
 <p class = "function_description">Callback function triggered when a directory is dragged and dropped onto the window.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative">love.<wbr>directorydropped( <span class = "arguments">path</span> )</span></span></p>
@@ -349,6 +621,23 @@ td {
 <td class = "arguments ra_name">path</td>
 <td class = "ra_type">string</td>
 <td>The full platform-dependent path to the directory. It can be used as an argument to <a href="#love.filesystem.mount">love.filesystem.mount</a>, in order to gain read access to the directory with love.filesystem.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.displayrotated" name = "love.displayrotated"><span>love.</span><wbr>displayrotated</a></p>
+<p class = "function_description">Called when the device display orientation changed, for example, user rotated their phone 180 degrees.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">love.<wbr>displayrotated( <span class = "arguments">index</span>, <span class = "arguments">orientation</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">index</td>
+<td class = "ra_type">number</td>
+<td>The index of the display that changed orientation.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">orientation</td>
+<td class = "ra_type">DisplayOrientation</td>
+<td>The new orientation.</td>
 </tr>
 </table>
 </div>
@@ -1359,6 +1648,14 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "function_heading"><a href = "#love.audio.getActiveEffects" name = "love.audio.getActiveEffects"><span>love.audio.</span><wbr>getActiveEffects</a></p>
 <p class = "function_description">Gets a list of the names of the currently enabled effects.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">effects</span> = love.audio.<wbr>getActiveEffects()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">effects</td>
+<td class = "ra_type">table</td>
+<td>The list of the names of the currently enabled effects.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.audio.getActiveSourceCount" name = "love.audio.getActiveSourceCount"><span>love.audio.</span><wbr>getActiveSourceCount</a></p>
@@ -1479,8 +1776,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.audio.getRecordingDevices" name = "love.audio.getRecordingDevices"><span>love.audio.</span><wbr>getRecordingDevices</a></p>
-<p class = "function_description">Gets a list of <a href="#RecordingDevice">RecordingDevices</a> on the system.<br /><br />The first device in the list is the user's default recording device. The list may be empty if there are no microphones connected to the system.<br /><br />Audio recording is currently not supported on iOS and Android.</p>
+<p class = "function_description">Gets a list of <a href="#RecordingDevice">RecordingDevices</a> on the system.<br /><br />The first device in the list is the user's default recording device. The list may be empty if there are no microphones connected to the system.<br /><br />Audio recording is currently not supported on iOS.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">devices</span> = love.audio.<wbr>getRecordingDevices()</span></span></p>
+<p class = "variant_description">Audio recording for Android is supported since 11.3. However, it's not supported when APK from Play Store is used.</p>
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">devices</td>
@@ -1948,6 +2246,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_description">Represents an audio input device capable of recording sounds.</p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">RecordingDevice:<a href="#RecordingDevice:getBitDepth">getBitDepth</a></p>
+<p class = "section_navigation_link">RecordingDevice:<a href="#RecordingDevice:getBitDepth">getBitDepth</a></p>
 <p class = "section_navigation_link">RecordingDevice:<a href="#RecordingDevice:getChannelCount">getChannelCount</a></p>
 <p class = "section_navigation_link">RecordingDevice:<a href="#RecordingDevice:getData">getData</a></p>
 <p class = "section_navigation_link">RecordingDevice:<a href="#RecordingDevice:getName">getName</a></p>
@@ -1958,6 +2257,18 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">RecordingDevice:<a href="#RecordingDevice:stop">stop</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#RecordingDevice:getBitDepth" name = "RecordingDevice:getBitDepth"><span>RecordingDevice:</span><wbr>getBitDepth</a></p>
+<p class = "function_description">Gets the number of bits per sample in the data currently being recorded.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">bits</span> = RecordingDevice:<wbr>getBitDepth()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">bits</td>
+<td class = "ra_type">number</td>
+<td>The number of bits per sample in the data that's currently being recorded.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#RecordingDevice:getBitDepth" name = "RecordingDevice:getBitDepth"><span>RecordingDevice:</span><wbr>getBitDepth</a></p>
@@ -2756,7 +3067,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#Source:setRelative" name = "Source:setRelative"><span>Source:</span><wbr>setRelative</a></p>
-<p class = "function_description">Sets whether the parent::Source's position, velocity, direction, and cone angles are relative to the listener, or absolute.<br /><br />By default, all sources are absolute and therefore relative to the origin of love's coordinate system 0, 0. Only absolute sources are affected by the position of the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources. </p>
+<p class = "function_description">Sets whether the <a href="#Source">Source</a>'s position, velocity, direction, and cone angles are relative to the listener, or absolute.<br /><br />By default, all sources are absolute and therefore relative to the origin of love's coordinate system 0, 0. Only absolute sources are affected by the position of the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources. </p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Source:<wbr>setRelative( <span class = "arguments">enable</span> )</span></span></p>
 <table class = "ra_table">
 <tr>
@@ -4990,7 +5301,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#GraphicsLimit">GraphicsLimit</a></p>
 <p class = "section_navigation_link"><a href="#LineJoin">LineJoin</a></p>
 <p class = "section_navigation_link"><a href="#LineStyle">LineStyle</a></p>
-<p class = "section_navigation_link"><a href="#MatrixLayout">MatrixLayout</a></p>
 <p class = "section_navigation_link"><a href="#MeshDrawMode">MeshDrawMode</a></p>
 <p class = "section_navigation_link"><a href="#ParticleInsertMode">ParticleInsertMode</a></p>
 <p class = "section_navigation_link"><a href="#SpriteBatchUsage">SpriteBatchUsage</a></p>
@@ -6231,6 +6541,60 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "returns ra_name">stats.drawcallsbatched</td>
 <td class = "ra_type">number</td>
 <td>The number of draw calls that were saved by L&Ouml;VE's automatic batching, since the start of the frame.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">stats</span> = love.graphics.<wbr>getStats( <span class = "arguments">stats</span> )</span></span></p>
+<p class = "variant_description">This variant accepts an existing table to fill in, instead of creating a new one.</p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">stats</td>
+<td class = "ra_type">table</td>
+<td>The table that was passed in above, now containing the following fields:</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.drawcalls</td>
+<td class = "ra_type">number</td>
+<td>The number of draw calls made so far during the current frame.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.canvasswitches</td>
+<td class = "ra_type">number</td>
+<td>The number of times the active <a href="#Canvas">Canvas</a> has been switched so far during the current frame.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.texturememory</td>
+<td class = "ra_type">number</td>
+<td>The estimated total size in bytes of video memory used by all loaded <a href="#Image">Images</a>, <a href="#Canvas">Canvases</a>, and <a href="#Font">Fonts</a>.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.images</td>
+<td class = "ra_type">number</td>
+<td>The number of <a href="#Image">Image</a> objects currently loaded.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.canvases</td>
+<td class = "ra_type">number</td>
+<td>The number of <a href="#Canvas">Canvas</a> objects currently loaded.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.fonts</td>
+<td class = "ra_type">number</td>
+<td>The number of <a href="#Font">Font</a> objects currently loaded.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.shaderswitches</td>
+<td class = "ra_type">number</td>
+<td>The number of times the active <a href="#Shader">Shader</a> has been changed so far during the current frame.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">stats.drawcallsbatched</td>
+<td class = "ra_type">number</td>
+<td>The number of draw calls that were saved by L&Ouml;VE's automatic batching, since the start of the frame.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">stats</td>
+<td class = "ra_type">table</td>
+<td>A table which will be filled in with the stat fields below.</td>
 </tr>
 </table>
 </div>
@@ -7657,6 +8021,63 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 </table>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative">love.graphics.<wbr>print( <span class = "arguments">coloredtext</span>, <span class = "arguments">transform</span> )</span></span></p>
+<p class = "variant_description">The color set by <a href="#love.graphics.setColor">love.graphics.setColor</a> will be combined (multiplied) with the colors of the text.</p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">coloredtext</td>
+<td class = "ra_type">table</td>
+<td>A table containing colors and strings to add to the object, in the form of {color1, string1, color2, string2, ...}.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">coloredtext.color1</td>
+<td class = "ra_type">table</td>
+<td>A table containing red, green, blue, and optional alpha components to use as a color for the next string in the table, in the form of {red, green, blue, alpha}.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">coloredtext.string1</td>
+<td class = "ra_type">string</td>
+<td>A string of text which has a color specified by the previous color.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">coloredtext.color2</td>
+<td class = "ra_type">table</td>
+<td>A table containing red, green, blue, and optional alpha components to use as a color for the next string in the table, in the form of {red, green, blue, alpha}.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">coloredtext.string2</td>
+<td class = "ra_type">string</td>
+<td>A string of text which has a color specified by the previous color.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">coloredtext....</td>
+<td class = "ra_type">tables and strings</td>
+<td>Additional colors and strings.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">transform</td>
+<td class = "ra_type"><a href="#Transform">Transform</a></td>
+<td>Transformation object.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">love.graphics.<wbr>print( <span class = "arguments">text</span>, <span class = "arguments">font</span>, <span class = "arguments">transform</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">text</td>
+<td class = "ra_type">string</td>
+<td>The text to draw.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">font</td>
+<td class = "ra_type"><a href="#Font">Font</a></td>
+<td>The <a href="#Font">Font</a> object to use.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">transform</td>
+<td class = "ra_type"><a href="#Transform">Transform</a></td>
+<td>Transformation object.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">love.graphics.<wbr>print( <span class = "arguments">coloredtext</span>, <span class = "arguments">font</span>, <span class = "arguments">transform</span> )</span></span></p>
 <p class = "variant_description"></p>
 <table class = "ra_table">
 <tr>
@@ -7688,6 +8109,11 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">coloredtext....</td>
 <td class = "ra_type">tables and strings</td>
 <td>Additional colors and strings.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">font</td>
+<td class = "ra_type"><a href="#Font">Font</a></td>
+<td>The <a href="#Font">Font</a> object to use.</td>
 </tr>
 <tr>
 <td class = "arguments ra_name">transform</td>
@@ -9075,13 +9501,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">Draw smooth lines.</p>
 </div>
 <div class = "section">
-<p class = "section_heading"><a href = "#MatrixLayout" name = "MatrixLayout">MatrixLayout</a></p>
-<p class = "constant_name">row</p>
-<p class = "constant_description">The matrix is row-major:</p>
-<p class = "constant_name">column</p>
-<p class = "constant_description">The matrix is column-major:</p>
-</div>
-<div class = "section">
 <p class = "section_heading"><a href = "#MeshDrawMode" name = "MeshDrawMode">MeshDrawMode</a></p>
 <p class = "constant_name">fan</p>
 <p class = "constant_description">The vertices create a "fan" shape with the first vertex acting as the hub point. Can be easily used to draw simple convex polygons.</p>
@@ -9516,7 +9935,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#Font:getLineHeight" name = "Font:getLineHeight"><span>Font:</span><wbr>getLineHeight</a></p>
-<p class = "function_description">Gets the line height. <br /><br />This will be the value previously set by <a href="#Font:setLineHeight">Font:setLineHeight</a>, or 1.0 by default.</p>
+<p class = "function_description">Gets the line height.<br /><br />This will be the value previously set by <a href="#Font:setLineHeight">Font:setLineHeight</a>, or 1.0 by default.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">height</span> = Font:<wbr>getLineHeight()</span></span></p>
 <table class = "ra_table">
 <tr>
@@ -9665,7 +10084,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#Font:setLineHeight" name = "Font:setLineHeight"><span>Font:</span><wbr>setLineHeight</a></p>
-<p class = "function_description">Sets the line height. <br /><br />When rendering the font in lines the actual height will be <br /><br />determined by the line height multiplied by the height of the font. <br /><br />The default is 1.0.</p>
+<p class = "function_description">Sets the line height.<br /><br />When rendering the font in lines the actual height will be determined by the line height multiplied by the height of the font. The default is 1.0.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Font:<wbr>setLineHeight( <span class = "arguments">height</span> )</span></span></p>
 <table class = "ra_table">
 <tr>
@@ -14278,6 +14697,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_subheading">Types</p>
 <p class = "section_navigation_link"><a href="#Joystick">Joystick</a></p>
 <p class = "section_navigation_subheading">Functions</p>
+<p class = "section_navigation_link">love.joystick.<a href="#love.joystick.getGamepadMappingString">getGamepadMappingString</a></p>
 <p class = "section_navigation_link">love.joystick.<a href="#love.joystick.getJoystickCount">getJoystickCount</a></p>
 <p class = "section_navigation_link">love.joystick.<a href="#love.joystick.getJoysticks">getJoysticks</a></p>
 <p class = "section_navigation_link">love.joystick.<a href="#love.joystick.loadGamepadMappings">loadGamepadMappings</a></p>
@@ -14288,6 +14708,23 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#GamepadButton">GamepadButton</a></p>
 <p class = "section_navigation_link"><a href="#JoystickHat">JoystickHat</a></p>
 <p class = "section_navigation_link"><a href="#JoystickInputType">JoystickInputType</a></p>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.joystick.getGamepadMappingString" name = "love.joystick.getGamepadMappingString"><span>love.joystick.</span><wbr>getGamepadMappingString</a></p>
+<p class = "function_description">Gets the full gamepad mapping string of the <a href="#Joystick">Joysticks</a> which have the given GUID, or nil if the GUID isn't recognized as a gamepad.<br /><br />The mapping string contains binding information used to map the <a href="#Joystick">Joystick</a>'s buttons an axes to the standard gamepad layout, and can be used later with <a href="#love.joystick.loadGamepadMappings">love.joystick.loadGamepadMappings</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">mappingstring</span> = love.joystick.<wbr>getGamepadMappingString( <span class = "arguments">guid</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">mappingstring</td>
+<td class = "ra_type">string</td>
+<td>A string containing the <a href="#Joystick">Joystick</a>'s gamepad mappings, or nil if the GUID is not recognized as a gamepad.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">guid</td>
+<td class = "ra_type">string</td>
+<td>The GUID value to get the mapping string for.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.joystick.getJoystickCount" name = "love.joystick.getJoystickCount"><span>love.joystick.</span><wbr>getJoystickCount</a></p>
@@ -14536,6 +14973,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_subsection_heading">Vibration</p>
 <p class = "section_navigation_link">Joystick:<a href="#Joystick:getVibration">get</a><span class = "slash">/</span><a href="#Joystick:setVibration">setVibration</a></p>
 <p class = "section_navigation_link">Joystick:<a href="#Joystick:isVibrationSupported">isVibrationSupported</a></p>
+<p class = "section_navigation_link">Joystick:<a href="#Joystick:getDeviceInfo">getDeviceInfo</a></p>
+<p class = "section_navigation_link">Joystick:<a href="#Joystick:getGamepadMappingString">getGamepadMappingString</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
 </div>
@@ -14599,6 +15038,29 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "returns ra_name">buttons</td>
 <td class = "ra_type">number</td>
 <td>The number of buttons available.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Joystick:getDeviceInfo" name = "Joystick:getDeviceInfo"><span>Joystick:</span><wbr>getDeviceInfo</a></p>
+<p class = "function_description">Gets the USB vendor ID, product ID, and product version numbers of joystick which consistent across operating systems.<br /><br />Can be used to show different icons, etc. for different gamepads.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">vendorID</span>, <span class = "returns">productID</span>, <span class = "returns">productVersion</span> = Joystick:<wbr>getDeviceInfo()</span></span></p>
+<p class = "variant_description">Some Linux distribution may not ship with SDL 2.0.6 or later, in which case this function will returns 0 for all the three values.</p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">vendorID</td>
+<td class = "ra_type">number</td>
+<td>The USB vendor ID of the joystick.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">productID</td>
+<td class = "ra_type">number</td>
+<td>The USB product ID of the joystick.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">productVersion</td>
+<td class = "ra_type">number</td>
+<td>The product version of the joystick.</td>
 </tr>
 </table>
 </div>
@@ -14680,6 +15142,18 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">button</td>
 <td class = "ra_type"><a href="#GamepadButton">GamepadButton</a></td>
 <td>The virtual gamepad button to get the binding for.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Joystick:getGamepadMappingString" name = "Joystick:getGamepadMappingString"><span>Joystick:</span><wbr>getGamepadMappingString</a></p>
+<p class = "function_description">Gets the full gamepad mapping string of this <a href="#Joystick">Joystick</a>, or nil if it's not recognized as a gamepad.<br /><br />The mapping string contains binding information used to map the <a href="#Joystick">Joystick</a>'s buttons an axes to the standard gamepad layout, and can be used later with <a href="#love.joystick.loadGamepadMappings">love.joystick.loadGamepadMappings</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">mappingstring</span> = Joystick:<wbr>getGamepadMappingString()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">mappingstring</td>
+<td class = "ra_type">string</td>
+<td>A string containing the <a href="#Joystick">Joystick</a>'s gamepad mappings, or nil if the <a href="#Joystick">Joystick</a> is not recognized as a gamepad.</td>
 </tr>
 </table>
 </div>
@@ -15069,6 +15543,294 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#KeyConstant" name = "KeyConstant">KeyConstant</a></p>
+<p class = "constant_name">a</p>
+<p class = "constant_description">The A key</p>
+<p class = "constant_name">b</p>
+<p class = "constant_description">The B key</p>
+<p class = "constant_name">c</p>
+<p class = "constant_description">The C key</p>
+<p class = "constant_name">d</p>
+<p class = "constant_description">The D key</p>
+<p class = "constant_name">e</p>
+<p class = "constant_description">The E key</p>
+<p class = "constant_name">f</p>
+<p class = "constant_description">The F key</p>
+<p class = "constant_name">g</p>
+<p class = "constant_description">The G key</p>
+<p class = "constant_name">h</p>
+<p class = "constant_description">The H key</p>
+<p class = "constant_name">i</p>
+<p class = "constant_description">The I key</p>
+<p class = "constant_name">j</p>
+<p class = "constant_description">The J key</p>
+<p class = "constant_name">k</p>
+<p class = "constant_description">The K key</p>
+<p class = "constant_name">l</p>
+<p class = "constant_description">The L key</p>
+<p class = "constant_name">m</p>
+<p class = "constant_description">The M key</p>
+<p class = "constant_name">n</p>
+<p class = "constant_description">The N key</p>
+<p class = "constant_name">o</p>
+<p class = "constant_description">The O key</p>
+<p class = "constant_name">p</p>
+<p class = "constant_description">The P key</p>
+<p class = "constant_name">q</p>
+<p class = "constant_description">The Q key</p>
+<p class = "constant_name">r</p>
+<p class = "constant_description">The R key</p>
+<p class = "constant_name">s</p>
+<p class = "constant_description">The S key</p>
+<p class = "constant_name">t</p>
+<p class = "constant_description">The T key</p>
+<p class = "constant_name">u</p>
+<p class = "constant_description">The U key</p>
+<p class = "constant_name">v</p>
+<p class = "constant_description">The V key</p>
+<p class = "constant_name">w</p>
+<p class = "constant_description">The W key</p>
+<p class = "constant_name">x</p>
+<p class = "constant_description">The X key</p>
+<p class = "constant_name">y</p>
+<p class = "constant_description">The Y key</p>
+<p class = "constant_name">z</p>
+<p class = "constant_description">The Z key</p>
+<p class = "constant_name">0</p>
+<p class = "constant_description">The zero key</p>
+<p class = "constant_name">1</p>
+<p class = "constant_description">The one key</p>
+<p class = "constant_name">2</p>
+<p class = "constant_description">The two key</p>
+<p class = "constant_name">3</p>
+<p class = "constant_description">The three key</p>
+<p class = "constant_name">4</p>
+<p class = "constant_description">The four key</p>
+<p class = "constant_name">5</p>
+<p class = "constant_description">The five key</p>
+<p class = "constant_name">6</p>
+<p class = "constant_description">The six key</p>
+<p class = "constant_name">7</p>
+<p class = "constant_description">The seven key</p>
+<p class = "constant_name">8</p>
+<p class = "constant_description">The eight key</p>
+<p class = "constant_name">9</p>
+<p class = "constant_description">The nine key</p>
+<p class = "constant_name">space</p>
+<p class = "constant_description">Space key</p>
+<p class = "constant_name">!</p>
+<p class = "constant_description">Exclamation mark key</p>
+<p class = "constant_name">"</p>
+<p class = "constant_description">Double quote key</p>
+<p class = "constant_name">#</p>
+<p class = "constant_description">Hash key</p>
+<p class = "constant_name">$</p>
+<p class = "constant_description">Dollar key</p>
+<p class = "constant_name">&</p>
+<p class = "constant_description">Ampersand key</p>
+<p class = "constant_name">'</p>
+<p class = "constant_description">Single quote key</p>
+<p class = "constant_name">(</p>
+<p class = "constant_description">Left parenthesis key</p>
+<p class = "constant_name">)</p>
+<p class = "constant_description">Right parenthesis key</p>
+<p class = "constant_name">*</p>
+<p class = "constant_description">Asterisk key</p>
+<p class = "constant_name">+</p>
+<p class = "constant_description">Plus key</p>
+<p class = "constant_name">,</p>
+<p class = "constant_description">Comma key</p>
+<p class = "constant_name">-</p>
+<p class = "constant_description">Hyphen-minus key</p>
+<p class = "constant_name">.</p>
+<p class = "constant_description">Full stop key</p>
+<p class = "constant_name">/</p>
+<p class = "constant_description">Slash key</p>
+<p class = "constant_name">:</p>
+<p class = "constant_description">Colon key</p>
+<p class = "constant_name">;</p>
+<p class = "constant_description">Semicolon key</p>
+<p class = "constant_name"><</p>
+<p class = "constant_description">Less-than key</p>
+<p class = "constant_name">=</p>
+<p class = "constant_description">Equal key</p>
+<p class = "constant_name">></p>
+<p class = "constant_description">Greater-than key</p>
+<p class = "constant_name">?</p>
+<p class = "constant_description">Question mark key</p>
+<p class = "constant_name">@</p>
+<p class = "constant_description">At sign key</p>
+<p class = "constant_name">[</p>
+<p class = "constant_description">Left square bracket key</p>
+<p class = "constant_name">\</p>
+<p class = "constant_description">Backslash key</p>
+<p class = "constant_name">]</p>
+<p class = "constant_description">Right square bracket key</p>
+<p class = "constant_name">^</p>
+<p class = "constant_description">Caret key</p>
+<p class = "constant_name">_</p>
+<p class = "constant_description">Underscore key</p>
+<p class = "constant_name">`</p>
+<p class = "constant_description">Grave accent key</p>
+<p class = "constant_name">kp0</p>
+<p class = "constant_description">The numpad zero key</p>
+<p class = "constant_name">kp1</p>
+<p class = "constant_description">The numpad one key</p>
+<p class = "constant_name">kp2</p>
+<p class = "constant_description">The numpad two key</p>
+<p class = "constant_name">kp3</p>
+<p class = "constant_description">The numpad three key</p>
+<p class = "constant_name">kp4</p>
+<p class = "constant_description">The numpad four key</p>
+<p class = "constant_name">kp5</p>
+<p class = "constant_description">The numpad five key</p>
+<p class = "constant_name">kp6</p>
+<p class = "constant_description">The numpad six key</p>
+<p class = "constant_name">kp7</p>
+<p class = "constant_description">The numpad seven key</p>
+<p class = "constant_name">kp8</p>
+<p class = "constant_description">The numpad eight key</p>
+<p class = "constant_name">kp9</p>
+<p class = "constant_description">The numpad nine key</p>
+<p class = "constant_name">kp.</p>
+<p class = "constant_description">The numpad decimal point key</p>
+<p class = "constant_name">kp/</p>
+<p class = "constant_description">The numpad division key</p>
+<p class = "constant_name">kp*</p>
+<p class = "constant_description">The numpad multiplication key</p>
+<p class = "constant_name">kp-</p>
+<p class = "constant_description">The numpad substraction key</p>
+<p class = "constant_name">kp+</p>
+<p class = "constant_description">The numpad addition key</p>
+<p class = "constant_name">kpenter</p>
+<p class = "constant_description">The numpad enter key</p>
+<p class = "constant_name">kp=</p>
+<p class = "constant_description">The numpad equals key</p>
+<p class = "constant_name">up</p>
+<p class = "constant_description">Up cursor key</p>
+<p class = "constant_name">down</p>
+<p class = "constant_description">Down cursor key</p>
+<p class = "constant_name">right</p>
+<p class = "constant_description">Right cursor key</p>
+<p class = "constant_name">left</p>
+<p class = "constant_description">Left cursor key</p>
+<p class = "constant_name">home</p>
+<p class = "constant_description">Home key</p>
+<p class = "constant_name">end</p>
+<p class = "constant_description">End key</p>
+<p class = "constant_name">pageup</p>
+<p class = "constant_description">Page up key</p>
+<p class = "constant_name">pagedown</p>
+<p class = "constant_description">Page down key</p>
+<p class = "constant_name">insert</p>
+<p class = "constant_description">Insert key</p>
+<p class = "constant_name">backspace</p>
+<p class = "constant_description">Backspace key</p>
+<p class = "constant_name">tab</p>
+<p class = "constant_description">Tab key</p>
+<p class = "constant_name">clear</p>
+<p class = "constant_description">Clear key</p>
+<p class = "constant_name">return</p>
+<p class = "constant_description">Return key</p>
+<p class = "constant_name">delete</p>
+<p class = "constant_description">Delete key</p>
+<p class = "constant_name">f1</p>
+<p class = "constant_description">The 1st function key</p>
+<p class = "constant_name">f2</p>
+<p class = "constant_description">The 2nd function key</p>
+<p class = "constant_name">f3</p>
+<p class = "constant_description">The 3rd function key</p>
+<p class = "constant_name">f4</p>
+<p class = "constant_description">The 4th function key</p>
+<p class = "constant_name">f5</p>
+<p class = "constant_description">The 5th function key</p>
+<p class = "constant_name">f6</p>
+<p class = "constant_description">The 6th function key</p>
+<p class = "constant_name">f7</p>
+<p class = "constant_description">The 7th function key</p>
+<p class = "constant_name">f8</p>
+<p class = "constant_description">The 8th function key</p>
+<p class = "constant_name">f9</p>
+<p class = "constant_description">The 9th function key</p>
+<p class = "constant_name">f10</p>
+<p class = "constant_description">The 10th function key</p>
+<p class = "constant_name">f11</p>
+<p class = "constant_description">The 11th function key</p>
+<p class = "constant_name">f12</p>
+<p class = "constant_description">The 12th function key</p>
+<p class = "constant_name">f13</p>
+<p class = "constant_description">The 13th function key</p>
+<p class = "constant_name">f14</p>
+<p class = "constant_description">The 14th function key</p>
+<p class = "constant_name">f15</p>
+<p class = "constant_description">The 15th function key</p>
+<p class = "constant_name">numlock</p>
+<p class = "constant_description">Num-lock key</p>
+<p class = "constant_name">capslock</p>
+<p class = "constant_description">Caps-lock key</p>
+<p class = "constant_name">scrollock</p>
+<p class = "constant_description">Scroll-lock key</p>
+<p class = "constant_name">rshift</p>
+<p class = "constant_description">Right shift key</p>
+<p class = "constant_name">lshift</p>
+<p class = "constant_description">Left shift key</p>
+<p class = "constant_name">rctrl</p>
+<p class = "constant_description">Right control key</p>
+<p class = "constant_name">lctrl</p>
+<p class = "constant_description">Left control key</p>
+<p class = "constant_name">ralt</p>
+<p class = "constant_description">Right alt key</p>
+<p class = "constant_name">lalt</p>
+<p class = "constant_description">Left alt key</p>
+<p class = "constant_name">rmeta</p>
+<p class = "constant_description">Right meta key</p>
+<p class = "constant_name">lmeta</p>
+<p class = "constant_description">Left meta key</p>
+<p class = "constant_name">lsuper</p>
+<p class = "constant_description">Left super key</p>
+<p class = "constant_name">rsuper</p>
+<p class = "constant_description">Right super key</p>
+<p class = "constant_name">mode</p>
+<p class = "constant_description">Mode key</p>
+<p class = "constant_name">compose</p>
+<p class = "constant_description">Compose key</p>
+<p class = "constant_name">pause</p>
+<p class = "constant_description">Pause key</p>
+<p class = "constant_name">escape</p>
+<p class = "constant_description">Escape key</p>
+<p class = "constant_name">help</p>
+<p class = "constant_description">Help key</p>
+<p class = "constant_name">print</p>
+<p class = "constant_description">Print key</p>
+<p class = "constant_name">sysreq</p>
+<p class = "constant_description">System request key</p>
+<p class = "constant_name">break</p>
+<p class = "constant_description">Break key</p>
+<p class = "constant_name">menu</p>
+<p class = "constant_description">Menu key</p>
+<p class = "constant_name">power</p>
+<p class = "constant_description">Power key</p>
+<p class = "constant_name">euro</p>
+<p class = "constant_description">Euro (&euro;) key</p>
+<p class = "constant_name">undo</p>
+<p class = "constant_description">Undo key</p>
+<p class = "constant_name">www</p>
+<p class = "constant_description">WWW key</p>
+<p class = "constant_name">mail</p>
+<p class = "constant_description">Mail key</p>
+<p class = "constant_name">calculator</p>
+<p class = "constant_description">Calculator key</p>
+<p class = "constant_name">appsearch</p>
+<p class = "constant_description">Application search key</p>
+<p class = "constant_name">apphome</p>
+<p class = "constant_description">Application home key</p>
+<p class = "constant_name">appback</p>
+<p class = "constant_description">Application back key</p>
+<p class = "constant_name">appforward</p>
+<p class = "constant_description">Application forward key</p>
+<p class = "constant_name">apprefresh</p>
+<p class = "constant_description">Application refresh key</p>
+<p class = "constant_name">appbookmarks</p>
+<p class = "constant_description">Application bookmarks key</p>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#Scancode" name = "Scancode">Scancode</a></p>
@@ -15484,11 +16246,110 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_subsection_heading">Color</p>
 <p class = "section_navigation_link">love.math.<a href="#love.math.linearToGamma">linearToGamma</a></p>
 <p class = "section_navigation_link">love.math.<a href="#love.math.gammaToLinear">gammaToLinear</a></p>
+<p class = "section_navigation_link">love.math.<a href="#love.math.colorFromBytes">colorFromBytes</a></p>
+<p class = "section_navigation_link">love.math.<a href="#love.math.colorToBytes">colorToBytes</a></p>
 <p class = "section_navigation_link">love.math.<a href="#love.math.newBezierCurve">newBezierCurve</a></p>
 <p class = "section_navigation_link">love.math.<a href="#love.math.newRandomGenerator">newRandomGenerator</a></p>
 <p class = "section_navigation_link">love.math.<a href="#love.math.newTransform">newTransform</a></p>
 <p class = "section_navigation_subheading">Enums</p>
 <p class = "section_navigation_link"><a href="#CompressedDataFormat">CompressedDataFormat</a></p>
+<p class = "section_navigation_link"><a href="#MatrixLayout">MatrixLayout</a></p>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.math.colorFromBytes" name = "love.math.colorFromBytes"><span>love.math.</span><wbr>colorFromBytes</a></p>
+<p class = "function_description">Converts a color from 0..255 to 0..1 range.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">r</span>, <span class = "returns">g</span>, <span class = "returns">b</span>, <span class = "returns">a</span> = love.math.<wbr>colorFromBytes( <span class = "arguments">rb</span>, <span class = "arguments">gb</span>, <span class = "arguments">bb</span>, <span class = "arguments">ab</span> )</span></span></p>
+<p class = "variant_description">Here's implementation for 11.2 and earlier.<br /><br />function <a href="#love.math.colorFromBytes">love.math.colorFromBytes</a>(r, g, b, a)<br /><br />	if type(r) == 'table' then<br /><br />		r, g, b, a = rr[2, rr[4<br /><br />	end<br /><br />	r = clamp01(floor(r + 0.5) / 255)<br /><br />	g = clamp01(floor(g + 0.5) / 255)<br /><br />	b = clamp01(floor(b + 0.5) / 255)<br /><br />	a = a ~= nil and clamp01(floor(a + 0.5) / 255) or nil<br /><br />	return r, g, b, a<br /><br />end<br /><br />Where clamp01 is defined as follows<br /><br />local function clamp01(x)<br /><br />	return math.min(math.max(x, 0), 1)<br /><br />end</p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">r</td>
+<td class = "ra_type">number</td>
+<td>Red color component in 0..1 range.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">g</td>
+<td class = "ra_type">number</td>
+<td>Green color component in 0..1 range.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">b</td>
+<td class = "ra_type">number</td>
+<td>Blue color component in 0..1 range.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">a</td>
+<td class = "ra_type">number</td>
+<td>Alpha color component in 0..1 range or nil if alpha is not specified.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">rb</td>
+<td class = "ra_type">number</td>
+<td>Red color component in 0..255 range.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">gb</td>
+<td class = "ra_type">number</td>
+<td>Green color component in 0..255 range.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">bb</td>
+<td class = "ra_type">number</td>
+<td>Blue color component in 0..255 range.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">ab <span class = "default">(nil)</span></td>
+<td class = "ra_type">number</td>
+<td>Alpha color component in 0..255 range.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.math.colorToBytes" name = "love.math.colorToBytes"><span>love.math.</span><wbr>colorToBytes</a></p>
+<p class = "function_description">Converts a color from 0..1 to 0..255 range.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">rb</span>, <span class = "returns">gb</span>, <span class = "returns">bb</span>, <span class = "returns">ab</span> = love.math.<wbr>colorToBytes( <span class = "arguments">r</span>, <span class = "arguments">g</span>, <span class = "arguments">b</span>, <span class = "arguments">a</span> )</span></span></p>
+<p class = "variant_description">Here's implementation for 11.2 and earlier.<br /><br />function <a href="#love.math.colorToBytes">love.math.colorToBytes</a>(r, g, b, a)<br /><br />	if type(r) == 'table' then<br /><br />		r, g, b, a = rr[2, rr[4<br /><br />	end<br /><br />	r = floor(clamp01(r) * 255 + 0.5)<br /><br />	g = floor(clamp01(g) * 255 + 0.5)<br /><br />	b = floor(clamp01(b) * 255 + 0.5)<br /><br />	a = a ~= nil and floor(clamp01(a) * 255 + 0.5) or nil<br /><br />	return r, g, b, a<br /><br />end<br /><br />Where clamp01 is defined as follows<br /><br />local function clamp01(x)<br /><br />	return math.min(math.max(x, 0), 1)<br /><br />end</p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">rb</td>
+<td class = "ra_type">number</td>
+<td>Red color component in 0..255 range.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">gb</td>
+<td class = "ra_type">number</td>
+<td>Green color component in 0..255 range.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">bb</td>
+<td class = "ra_type">number</td>
+<td>Blue color component in 0..255 range.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">ab</td>
+<td class = "ra_type">number</td>
+<td>Alpha color component in 0..255 range or nil if alpha is not specified.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">r</td>
+<td class = "ra_type">number</td>
+<td>Red color component.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">g</td>
+<td class = "ra_type">number</td>
+<td>Green color component.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">b</td>
+<td class = "ra_type">number</td>
+<td>Blue color component.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">a <span class = "default">(nil)</span></td>
+<td class = "ra_type">number</td>
+<td>Alpha color component.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.math.compress" name = "love.math.compress"><span>love.math.</span><wbr>compress</a></p>
@@ -16256,6 +17117,13 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">The gzip format is DEFLATE-compressed data with a slightly larger header than zlib. Since it uses DEFLATE it has the same compression characteristics as the zlib format.</p>
 <p class = "constant_name">deflate</p>
 <p class = "constant_description">Raw DEFLATE-compressed data (no header).</p>
+</div>
+<div class = "section">
+<p class = "section_heading"><a href = "#MatrixLayout" name = "MatrixLayout">MatrixLayout</a></p>
+<p class = "constant_name">row</p>
+<p class = "constant_description">The matrix is row-major:</p>
+<p class = "constant_name">column</p>
+<p class = "constant_description">The matrix is column-major:</p>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#BezierCurve" name = "BezierCurve">BezierCurve</a></p>
@@ -17132,7 +18000,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isGrabbed">is</a><span class = "slash">/</span><a href="#love.mouse.setGrabbed">setGrabbed</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getRelativeMode">get</a><span class = "slash">/</span><a href="#love.mouse.setRelativeMode">setRelativeMode</a></p>
 <p class = "section_navigation_subsection_heading">Cursor</p>
-<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.hasCursor">has</a><span class = "slash">/</span><a href="#love.mouse.setCursor">setCursor</a></p>
+<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getCursor">get</a><span class = "slash">/</span><a href="#love.mouse.setCursor">setCursor</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getSystemCursor">getSystemCursor</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isVisible">is</a><span class = "slash">/</span><a href="#love.mouse.setVisible">setVisible</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isCursorSupported">isCursorSupported</a></p>
@@ -19957,6 +20825,29 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "function_heading"><a href = "#ChainShape:getPoints" name = "ChainShape:getPoints"><span>ChainShape:</span><wbr>getPoints</a></p>
 <p class = "function_description">Returns all points of the shape.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">x1</span>, <span class = "returns">y1</span>, <span class = "returns">x2</span>, <span class = "returns">y2</span> = ChainShape:<wbr>getPoints()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">x1</td>
+<td class = "ra_type">number</td>
+<td>The x-coordinate of the first point.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">y1</td>
+<td class = "ra_type">number</td>
+<td>The y-coordinate of the first point.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">x2</td>
+<td class = "ra_type">number</td>
+<td>The x-coordinate of the second point.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">y2</td>
+<td class = "ra_type">number</td>
+<td>The y-coordinate of the second point.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#ChainShape:getPreviousVertex" name = "ChainShape:getPreviousVertex"><span>ChainShape:</span><wbr>getPreviousVertex</a></p>
@@ -21604,6 +22495,14 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "function_heading"><a href = "#PrismaticJoint:setLimitsEnabled" name = "PrismaticJoint:setLimitsEnabled"><span>PrismaticJoint:</span><wbr>setLimitsEnabled</a></p>
 <p class = "function_description">Enables/disables the joint limit.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">enable</span> = PrismaticJoint:<wbr>setLimitsEnabled()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">enable</td>
+<td class = "ra_type">boolean</td>
+<td>True if enabled, false if disabled.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#PrismaticJoint:setLowerLimit" name = "PrismaticJoint:setLowerLimit"><span>PrismaticJoint:</span><wbr>setLowerLimit</a></p>
@@ -21632,6 +22531,14 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "function_heading"><a href = "#PrismaticJoint:setMotorEnabled" name = "PrismaticJoint:setMotorEnabled"><span>PrismaticJoint:</span><wbr>setMotorEnabled</a></p>
 <p class = "function_description">Enables/disables the joint motor.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">PrismaticJoint:<wbr>setMotorEnabled( <span class = "arguments">enable</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">enable</td>
+<td class = "ra_type">boolean</td>
+<td>True to enable, false to disable.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#PrismaticJoint:setMotorSpeed" name = "PrismaticJoint:setMotorSpeed"><span>PrismaticJoint:</span><wbr>setMotorSpeed</a></p>
@@ -22668,13 +23575,13 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#World:getContacts" name = "World:getContacts"><span>World:</span><wbr>getContacts</a></p>
-<p class = "function_description">Returns a table with all contacts.</p>
+<p class = "function_description">Returns a table with all <a href="#Contact">Contacts</a>.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">contacts</span> = World:<wbr>getContacts()</span></span></p>
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">contacts</td>
 <td class = "ra_type">table</td>
-<td>A sequence with all contacts.</td>
+<td>A sequence with all <a href="#Contact">Contacts</a>.</td>
 </tr>
 </table>
 </div>
@@ -23716,7 +24623,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.window.<a href="#love.window.fromPixels">fromPixels</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.getDPIScale">getDPIScale</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.getDisplayName">getDisplayName</a></p>
+<p class = "section_navigation_link">love.window.<a href="#love.window.getDisplayOrientation">getDisplayOrientation</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.getFullscreenModes">getFullscreenModes</a></p>
+<p class = "section_navigation_link">love.window.<a href="#love.window.getSafeArea">getSafeArea</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.hasFocus">hasFocus</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.hasMouseFocus">hasMouseFocus</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.isMaximized">isMaximized</a></p>
@@ -23733,6 +24642,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.window.<a href="#love.window.getMode">get</a><span class = "slash">/</span><a href="#love.window.setMode">setMode</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.getPosition">get</a><span class = "slash">/</span><a href="#love.window.setPosition">setPosition</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.getTitle">get</a><span class = "slash">/</span><a href="#love.window.setTitle">setTitle</a></p>
+<p class = "section_navigation_link">love.window.<a href="#love.window.getVSync">get</a><span class = "slash">/</span><a href="#love.window.setVSync">setVSync</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.showMessageBox">showMessageBox</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.toPixels">toPixels</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.updateMode">updateMode</a></p>
@@ -23815,6 +24725,23 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">displayindex <span class = "default">(1)</span></td>
 <td class = "ra_type">number</td>
 <td>The index of the display to get the name of.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.window.getDisplayOrientation" name = "love.window.getDisplayOrientation"><span>love.window.</span><wbr>getDisplayOrientation</a></p>
+<p class = "function_description">Gets current device display orientation.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">orientation</span> = love.window.<wbr>getDisplayOrientation( <span class = "arguments">index</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">orientation</td>
+<td class = "ra_type">DisplayOrientation</td>
+<td>Current device display orientation.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">index <span class = "default">(nil)</span></td>
+<td class = "ra_type">number</td>
+<td>Display index to get its display orientation, or nil for default display index.</td>
 </tr>
 </table>
 </div>
@@ -23984,6 +24911,34 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#love.window.getSafeArea" name = "love.window.getSafeArea"><span>love.window.</span><wbr>getSafeArea</a></p>
+<p class = "function_description">Gets area inside the window which is known to be unobstructed by a system title bar, the iPhone X notch, etc. Useful for making sure UI elements can be seen by the user.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">x</span>, <span class = "returns">y</span>, <span class = "returns">w</span>, <span class = "returns">h</span> = love.window.<wbr>getSafeArea()</span></span></p>
+<p class = "variant_description">Values returned are in DPI-scaled units (the same coordinate system as most other window-related APIs), not in pixels.</p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">x</td>
+<td class = "ra_type">number</td>
+<td>Starting position of safe area (x-axis).</td>
+</tr>
+<tr>
+<td class = "returns ra_name">y</td>
+<td class = "ra_type">number</td>
+<td>Starting position of safe area (y-axis).</td>
+</tr>
+<tr>
+<td class = "returns ra_name">w</td>
+<td class = "ra_type">number</td>
+<td>Width of safe area.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">h</td>
+<td class = "ra_type">number</td>
+<td>Height of safe area.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "function_heading"><a href = "#love.window.getTitle" name = "love.window.getTitle"><span>love.window.</span><wbr>getTitle</a></p>
 <p class = "function_description">Gets the window title.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">title</span> = love.window.<wbr>getTitle()</span></span></p>
@@ -23992,6 +24947,19 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "returns ra_name">title</td>
 <td class = "ra_type">string</td>
 <td>The current window title.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.window.getVSync" name = "love.window.getVSync"><span>love.window.</span><wbr>getVSync</a></p>
+<p class = "function_description">Gets current vertical synchronization (vsync).</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">vsync</span> = love.window.<wbr>getVSync()</span></span></p>
+<p class = "variant_description">This can be less expensive alternative to <a href="#love.window.getMode">love.window.getMode</a> if you want to get current vsync status.</p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">vsync</td>
+<td class = "ra_type">number</td>
+<td>Current vsync status. 1 if enabled, 0 if disabled, and -1 for adaptive vsync.</td>
 </tr>
 </table>
 </div>
@@ -24279,6 +25247,11 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td>The y-coordinate of the window's position in the specified display.</td>
 </tr>
 <tr>
+<td class = "arguments ra_name">flags.usedpiscale <span class = "default">(true)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Disables automatic DPI scaling when false.</td>
+</tr>
+<tr>
 <td class = "arguments ra_name">flags.srgb <span class = "default">(false)</span></td>
 <td class = "ra_type">boolean</td>
 <td>Removed in 0.10.0 (set t.gammacorrect in conf.lua instead). True if sRGB gamma correction should be applied when drawing to the screen.</td>
@@ -24316,6 +25289,19 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">title</td>
 <td class = "ra_type">string</td>
 <td>The new window title.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.window.setVSync" name = "love.window.setVSync"><span>love.window.</span><wbr>setVSync</a></p>
+<p class = "function_description">Sets vertical synchronization mode.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">love.window.<wbr>setVSync( <span class = "arguments">vsync</span> )</span></span></p>
+<p class = "variant_description">* Not all graphics drivers support adaptive vsync (-1 value). In that case, it will be automatically set to 1.<br /><br />* It is recommended to keep vsync activated if you don't know about the possible implications of turning it off.<br /><br />* This function doesn't recreate the window, unlike <a href="#love.window.setMode">love.window.setMode</a> and <a href="#love.window.updateMode">love.window.updateMode</a>.</p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">vsync</td>
+<td class = "ra_type">number</td>
+<td>VSync number: 1 to enable, 0 to disable, and -1 for adaptive vsync.</td>
 </tr>
 </table>
 </div>
