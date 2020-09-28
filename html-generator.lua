@@ -372,7 +372,7 @@ local order = {
                 },
             },
         },
-    },    
+    },
     Mesh = {
         functions = {
             'setTexture',
@@ -945,6 +945,7 @@ local order = {
                     'gamepadpressed',
                     'gamepadreleased',
                     'gamepadaxis',
+					'displayrotated',
                 },
             },
             {
@@ -996,20 +997,23 @@ for moduleIndex = #api.modules, 1, -1 do
 
             for variantIndex = #(function_.variants or {}), 1, -1 do
                 local variant = function_.variants[variantIndex]
+                local removeVariant = false
                 local function f(key)
                     for i = #(variant[key] or {}), 1, -1 do
                         local a = variant[key][i]
                         if blacklist[a.type] then
-                            remove = true
+                            return true
                         end
                     end
                 end
-                f('arguments')
-                f('returns')
+                removeVariant = f('arguments') or f('returns')
+                if removeVariant then
+                    table.remove(function_.variants, variantIndex)
+                end
             end
 
-            if remove then
-                local a = table.remove(module_.functions, functionIndex)
+            if remove or #function_.variants == 0 then
+                table.remove(module_.functions, functionIndex)
             end
         end
     end
@@ -1032,7 +1036,7 @@ for moduleIndex = #api.modules, 1, -1 do
         f('supertypes')
         f('subtypes')
     end
-    
+
     if blacklist[module_.fullname] then
         table.remove(api.modules, moduleIndex)
     end
@@ -1265,9 +1269,9 @@ local function doFunctions(functions)
                     A(tr())
 
                     for i, v in ipairs(ra.table or {}) do
-                        if tonumber(v.name) then                            
+                        if tonumber(v.name) then
                             f(v, prefix..ra.name..'[', true)
-                        else   
+                        else
                             f(v, prefix..ra.name..'.')
                         end
                     end
@@ -1338,10 +1342,10 @@ local function main()
     A([[
 <html><head>
 <title>L&Ouml;VE ]]..api.version..[[ Reference</title>
-<link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
 <style>
 html {
-    --background-color: #dcdcdc;
+    --background-color: #efefef;
     --section-background-color: #ffffff;
     --text-color: #333333;
     --link-color: #0089ad;
@@ -1357,7 +1361,7 @@ html {
         --text-color: #c1c1c1;
     }
 }
-  
+
 * {
     margin: 0;
     padding: 0;
@@ -1503,9 +1507,10 @@ td {
 
 .synopsis_background {
     padding: 2px 5px 2px 5px;
-    background-color: var(--background-color);;
     border-radius: 6px;
     box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
+	background-color: var(--background-color);
 }
 
 body {
@@ -1518,6 +1523,7 @@ body {
     margin-bottom: 12px;
     background-color: var(--section-background-color);;
     border-radius: 8px 0 0 8px;
+	box-shadow: 0 0 6px #d0d0d0
 }
 
 .slash {
@@ -1525,7 +1531,7 @@ body {
 }
 
 .section_heading,
-.section_description, 
+.section_description,
 .variant_description,
 .function_description,
 .synopsis {
@@ -1536,7 +1542,7 @@ td {
     padding-top: 8px;
 }
 
-.section_description, 
+.section_description,
 .variant_description {
     margin-top: 12px;
 }
@@ -1561,7 +1567,7 @@ td {
 
     -- The 'container' class sets a margin-left to move the contents away from the side navigation.
     A(div('container'))
-    
+
     A([[
 <div style="margin-left: 22px; margin-top: 12px; margin-bottom: 12px;">
 <p style="margin: 8px 0;">This is an unofficial one-page reference for the L&Ouml;VE ]]..api.version..[[ API.</p>
@@ -1569,7 +1575,7 @@ td {
 <p style="margin: 8px 0;">To save this page for offline viewing: Ctrl-S then select "Web Page, HTML only" instead of "Web Page, complete"
 </div>
     ]])
-    
+
     local function doModuleOrTypeSection(mt)
         A(div('section'))
         A(p(a(mt.fullname, '#'..mt.fullname, mt.fullname), 'section_heading'))
@@ -1649,8 +1655,15 @@ td {
             local nonConstructors = {}
             local callbacks = {}
             for _, v in ipairs(mt.noncallbackfunctions) do
-                if (not v.constructs) or v.name == 'compress' or v.name == 'getJoysticks' then
+
+                if (not v.constructs) or v.name == 'compress' or v.name == 'getJoysticks' or v.name == 'getIcon' then
                     table.insert(nonConstructors, v)
+                end
+            end
+            
+            if mt.name == 'window' then
+                for i, v in ipairs(nonConstructors) do
+                    print(v.fullname)
                 end
             end
             subsection('Callbacks', mt.callbacks)

@@ -1,9 +1,9 @@
 <html><head>
 <title>L&Ouml;VE 11.3 Reference</title>
-<link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
 <style>
 html {
-    --background-color: #dcdcdc;
+    --background-color: #efefef;
     --section-background-color: #ffffff;
     --text-color: #333333;
     --link-color: #0089ad;
@@ -19,7 +19,7 @@ html {
         --text-color: #c1c1c1;
     }
 }
-  
+
 * {
     margin: 0;
     padding: 0;
@@ -165,9 +165,10 @@ td {
 
 .synopsis_background {
     padding: 2px 5px 2px 5px;
-    background-color: var(--background-color);;
     border-radius: 6px;
     box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
+	background-color: var(--background-color);
 }
 
 body {
@@ -180,6 +181,7 @@ body {
     margin-bottom: 12px;
     background-color: var(--section-background-color);;
     border-radius: 8px 0 0 8px;
+	box-shadow: 0 0 6px #d0d0d0
 }
 
 .slash {
@@ -187,7 +189,7 @@ body {
 }
 
 .section_heading,
-.section_description, 
+.section_description,
 .variant_description,
 .function_description,
 .synopsis {
@@ -198,7 +200,7 @@ td {
     padding-top: 8px;
 }
 
-.section_description, 
+.section_description,
 .variant_description {
     margin-top: 12px;
 }
@@ -240,9 +242,7 @@ td {
 <div class = "section">
 <p class = "section_heading"><a href = "#love" name = "love">love</a></p>
 <p class = "section_navigation_subheading">Types</p>
-<p class = "section_navigation_link"><a href="#ByteData">ByteData</a></p>
 <p class = "section_navigation_link"><a href="#Data">Data</a></p>
-<p class = "section_navigation_link"><a href="#Drawable">Drawable</a></p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
 <p class = "section_navigation_subheading">Callbacks</p>
 <p class = "section_navigation_link">love.<a href="#love.load">load</a></p>
@@ -273,6 +273,7 @@ td {
 <p class = "section_navigation_link">love.<a href="#love.gamepadpressed">gamepadpressed</a></p>
 <p class = "section_navigation_link">love.<a href="#love.gamepadreleased">gamepadreleased</a></p>
 <p class = "section_navigation_link">love.<a href="#love.gamepadaxis">gamepadaxis</a></p>
+<p class = "section_navigation_link">love.<a href="#love.displayrotated">displayrotated</a></p>
 <p class = "section_navigation_subsection_heading">Window</p>
 <p class = "section_navigation_link">love.<a href="#love.resize">resize</a></p>
 <p class = "section_navigation_link">love.<a href="#love.visible">visible</a></p>
@@ -283,7 +284,6 @@ td {
 <p class = "section_navigation_link">love.<a href="#love.errorhandler">errorhandler</a></p>
 <p class = "section_navigation_link">love.<a href="#love.threaderror">threaderror</a></p>
 <p class = "section_navigation_link">love.<a href="#love.lowmemory">lowmemory</a></p>
-<p class = "section_navigation_link">love.<a href="#love.displayrotated">displayrotated</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">love.<a href="#love.getVersion">getVersion</a></p>
 <p class = "section_navigation_link">love.<a href="#love.hasDeprecationOutput">has</a><span class = "slash">/</span><a href="#love.setDeprecationOutput">setDeprecationOutput</a></p>
@@ -444,7 +444,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">t.window.height <span class = "default">(600)</span></td>
-<td class = "ra_type">string</td>
+<td class = "ra_type">number</td>
 <td>Sets the window's dimensions. If these flags are set to 0 L&Ouml;VE automatically uses the user's desktop dimensions.</td>
 </tr>
 <tr>
@@ -636,7 +636,7 @@ Note that in iOS, vertical synchronization is always enabled and cannot be chang
 </tr>
 <tr>
 <td class = "arguments ra_name">orientation</td>
-<td class = "ra_type">DisplayOrientation</td>
+<td class = "ra_type"><a href="#DisplayOrientation">DisplayOrientation</a></td>
 <td>The new orientation.</td>
 </tr>
 </table>
@@ -668,7 +668,7 @@ Note that in iOS, vertical synchronization is always enabled and cannot be chang
 <table class = "ra_table">
 <tr>
 <td class = "arguments ra_name">file</td>
-<td class = "ra_type">DroppedFile</td>
+<td class = "ra_type"><a href="#DroppedFile">DroppedFile</a></td>
 <td>The unopened <a href="#File">File</a> object representing the file that was dropped.</td>
 </tr>
 </table>
@@ -1519,15 +1519,14 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
-<p class = "section_heading"><a href = "#ByteData" name = "ByteData">ByteData</a></p>
-<p class = "section_description"><a href="#Data">Data</a> object containing arbitrary bytes in an contiguous memory.<br /><br />There are currently no L&Ouml;VE functions provided for manipulating the contents of a ByteData, but <a href="#Data">Data</a>:getPointer can be used with LuaJIT's FFI to access and write to the contents directly.</p>
-<p class = "section_navigation_subheading">Supertypes</p>
-<p class = "section_navigation_link"><a href="#Object">Object</a></p>
-<p class = "section_navigation_link"><a href="#Data">Data</a></p>
-</div>
-<div class = "section">
 <p class = "section_heading"><a href = "#Data" name = "Data">Data</a></p>
 <p class = "section_description">The superclass of all data.</p>
+<p class = "section_navigation_subheading">Functions</p>
+<p class = "section_navigation_link">Data:<a href="#Data:clone">clone</a></p>
+<p class = "section_navigation_link">Data:<a href="#Data:getFFIPointer">getFFIPointer</a></p>
+<p class = "section_navigation_link">Data:<a href="#Data:getPointer">getPointer</a></p>
+<p class = "section_navigation_link">Data:<a href="#Data:getSize">getSize</a></p>
+<p class = "section_navigation_link">Data:<a href="#Data:getString">getString</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
 <p class = "section_navigation_subheading">Subtypes</p>
@@ -1539,23 +1538,72 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#SoundData">SoundData</a></p>
 </div>
 <div class = "section">
-<p class = "section_heading"><a href = "#Drawable" name = "Drawable">Drawable</a></p>
-<p class = "section_description">Superclass for all things that can be drawn on screen. This is an abstract type that can't be created directly.</p>
-<p class = "section_navigation_subheading">Supertypes</p>
-<p class = "section_navigation_link"><a href="#Object">Object</a></p>
-<p class = "section_navigation_subheading">Subtypes</p>
-<p class = "section_navigation_link"><a href="#Canvas">Canvas</a></p>
-<p class = "section_navigation_link"><a href="#Image">Image</a></p>
-<p class = "section_navigation_link"><a href="#Mesh">Mesh</a></p>
-<p class = "section_navigation_link"><a href="#ParticleSystem">ParticleSystem</a></p>
-<p class = "section_navigation_link"><a href="#SpriteBatch">SpriteBatch</a></p>
-<p class = "section_navigation_link"><a href="#Text">Text</a></p>
-<p class = "section_navigation_link"><a href="#Texture">Texture</a></p>
-<p class = "section_navigation_link"><a href="#Video">Video</a></p>
+<p class = "function_heading"><a href = "#Data:clone" name = "Data:clone"><span>Data:</span><wbr>clone</a></p>
+<p class = "function_description">Creates a new copy of the <a href="#Data">Data</a> object.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">clone</span> = Data:<wbr>clone()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">clone</td>
+<td class = "ra_type"><a href="#Data">Data</a></td>
+<td>The new copy.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Data:getFFIPointer" name = "Data:getFFIPointer"><span>Data:</span><wbr>getFFIPointer</a></p>
+<p class = "function_description">Gets an FFI pointer to the <a href="#Data">Data</a>.<br /><br />This function should be preferred instead of <a href="#Data:getPointer">Data:getPointer</a> because the latter uses light userdata which can't store more all possible memory addresses on some new ARM64 architectures, when LuaJIT is used.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">pointer</span> = Data:<wbr>getFFIPointer()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">pointer</td>
+<td class = "ra_type">cdata</td>
+<td>A raw void* pointer to the <a href="#Data">Data</a>, or nil if FFI is unavailable.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Data:getPointer" name = "Data:getPointer"><span>Data:</span><wbr>getPointer</a></p>
+<p class = "function_description">Gets a pointer to the <a href="#Data">Data</a>. Can be used with libraries such as LuaJIT's FFI.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">pointer</span> = Data:<wbr>getPointer()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">pointer</td>
+<td class = "ra_type">light userdata</td>
+<td>A raw pointer to the <a href="#Data">Data</a>.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Data:getSize" name = "Data:getSize"><span>Data:</span><wbr>getSize</a></p>
+<p class = "function_description">Gets the <a href="#Data">Data</a>'s size in bytes.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">size</span> = Data:<wbr>getSize()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">size</td>
+<td class = "ra_type">number</td>
+<td>The size of the <a href="#Data">Data</a> in bytes.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Data:getString" name = "Data:getString"><span>Data:</span><wbr>getString</a></p>
+<p class = "function_description">Gets the full <a href="#Data">Data</a> as a string.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">data</span> = Data:<wbr>getString()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">data</td>
+<td class = "ra_type">string</td>
+<td>The raw data.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#Object" name = "Object">Object</a></p>
 <p class = "section_description">The superclass of all L&Ouml;VE types.</p>
+<p class = "section_navigation_subheading">Functions</p>
+<p class = "section_navigation_link">Object:<a href="#Object:release">release</a></p>
+<p class = "section_navigation_link">Object:<a href="#Object:type">type</a></p>
+<p class = "section_navigation_link">Object:<a href="#Object:typeOf">typeOf</a></p>
 <p class = "section_navigation_subheading">Subtypes</p>
 <p class = "section_navigation_link"><a href="#BezierCurve">BezierCurve</a></p>
 <p class = "section_navigation_link"><a href="#Body">Body</a></p>
@@ -1571,6 +1619,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#Data">Data</a></p>
 <p class = "section_navigation_link"><a href="#DistanceJoint">DistanceJoint</a></p>
 <p class = "section_navigation_link"><a href="#Drawable">Drawable</a></p>
+<p class = "section_navigation_link"><a href="#DroppedFile">DroppedFile</a></p>
 <p class = "section_navigation_link"><a href="#EdgeShape">EdgeShape</a></p>
 <p class = "section_navigation_link"><a href="#File">File</a></p>
 <p class = "section_navigation_link"><a href="#FileData">FileData</a></p>
@@ -1609,6 +1658,47 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#World">World</a></p>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#Object:release" name = "Object:release"><span>Object:</span><wbr>release</a></p>
+<p class = "function_description">Destroys the object's Lua reference. The object will be completely deleted if it's not referenced by any other L&Ouml;VE object or thread.<br /><br />This method can be used to immediately clean up resources without waiting for Lua's garbage collector.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">success</span> = Object:<wbr>release()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">success</td>
+<td class = "ra_type">boolean</td>
+<td>True if the object was released by this call, false if it had been previously released.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Object:type" name = "Object:type"><span>Object:</span><wbr>type</a></p>
+<p class = "function_description">Gets the type of the object as a string.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">type</span> = Object:<wbr>type()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">type</td>
+<td class = "ra_type">string</td>
+<td>The type as a string.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Object:typeOf" name = "Object:typeOf"><span>Object:</span><wbr>typeOf</a></p>
+<p class = "function_description">Checks whether an object is of a certain type. If the object has the type with the specified name in its hierarchy, this function will return true.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">b</span> = Object:<wbr>typeOf( <span class = "arguments">name</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">b</td>
+<td class = "ra_type">boolean</td>
+<td>True if the object is of the specified type, false otherwise.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">name</td>
+<td class = "ra_type">string</td>
+<td>The name of the type to check for.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "section_heading"><a href = "#love.audio" name = "love.audio">love.audio</a></p>
 <p class = "section_navigation_subheading">Types</p>
 <p class = "section_navigation_link"><a href="#RecordingDevice">RecordingDevice</a></p>
@@ -1633,8 +1723,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.audio.<a href="#love.audio.getMaxSourceEffects">getMaxSourceEffects</a></p>
 <p class = "section_navigation_link">love.audio.<a href="#love.audio.getRecordingDevices">getRecordingDevices</a></p>
 <p class = "section_navigation_link">love.audio.<a href="#love.audio.isEffectsSupported">isEffectsSupported</a></p>
-<p class = "section_navigation_link">love.audio.<a href="#love.audio.newQueueableSource">newQueueableSource</a></p>
-<p class = "section_navigation_link">love.audio.<a href="#love.audio.newSource">newSource</a></p>
 <p class = "section_navigation_link">love.audio.<a href="#love.audio.getEffect">get</a><span class = "slash">/</span><a href="#love.audio.setEffect">setEffect</a></p>
 <p class = "section_navigation_link">love.audio.<a href="#love.audio.setMixWithSystem">setMixWithSystem</a></p>
 <p class = "section_navigation_subheading">Enums</p>
@@ -1876,6 +1964,77 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">buffercount <span class = "default">(0)</span></td>
 <td class = "ra_type">number</td>
 <td>The number of buffers that can be queued up at any given time with <a href="#Source:queue">Source:queue</a>. Cannot be greater than 64. A sensible default (~8) is chosen if no value is specified.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.audio.newSource" name = "love.audio.newSource"><span>love.audio.</span><wbr>newSource</a></p>
+<p class = "function_description">Creates a new <a href="#Source">Source</a> from a filepath, <a href="#File">File</a>, <a href="#Decoder">Decoder</a> or <a href="#SoundData">SoundData</a>.<br /><br /><a href="#Source">Sources</a> created from <a href="#SoundData">SoundData</a> are always static.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">source</span> = love.audio.<wbr>newSource( <span class = "arguments">filename</span>, <span class = "arguments">type</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">source</td>
+<td class = "ra_type"><a href="#Source">Source</a></td>
+<td>A new <a href="#Source">Source</a> that can play the specified audio.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">filename</td>
+<td class = "ra_type">string</td>
+<td>The filepath to the audio file.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">type</td>
+<td class = "ra_type"><a href="#SourceType">SourceType</a></td>
+<td>Streaming or static source.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">source</span> = love.audio.<wbr>newSource( <span class = "arguments">file</span>, <span class = "arguments">type</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">source</td>
+<td class = "ra_type"><a href="#Source">Source</a></td>
+<td>A new <a href="#Source">Source</a> that can play the specified audio.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">file</td>
+<td class = "ra_type"><a href="#File">File</a></td>
+<td>A File pointing to an audio file.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">type</td>
+<td class = "ra_type"><a href="#SourceType">SourceType</a></td>
+<td>Streaming or static source.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">source</span> = love.audio.<wbr>newSource( <span class = "arguments">data</span>, <span class = "arguments">type</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">source</td>
+<td class = "ra_type"><a href="#Source">Source</a></td>
+<td>A new <a href="#Source">Source</a> that can play the specified audio.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">data</td>
+<td class = "ra_type"><a href="#FileData">FileData</a></td>
+<td>The <a href="#FileData">FileData</a> to create a <a href="#Source">Source</a> from.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">type</td>
+<td class = "ra_type"><a href="#SourceType">SourceType</a></td>
+<td>Streaming or static source.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">source</span> = love.audio.<wbr>newSource( <span class = "arguments">data</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">source</td>
+<td class = "ra_type"><a href="#Source">Source</a></td>
+<td>A new <a href="#Source">Source</a> that can play the specified audio. The <a href="#SourceType">SourceType</a> of the returned audio is 'static'.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">data</td>
+<td class = "ra_type"><a href="#SoundData">SoundData</a></td>
+<td>The <a href="#SoundData">SoundData</a> to create a <a href="#Source">Source</a> from.</td>
 </tr>
 </table>
 </div>
@@ -2402,6 +2561,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Source" name = "Source">Source</a></p>
 <p class = "section_description">A Source represents audio you can play back.<br /><br />You can do interesting things with Sources, like set the volume, pitch, and its position relative to the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources.<br /><br />The Source controls (play/pause/stop) act according to the following state table.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.audio.<a href="#love.audio.newQueueableSource">newQueueableSource</a></p>
+<p class = "section_navigation_link">love.audio.<a href="#love.audio.newSource">newSource</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_subsection_heading">Playback</p>
 <p class = "section_navigation_link">Source:<a href="#Source:play">play</a></p>
@@ -3166,6 +3328,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#love.data" name = "love.data">love.data</a></p>
+<p class = "section_navigation_subheading">Types</p>
+<p class = "section_navigation_link"><a href="#ByteData">ByteData</a></p>
+<p class = "section_navigation_link"><a href="#CompressedData">CompressedData</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">love.data.<a href="#love.data.compress">compress</a></p>
 <p class = "section_navigation_link">love.data.<a href="#love.data.decode">decode</a></p>
@@ -3173,11 +3338,11 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.data.<a href="#love.data.encode">encode</a></p>
 <p class = "section_navigation_link">love.data.<a href="#love.data.getPackedSize">getPackedSize</a></p>
 <p class = "section_navigation_link">love.data.<a href="#love.data.hash">hash</a></p>
-<p class = "section_navigation_link">love.data.<a href="#love.data.newByteData">newByteData</a></p>
 <p class = "section_navigation_link">love.data.<a href="#love.data.newDataView">newDataView</a></p>
 <p class = "section_navigation_link">love.data.<a href="#love.data.pack">pack</a></p>
 <p class = "section_navigation_link">love.data.<a href="#love.data.unpack">unpack</a></p>
 <p class = "section_navigation_subheading">Enums</p>
+<p class = "section_navigation_link"><a href="#CompressedDataFormat">CompressedDataFormat</a></p>
 <p class = "section_navigation_link"><a href="#ContainerType">ContainerType</a></p>
 <p class = "section_navigation_link"><a href="#EncodeFormat">EncodeFormat</a></p>
 <p class = "section_navigation_link"><a href="#HashFunction">HashFunction</a></p>
@@ -3481,7 +3646,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.data.newByteData" name = "love.data.newByteData"><span>love.data.</span><wbr>newByteData</a></p>
-<p class = "function_description">Creates a new <a href="#Data">Data</a> object containing arbitrary bytes.<br /><br /><a href="#Data">Data</a>:getPointer along with LuaJIT's FFI can be used to manipulate the contents of the <a href="#ByteData">ByteData</a> object after it has been created.</p>
+<p class = "function_description">Creates a new <a href="#Data">Data</a> object containing arbitrary bytes.<br /><br /><a href="#Data:getPointer">Data:getPointer</a> along with LuaJIT's FFI can be used to manipulate the contents of the <a href="#ByteData">ByteData</a> object after it has been created.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">bytedata</span> = love.data.<wbr>newByteData( <span class = "arguments">datastring</span> )</span></span></p>
 <p class = "variant_description">Creates a new <a href="#ByteData">ByteData</a> by copying the contents of the specified string.</p>
 <table class = "ra_table">
@@ -3539,7 +3704,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "function_heading"><a href = "#love.data.newDataView" name = "love.data.newDataView"><span>love.data.</span><wbr>newDataView</a></p>
 <p class = "function_description">Creates a new <a href="#Data">Data</a> referencing a subsection of an existing <a href="#Data">Data</a> object.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">view</span> = love.data.<wbr>newDataView( <span class = "arguments">data</span>, <span class = "arguments">offset</span>, <span class = "arguments">size</span> )</span></span></p>
-<p class = "variant_description"><a href="#Data">Data</a>:getString and <a href="#Data">Data</a>:getPointer will return the original <a href="#Data">Data</a> object's contents, with the view's offset and size applied.</p>
+<p class = "variant_description"><a href="#Data:getString">Data:getString</a> and <a href="#Data:getPointer">Data:getPointer</a> will return the original <a href="#Data">Data</a> object's contents, with the view's offset and size applied.</p>
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">view</td>
@@ -3668,6 +3833,17 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
+<p class = "section_heading"><a href = "#CompressedDataFormat" name = "CompressedDataFormat">CompressedDataFormat</a></p>
+<p class = "constant_name">lz4</p>
+<p class = "constant_description">The LZ4 compression format. Compresses and decompresses very quickly, but the compression ratio is not the best. LZ4-HC is used when compression level 9 is specified. Some benchmarks are available here.</p>
+<p class = "constant_name">zlib</p>
+<p class = "constant_description">The zlib format is DEFLATE-compressed data with a small bit of header data. Compresses relatively slowly and decompresses moderately quickly, and has a decent compression ratio.</p>
+<p class = "constant_name">gzip</p>
+<p class = "constant_description">The gzip format is DEFLATE-compressed data with a slightly larger header than zlib. Since it uses DEFLATE it has the same compression characteristics as the zlib format.</p>
+<p class = "constant_name">deflate</p>
+<p class = "constant_description">Raw DEFLATE-compressed data (no header).</p>
+</div>
+<div class = "section">
 <p class = "section_heading"><a href = "#ContainerType" name = "ContainerType">ContainerType</a></p>
 <p class = "constant_name">data</p>
 <p class = "constant_description">Return type is <a href="#ByteData">ByteData</a>.</p>
@@ -3695,6 +3871,38 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">SHA2 hash algorithm with message digest size of 384 bits (48 bytes).</p>
 <p class = "constant_name">sha512</p>
 <p class = "constant_description">SHA2 hash algorithm with message digest size of 512 bits (64 bytes).</p>
+</div>
+<div class = "section">
+<p class = "section_heading"><a href = "#ByteData" name = "ByteData">ByteData</a></p>
+<p class = "section_description"><a href="#Data">Data</a> object containing arbitrary bytes in an contiguous memory.<br /><br />There are currently no L&Ouml;VE functions provided for manipulating the contents of a ByteData, but <a href="#Data:getPointer">Data:getPointer</a> can be used with LuaJIT's FFI to access and write to the contents directly.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.data.<a href="#love.data.newByteData">newByteData</a></p>
+<p class = "section_navigation_subheading">Supertypes</p>
+<p class = "section_navigation_link"><a href="#Object">Object</a></p>
+<p class = "section_navigation_link"><a href="#Data">Data</a></p>
+</div>
+<div class = "section">
+<p class = "section_heading"><a href = "#CompressedData" name = "CompressedData">CompressedData</a></p>
+<p class = "section_description">Represents byte data compressed using a specific algorithm.<br /><br /><a href="#love.data.decompress">love.data.decompress</a> can be used to de-compress the data (or <a href="#love.math.decompress">love.math.decompress</a> in 0.10.2 or earlier).</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.data.<a href="#love.data.compress">compress</a></p>
+<p class = "section_navigation_subheading">Functions</p>
+<p class = "section_navigation_link">CompressedData:<a href="#CompressedData:getFormat">getFormat</a></p>
+<p class = "section_navigation_subheading">Supertypes</p>
+<p class = "section_navigation_link"><a href="#Data">Data</a></p>
+<p class = "section_navigation_link"><a href="#Object">Object</a></p>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#CompressedData:getFormat" name = "CompressedData:getFormat"><span>CompressedData:</span><wbr>getFormat</a></p>
+<p class = "function_description">Gets the compression format of the <a href="#CompressedData">CompressedData</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">format</span> = CompressedData:<wbr>getFormat()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">format</td>
+<td class = "ra_type"><a href="#CompressedDataFormat">CompressedDataFormat</a></td>
+<td>The format of the <a href="#CompressedData">CompressedData</a>.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#love.event" name = "love.event">love.event</a></p>
@@ -3929,6 +4137,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#love.filesystem" name = "love.filesystem">love.filesystem</a></p>
 <p class = "section_navigation_subheading">Types</p>
+<p class = "section_navigation_link"><a href="#DroppedFile">DroppedFile</a></p>
 <p class = "section_navigation_link"><a href="#File">File</a></p>
 <p class = "section_navigation_link"><a href="#FileData">FileData</a></p>
 <p class = "section_navigation_subheading">Functions</p>
@@ -3956,8 +4165,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.getRequirePath">get</a><span class = "slash">/</span><a href="#love.filesystem.setRequirePath">setRequirePath</a></p>
 <p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.getInfo">getInfo</a></p>
 <p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.init">init</a></p>
-<p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.newFile">newFile</a></p>
-<p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.newFileData">newFileData</a></p>
 <p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.getCRequirePath">get</a><span class = "slash">/</span><a href="#love.filesystem.setCRequirePath">setCRequirePath</a></p>
 <p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.getIdentity">get</a><span class = "slash">/</span><a href="#love.filesystem.setIdentity">setIdentity</a></p>
 <p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.getSource">get</a><span class = "slash">/</span><a href="#love.filesystem.setSource">setSource</a></p>
@@ -4837,8 +5044,17 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">Something completely different like a device.</p>
 </div>
 <div class = "section">
+<p class = "section_heading"><a href = "#DroppedFile" name = "DroppedFile">DroppedFile</a></p>
+<p class = "section_description">Represents a file dropped onto the window.<br /><br />Note that the DroppedFile type can only be obtained from <a href="#love.filedropped">love.filedropped</a> callback, and can't be constructed manually by the user.</p>
+<p class = "section_navigation_subheading">Supertypes</p>
+<p class = "section_navigation_link"><a href="#File">File</a></p>
+<p class = "section_navigation_link"><a href="#Object">Object</a></p>
+</div>
+<div class = "section">
 <p class = "section_heading"><a href = "#File" name = "File">File</a></p>
 <p class = "section_description">Represents a file on the filesystem. A function that takes a file path can also take a File.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.newFile">newFile</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">File:<a href="#File:open">open</a></p>
 <p class = "section_navigation_link">File:<a href="#File:close">close</a></p>
@@ -4855,6 +5071,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">File:<a href="#File:tell">tell</a><span class = "slash">/</span><a href="#File:seek">seek</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
+<p class = "section_navigation_subheading">Subtypes</p>
+<p class = "section_navigation_link"><a href="#DroppedFile">DroppedFile</a></p>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#File:close" name = "File:close"><span>File:</span><wbr>close</a></p>
@@ -5153,6 +5371,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#FileData" name = "FileData">FileData</a></p>
 <p class = "section_description">Data representing the contents of a file.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.filesystem.<a href="#love.filesystem.newFileData">newFileData</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">FileData:<a href="#FileData:getFilename">getFilename</a></p>
 <p class = "section_navigation_link">FileData:<a href="#FileData:getExtension">getExtension</a></p>
@@ -5188,6 +5408,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_heading"><a href = "#love.graphics" name = "love.graphics">love.graphics</a></p>
 <p class = "section_navigation_subheading">Types</p>
 <p class = "section_navigation_link"><a href="#Canvas">Canvas</a></p>
+<p class = "section_navigation_link"><a href="#Drawable">Drawable</a></p>
 <p class = "section_navigation_link"><a href="#Font">Font</a></p>
 <p class = "section_navigation_link"><a href="#Image">Image</a></p>
 <p class = "section_navigation_link"><a href="#Mesh">Mesh</a></p>
@@ -5218,7 +5439,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.pop">pop</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.reset">reset</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getFont">get</a><span class = "slash">/</span><a href="#love.graphics.setFont">setFont</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.setNewFont">setNewFont</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getBackgroundColor">get</a><span class = "slash">/</span><a href="#love.graphics.setBackgroundColor">setBackgroundColor</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getBlendMode">get</a><span class = "slash">/</span><a href="#love.graphics.setBlendMode">setBlendMode</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getCanvas">get</a><span class = "slash">/</span><a href="#love.graphics.setCanvas">setCanvas</a></p>
@@ -5266,20 +5486,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getStackDepth">getStackDepth</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getTextureTypes">getTextureTypes</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.inverseTransformPoint">inverseTransformPoint</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newArrayImage">newArrayImage</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newCanvas">newCanvas</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newCubeImage">newCubeImage</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newFont">newFont</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newImage">newImage</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newImageFont">newImageFont</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newMesh">newMesh</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newParticleSystem">newParticleSystem</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newQuad">newQuad</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newShader">newShader</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newSpriteBatch">newSpriteBatch</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newText">newText</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newVideo">newVideo</a></p>
-<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newVolumeImage">newVolumeImage</a></p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.isActive">isActive</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.replaceTransform">replaceTransform</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getDepthMode">get</a><span class = "slash">/</span><a href="#love.graphics.setDepthMode">setDepthMode</a></p>
 <p class = "section_navigation_link">love.graphics.<a href="#love.graphics.getFrontFaceWinding">get</a><span class = "slash">/</span><a href="#love.graphics.setFrontFaceWinding">setFrontFaceWinding</a></p>
@@ -5292,21 +5499,24 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#AreaSpreadDistribution">AreaSpreadDistribution</a></p>
 <p class = "section_navigation_link"><a href="#BlendAlphaMode">BlendAlphaMode</a></p>
 <p class = "section_navigation_link"><a href="#BlendMode">BlendMode</a></p>
-<p class = "section_navigation_link"><a href="#CanvasMipmapMode">CanvasMipmapMode</a></p>
 <p class = "section_navigation_link"><a href="#CompareMode">CompareMode</a></p>
 <p class = "section_navigation_link"><a href="#CullMode">CullMode</a></p>
 <p class = "section_navigation_link"><a href="#DrawMode">DrawMode</a></p>
 <p class = "section_navigation_link"><a href="#FilterMode">FilterMode</a></p>
 <p class = "section_navigation_link"><a href="#GraphicsFeature">GraphicsFeature</a></p>
 <p class = "section_navigation_link"><a href="#GraphicsLimit">GraphicsLimit</a></p>
+<p class = "section_navigation_link"><a href="#IndexDataType">IndexDataType</a></p>
 <p class = "section_navigation_link"><a href="#LineJoin">LineJoin</a></p>
 <p class = "section_navigation_link"><a href="#LineStyle">LineStyle</a></p>
 <p class = "section_navigation_link"><a href="#MeshDrawMode">MeshDrawMode</a></p>
+<p class = "section_navigation_link"><a href="#MipmapMode">MipmapMode</a></p>
 <p class = "section_navigation_link"><a href="#ParticleInsertMode">ParticleInsertMode</a></p>
 <p class = "section_navigation_link"><a href="#SpriteBatchUsage">SpriteBatchUsage</a></p>
 <p class = "section_navigation_link"><a href="#StackType">StackType</a></p>
 <p class = "section_navigation_link"><a href="#StencilAction">StencilAction</a></p>
 <p class = "section_navigation_link"><a href="#TextureType">TextureType</a></p>
+<p class = "section_navigation_link"><a href="#VertexAttributeStep">VertexAttributeStep</a></p>
+<p class = "section_navigation_link"><a href="#VertexWinding">VertexWinding</a></p>
 <p class = "section_navigation_link"><a href="#WrapMode">WrapMode</a></p>
 </div>
 <div class = "section">
@@ -6300,7 +6510,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">winding</td>
-<td class = "ra_type">VertexWinding</td>
+<td class = "ra_type"><a href="#VertexWinding">VertexWinding</a></td>
 <td>The winding mode being used. The default winding is counterclockwise ('ccw').</td>
 </tr>
 </table>
@@ -6325,7 +6535,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <tr>
 <td class = "returns ra_name">formats</td>
 <td class = "ra_type">table</td>
-<td>A table containing PixelFormats as keys, and a boolean indicating whether the format is supported as values. Not all systems support all formats.</td>
+<td>A table containing <a href="#PixelFormat">PixelFormats</a> as keys, and a boolean indicating whether the format is supported as values. Not all systems support all formats.</td>
 </tr>
 </table>
 </div>
@@ -6718,6 +6928,18 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#love.graphics.isActive" name = "love.graphics.isActive"><span>love.graphics.</span><wbr>isActive</a></p>
+<p class = "function_description">Gets whether the graphics module is able to be used. If it is not active, love.graphics function and method calls will not work correctly and may cause the program to crash.<br />The graphics module is inactive if a window is not open, or if the app is in the background on iOS. Typically the app's execution will be automatically paused by the system, in the latter case.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">active</span> = love.graphics.<wbr>isActive()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">active</td>
+<td class = "ra_type">boolean</td>
+<td>Whether the graphics module is active and able to be used.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "function_heading"><a href = "#love.graphics.isGammaCorrect" name = "love.graphics.isGammaCorrect"><span>love.graphics.</span><wbr>isGammaCorrect</a></p>
 <p class = "function_description">Gets whether gamma-correct rendering is supported and enabled. It can be enabled by setting t.gammacorrect = true in <a href="#love.conf">love.conf</a>.<br /><br />Not all devices support gamma-correct rendering, in which case it will be automatically disabled and this function will return false. It is supported on desktop systems which have graphics cards that are capable of using OpenGL 3 / DirectX 10, and iOS devices that can use OpenGL ES 3.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">gammacorrect</span> = love.graphics.<wbr>isGammaCorrect()</span></span></p>
@@ -6879,7 +7101,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">settings.format <span class = "default">('normal')</span></td>
-<td class = "ra_type">PixelFormat</td>
+<td class = "ra_type"><a href="#PixelFormat">PixelFormat</a></td>
 <td>The format of the <a href="#Canvas">Canvas</a>.</td>
 </tr>
 <tr>
@@ -6899,7 +7121,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">settings.mipmaps <span class = "default">('none')</span></td>
-<td class = "ra_type"><a href="#CanvasMipmapMode">CanvasMipmapMode</a></td>
+<td class = "ra_type"><a href="#MipmapMode">MipmapMode</a></td>
 <td>Whether the <a href="#Canvas">Canvas</a> has mipmaps, and whether to automatically regenerate them if so.</td>
 </tr>
 </table>
@@ -6938,7 +7160,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">settings.format <span class = "default">('normal')</span></td>
-<td class = "ra_type">PixelFormat</td>
+<td class = "ra_type"><a href="#PixelFormat">PixelFormat</a></td>
 <td>The format of the <a href="#Canvas">Canvas</a>.</td>
 </tr>
 <tr>
@@ -6958,7 +7180,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">settings.mipmaps <span class = "default">('none')</span></td>
-<td class = "ra_type"><a href="#CanvasMipmapMode">CanvasMipmapMode</a></td>
+<td class = "ra_type"><a href="#MipmapMode">MipmapMode</a></td>
 <td>Whether the <a href="#Canvas">Canvas</a> has mipmaps, and whether to automatically regenerate them if so.</td>
 </tr>
 </table>
@@ -7095,7 +7317,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td>The filepath to the BMFont or TrueType font file.</td>
 </tr>
 </table>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>newFont( <span class = "arguments">filename</span>, <span class = "arguments">size</span>, <span class = "arguments">hinting</span> )</span></span></p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>newFont( <span class = "arguments">filename</span>, <span class = "arguments">size</span>, <span class = "arguments">hinting</span>, <span class = "arguments">dpiscale</span> )</span></span></p>
 <p class = "variant_description">Create a new TrueType font.</p>
 <table class = "ra_table">
 <tr>
@@ -7115,8 +7337,13 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">hinting <span class = "default">('normal')</span></td>
-<td class = "ra_type">HintingMode</td>
+<td class = "ra_type"><a href="#HintingMode">HintingMode</a></td>
 <td>True Type hinting mode.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">dpiscale <span class = "default">(love.graphics.getDPIScale())</span></td>
+<td class = "ra_type">number</td>
+<td>The DPI scale factor of the font.</td>
 </tr>
 </table>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>newFont( <span class = "arguments">filename</span>, <span class = "arguments">imagefilename</span> )</span></span></p>
@@ -7138,7 +7365,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td>The filepath to the BMFont's image file. If this argument is omitted, the path specified inside the BMFont file will be used.</td>
 </tr>
 </table>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>newFont( <span class = "arguments">size</span>, <span class = "arguments">hinting</span> )</span></span></p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>newFont( <span class = "arguments">size</span>, <span class = "arguments">hinting</span>, <span class = "arguments">dpiscale</span> )</span></span></p>
 <p class = "variant_description">Create a new instance of the default font (Vera Sans) with a custom size.</p>
 <table class = "ra_table">
 <tr>
@@ -7153,8 +7380,13 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">hinting <span class = "default">('normal')</span></td>
-<td class = "ra_type">HintingMode</td>
+<td class = "ra_type"><a href="#HintingMode">HintingMode</a></td>
 <td>True Type hinting mode.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">dpiscale <span class = "default">(love.graphics.getDPIScale())</span></td>
+<td class = "ra_type">number</td>
+<td>The DPI scale factor of the font.</td>
 </tr>
 </table>
 </div>
@@ -7613,6 +7845,24 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td>The pixel shader or vertex shader code, or a filename pointing to a file with the code.</td>
 </tr>
 </table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">shader</span> = love.graphics.<wbr>newShader( <span class = "arguments">pixelcode</span>, <span class = "arguments">vertexcode</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">shader</td>
+<td class = "ra_type"><a href="#Shader">Shader</a></td>
+<td>A Shader object for use in drawing operations.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">pixelcode</td>
+<td class = "ra_type">string</td>
+<td>The pixel shader code, or a filename pointing to a file with the code.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">vertexcode</td>
+<td class = "ra_type">string</td>
+<td>The vertex shader code, or a filename pointing to a file with the code.</td>
+</tr>
+</table>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">output_pos</span> = love.graphics.<wbr>newShader( <span class = "arguments">transform_projection</span>, <span class = "arguments">vertex_position</span> )</span></span></p>
 <p class = "variant_description">Vertex shader code is run for every vertex drawn to the screen (for example, <a href="#love.graphics.rectangle">love.graphics.rectangle</a> will produce 4 vertices) and is used to transform the vertex positions from their original coordinates into screen-space, as well as to send information such as per-vertex color and texture coordinate values to the pixel shader.<br /><br />Pixel shader code is run for every pixel on the screen that a drawn object touches, and is used to produce the color that will be blended onto the screen at that pixel, often by reading from an image. Pixel shaders are sometimes called fragment shaders.<br /><br />The varying keyword can be used to set a value in the vertex shader and have it interpolated in between vertices and passed down to the pixel shader.<br /><br />Vertex and Pixel shader code can be combined into one file or string if you wrap the vertex-specific code in #ifdef VERTEX .. #endif and the pixel-specific code in #ifdef PIXEL .. #endif.<br /><br />== Built-in variables ==<br /><br />L&Ouml;VE provides several built-in variables for both pixel and vertex shaders. The full list can be found here: <a href="#Shader">Shader</a> Variables.</p>
 <table class = "ra_table">
@@ -7720,6 +7970,69 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">textstring <span class = "default">(nil)</span></td>
 <td class = "ra_type">string</td>
 <td>The initial string of text that the new <a href="#Text">Text</a> object will contain. May be nil.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.graphics.newVideo" name = "love.graphics.newVideo"><span>love.graphics.</span><wbr>newVideo</a></p>
+<p class = "function_description">Creates a new drawable <a href="#Video">Video</a>. Currently only Ogg Theora video files are supported.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">video</span> = love.graphics.<wbr>newVideo( <span class = "arguments">filename</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">video</td>
+<td class = "ra_type"><a href="#Video">Video</a></td>
+<td>A new <a href="#Video">Video</a>.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">filename</td>
+<td class = "ra_type">string</td>
+<td>The file path to the Ogg Theora video file.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">video</span> = love.graphics.<wbr>newVideo( <span class = "arguments">filename</span>, <span class = "arguments">settings</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">video</td>
+<td class = "ra_type"><a href="#Video">Video</a></td>
+<td>A new <a href="#Video">Video</a>.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">filename</td>
+<td class = "ra_type">string</td>
+<td>The file path to the Ogg Theora video file (or <a href="#VideoStream">VideoStream</a>).</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">settings</td>
+<td class = "ra_type">table</td>
+<td>A table containing the following fields:</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">settings.audio <span class = "default">(false)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Whether to try to load the video's audio into an audio <a href="#Source">Source</a>. If not explicitly set to true or false, it will try without causing an error if the video has no audio.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">settings.dpiscale <span class = "default">(love.graphics.getDPIScale())</span></td>
+<td class = "ra_type">number</td>
+<td>The DPI scale factor of the video.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">video</span> = love.graphics.<wbr>newVideo( <span class = "arguments">filename</span>, <span class = "arguments">loadaudio</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">video</td>
+<td class = "ra_type"><a href="#Video">Video</a></td>
+<td>A new <a href="#Video">Video</a>.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">filename</td>
+<td class = "ra_type">string</td>
+<td>The file path to the Ogg Theora video file.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">loadaudio <span class = "default">(nil)</span></td>
+<td class = "ra_type">boolean</td>
+<td>Whether to try to load the video's audio into an audio <a href="#Source">Source</a>. If not explicitly set to true or false, it will try without causing an error if the video has no audio.</td>
 </tr>
 </table>
 </div>
@@ -9023,7 +9336,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <table class = "ra_table">
 <tr>
 <td class = "arguments ra_name">winding</td>
-<td class = "ra_type">VertexWinding</td>
+<td class = "ra_type"><a href="#VertexWinding">VertexWinding</a></td>
 <td>The winding mode to use. The default winding is counterclockwise ('ccw').</td>
 </tr>
 </table>
@@ -9073,6 +9386,77 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td class = "arguments ra_name">mode</td>
 <td class = "ra_type"><a href="#CullMode">CullMode</a></td>
 <td>The <a href="#Mesh">Mesh</a> face culling mode to use (whether to render everything, cull back-facing triangles, or cull front-facing triangles).</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.graphics.setNewFont" name = "love.graphics.setNewFont"><span>love.graphics.</span><wbr>setNewFont</a></p>
+<p class = "function_description">Creates and sets a new <a href="#Font">Font</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>setNewFont( <span class = "arguments">size</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">font</td>
+<td class = "ra_type"><a href="#Font">Font</a></td>
+<td>The new font.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">size <span class = "default">(12)</span></td>
+<td class = "ra_type">number</td>
+<td>The size of the font.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>setNewFont( <span class = "arguments">filename</span>, <span class = "arguments">size</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">font</td>
+<td class = "ra_type"><a href="#Font">Font</a></td>
+<td>The new font.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">filename</td>
+<td class = "ra_type">string</td>
+<td>The path and name of the file with the font.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">size <span class = "default">(12)</span></td>
+<td class = "ra_type">number</td>
+<td>The size of the font.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>setNewFont( <span class = "arguments">file</span>, <span class = "arguments">size</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">font</td>
+<td class = "ra_type"><a href="#Font">Font</a></td>
+<td>The new font.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">file</td>
+<td class = "ra_type"><a href="#File">File</a></td>
+<td>A File with the font.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">size <span class = "default">(12)</span></td>
+<td class = "ra_type">number</td>
+<td>The size of the font.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">font</span> = love.graphics.<wbr>setNewFont( <span class = "arguments">data</span>, <span class = "arguments">size</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">font</td>
+<td class = "ra_type"><a href="#Font">Font</a></td>
+<td>The new font.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">data</td>
+<td class = "ra_type"><a href="#Data">Data</a></td>
+<td>A Data with the font.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">size <span class = "default">(12)</span></td>
+<td class = "ra_type">number</td>
+<td>The size of the font.</td>
 </tr>
 </table>
 </div>
@@ -9384,16 +9768,19 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">Premultiplied alpha blend mode.</p>
 </div>
 <div class = "section">
-<p class = "section_heading"><a href = "#CanvasMipmapMode" name = "CanvasMipmapMode">CanvasMipmapMode</a></p>
-<p class = "constant_name">none</p>
-<p class = "constant_description">Do not enable mipmap.</p>
-<p class = "constant_name">auto</p>
-<p class = "constant_description">Automatically generate mipmap.</p>
-<p class = "constant_name">manual</p>
-<p class = "constant_description">Let user manually generate mipmap.</p>
-</div>
-<div class = "section">
 <p class = "section_heading"><a href = "#CompareMode" name = "CompareMode">CompareMode</a></p>
+<p class = "constant_name">equal</p>
+<p class = "constant_description">* stencil tests: the stencil value of the pixel must be equal to the supplied value.<br />* depth tests: the depth value of the drawn object at that pixel must be equal to the existing depth value of that pixel.</p>
+<p class = "constant_name">notequal</p>
+<p class = "constant_description">* stencil tests: the stencil value of the pixel must not be equal to the supplied value.<br />* depth tests: the depth value of the drawn object at that pixel must not be equal to the existing depth value of that pixel.</p>
+<p class = "constant_name">less</p>
+<p class = "constant_description">* stencil tests: the stencil value of the pixel must be less than the supplied value.<br />* depth tests: the depth value of the drawn object at that pixel must be less than the existing depth value of that pixel.</p>
+<p class = "constant_name">lequal</p>
+<p class = "constant_description">* stencil tests: the stencil value of the pixel must be less than or equal to the supplied value.<br />* depth tests: the depth value of the drawn object at that pixel must be less than or equal to the existing depth value of that pixel.</p>
+<p class = "constant_name">gequal</p>
+<p class = "constant_description">* stencil tests: the stencil value of the pixel must be greater than or equal to the supplied value.<br />* depth tests: the depth value of the drawn object at that pixel must be greater than or equal to the existing depth value of that pixel.</p>
+<p class = "constant_name">greater</p>
+<p class = "constant_description">* stencil tests: the stencil value of the pixel must be greater than the supplied value.<br />* depth tests: the depth value of the drawn object at that pixel must be greater than the existing depth value of that pixel.</p>
 <p class = "constant_name">never</p>
 <p class = "constant_description">Objects will never be drawn.</p>
 <p class = "constant_name">always</p>
@@ -9440,28 +9827,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">Whether pixel shaders can use "highp" 32 bit floating point numbers (as opposed to just 16 bit or lower precision).</p>
 <p class = "constant_name">shaderderivatives</p>
 <p class = "constant_description">Whether shaders can use the dFdx, dFdy, and fwidth functions for computing derivatives.</p>
-<p class = "constant_name">canvas</p>
-<p class = "constant_description">Support for <a href="#Canvas">Canvas</a>.</p>
-<p class = "constant_name">npot</p>
-<p class = "constant_description">Support for textures with non-power-of-two sizes. See PO2 Syndrome. </p>
-<p class = "constant_name">subtractive</p>
-<p class = "constant_description">Support for the subtractive blend mode.</p>
-<p class = "constant_name">shader</p>
-<p class = "constant_description">Support for <a href="#Shader">Shaders</a>.</p>
-<p class = "constant_name">hdrcanvas</p>
-<p class = "constant_description">Support for HDR <a href="#Canvas">Canvases</a>. Use <a href="#love.graphics.getCanvasFormats">love.graphics.getCanvasFormats</a> instead.</p>
-<p class = "constant_name">multicanvas</p>
-<p class = "constant_description">Support for simultaneous rendering to at least 4 canvases at once, with <a href="#love.graphics.setCanvas">love.graphics.setCanvas</a>. Use <a href="#love.graphics.getSystemLimits">love.graphics.getSystemLimits</a> instead.</p>
-<p class = "constant_name">mipmap</p>
-<p class = "constant_description">Support for Mipmaps.</p>
-<p class = "constant_name">dxt</p>
-<p class = "constant_description">Support for DXT compressed images (see CompressedFormat.) Use love.graphics.getCompressedImageFormats instead.</p>
-<p class = "constant_name">bc5</p>
-<p class = "constant_description">Support for BC4 and BC5 compressed images. Use love.graphics.getCompressedImageFormats instead.</p>
-<p class = "constant_name">srgb</p>
-<p class = "constant_description">Support for gamma-correct rendering with the srgb window flag in <a href="#Canvas">Canvases</a> and <a href="#Image">Images</a>.</p>
-<p class = "constant_name">pixeleffect</p>
-<p class = "constant_description">Support for PixelEffects.</p>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#GraphicsLimit" name = "GraphicsLimit">GraphicsLimit</a></p>
@@ -9481,8 +9846,13 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">The maximum width or height of a Cubemap texture.</p>
 <p class = "constant_name">anisotropy</p>
 <p class = "constant_description">The maximum amount of anisotropic filtering. <a href="#Texture:setMipmapFilter">Texture:setMipmapFilter</a> internally clamps the given anisotropy value to the system's limit.</p>
-<p class = "constant_name">canvasfsaa</p>
-<p class = "constant_description">The maximum number of antialiasing samples for a <a href="#Canvas">Canvas</a>.</p>
+</div>
+<div class = "section">
+<p class = "section_heading"><a href = "#IndexDataType" name = "IndexDataType">IndexDataType</a></p>
+<p class = "constant_name">uint16</p>
+<p class = "constant_description">The vertex map is array of unsigned word (16-bit).</p>
+<p class = "constant_name">uint32</p>
+<p class = "constant_description">The vertex map is array of unsigned dword (32-bit).</p>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#LineJoin" name = "LineJoin">LineJoin</a></p>
@@ -9510,6 +9880,15 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">The vertices create unconnected triangles.</p>
 <p class = "constant_name">points</p>
 <p class = "constant_description">The vertices are drawn as unconnected points (see <a href="#love.graphics.setPointSize">love.graphics.setPointSize</a>.)</p>
+</div>
+<div class = "section">
+<p class = "section_heading"><a href = "#MipmapMode" name = "MipmapMode">MipmapMode</a></p>
+<p class = "constant_name">none</p>
+<p class = "constant_description">The <a href="#Canvas">Canvas</a> has no mipmaps.</p>
+<p class = "constant_name">auto</p>
+<p class = "constant_description">The <a href="#Canvas">Canvas</a> has mipmaps. <a href="#love.graphics.setCanvas">love.graphics.setCanvas</a> can be used to render to a specific mipmap level, or <a href="#Canvas:generateMipmaps">Canvas:generateMipmaps</a> can (re-)compute all mipmap levels based on the base level.</p>
+<p class = "constant_name">manual</p>
+<p class = "constant_description">The <a href="#Canvas">Canvas</a> has mipmaps, and all mipmap levels will automatically be recomputed when switching away from the <a href="#Canvas">Canvas</a> with <a href="#love.graphics.setCanvas">love.graphics.setCanvas</a>.</p>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#ParticleInsertMode" name = "ParticleInsertMode">ParticleInsertMode</a></p>
@@ -9563,6 +9942,20 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">3D texture with width, height, and depth. Requires a custom shader to use. Volume textures can have texture filtering applied along the 3rd axis.</p>
 </div>
 <div class = "section">
+<p class = "section_heading"><a href = "#VertexAttributeStep" name = "VertexAttributeStep">VertexAttributeStep</a></p>
+<p class = "constant_name">pervertex</p>
+<p class = "constant_description">The vertex attribute will have a unique value for each vertex in the <a href="#Mesh">Mesh</a>.</p>
+<p class = "constant_name">perinstance</p>
+<p class = "constant_description">The vertex attribute will have a unique value for each instance of the <a href="#Mesh">Mesh</a>.</p>
+</div>
+<div class = "section">
+<p class = "section_heading"><a href = "#VertexWinding" name = "VertexWinding">VertexWinding</a></p>
+<p class = "constant_name">cw</p>
+<p class = "constant_description">Clockwise.</p>
+<p class = "constant_name">ccw</p>
+<p class = "constant_description">Counter-clockwise.</p>
+</div>
+<div class = "section">
 <p class = "section_heading"><a href = "#WrapMode" name = "WrapMode">WrapMode</a></p>
 <p class = "constant_name">clamp</p>
 <p class = "constant_description">Clamp the texture. Appears only once. The area outside the texture's normal range is colored based on the edge pixels of the texture.</p>
@@ -9576,16 +9969,13 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Canvas" name = "Canvas">Canvas</a></p>
 <p class = "section_description">A Canvas is used for off-screen rendering. Think of it as an invisible screen that you can draw to, but that will not be visible until you draw it to the actual visible screen. It is also known as "render to texture".<br /><br />By drawing things that do not change position often (such as background items) to the Canvas, and then drawing the entire Canvas instead of each item,  you can reduce the number of draw operations performed each frame.<br /><br />In versions prior to love.graphics.isSupported("canvas") could be used to check for support at runtime.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newCanvas">newCanvas</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Canvas:<a href="#Canvas:getMSAA">getMSAA</a></p>
-<p class = "section_navigation_link">Canvas:<a href="#Canvas:getFilter">get</a><span class = "slash">/</span><a href="#Canvas:setFilter">setFilter</a></p>
-<p class = "section_navigation_link">Canvas:<a href="#Canvas:getWrap">get</a><span class = "slash">/</span><a href="#Canvas:setWrap">setWrap</a></p>
 <p class = "section_navigation_link">Canvas:<a href="#Canvas:newImageData">newImageData</a></p>
 <p class = "section_navigation_link">Canvas:<a href="#Canvas:renderTo">renderTo</a></p>
 <p class = "section_navigation_subsection_heading">Dimensions</p>
-<p class = "section_navigation_link">Canvas:<a href="#Canvas:getDimensions">getDimensions</a></p>
-<p class = "section_navigation_link">Canvas:<a href="#Canvas:getWidth">getWidth</a></p>
-<p class = "section_navigation_link">Canvas:<a href="#Canvas:getHeight">getHeight</a></p>
 <p class = "section_navigation_link">Canvas:<a href="#Canvas:generateMipmaps">generateMipmaps</a></p>
 <p class = "section_navigation_link">Canvas:<a href="#Canvas:getMipmapMode">getMipmapMode</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
@@ -9595,73 +9985,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#Canvas:generateMipmaps" name = "Canvas:generateMipmaps"><span>Canvas:</span><wbr>generateMipmaps</a></p>
-<p class = "function_description">Generates mipmaps for the <a href="#Canvas">Canvas</a>, based on the contents of the highest-resolution mipmap level.<br /><br />The <a href="#Canvas">Canvas</a> must be created with mipmaps set to a MipmapMode other than 'none' for this function to work. It should only be called while the <a href="#Canvas">Canvas</a> is not the active render target.<br /><br />If the mipmap mode is set to 'auto', this function is automatically called inside <a href="#love.graphics.setCanvas">love.graphics.setCanvas</a> when switching from this <a href="#Canvas">Canvas</a> to another <a href="#Canvas">Canvas</a> or to the main screen.</p>
+<p class = "function_description">Generates mipmaps for the <a href="#Canvas">Canvas</a>, based on the contents of the highest-resolution mipmap level.<br /><br />The <a href="#Canvas">Canvas</a> must be created with mipmaps set to a <a href="#MipmapMode">MipmapMode</a> other than 'none' for this function to work. It should only be called while the <a href="#Canvas">Canvas</a> is not the active render target.<br /><br />If the mipmap mode is set to 'auto', this function is automatically called inside <a href="#love.graphics.setCanvas">love.graphics.setCanvas</a> when switching from this <a href="#Canvas">Canvas</a> to another <a href="#Canvas">Canvas</a> or to the main screen.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Canvas:<wbr>generateMipmaps()</span></span></p>
 <table class = "ra_table">
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Canvas:getDimensions" name = "Canvas:getDimensions"><span>Canvas:</span><wbr>getDimensions</a></p>
-<p class = "function_description">Gets the width and height of the <a href="#Canvas">Canvas</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">width</span>, <span class = "returns">height</span> = Canvas:<wbr>getDimensions()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">width</td>
-<td class = "ra_type">number</td>
-<td>The width of the <a href="#Canvas">Canvas</a>, in pixels.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">height</td>
-<td class = "ra_type">number</td>
-<td>The height of the <a href="#Canvas">Canvas</a>, in pixels.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Canvas:getFilter" name = "Canvas:getFilter"><span>Canvas:</span><wbr>getFilter</a></p>
-<p class = "function_description">Gets the filter mode of the <a href="#Canvas">Canvas</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">min</span>, <span class = "returns">mag</span> = Canvas:<wbr>getFilter()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when minifying the canvas.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when magnifying the canvas.</td>
-</tr>
-</table>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">min</span>, <span class = "returns">mag</span>, <span class = "returns">anisotropy</span> = Canvas:<wbr>getFilter()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when minifying the canvas.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when magnifying the canvas.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">anisotropy</td>
-<td class = "ra_type">number</td>
-<td>Maximum amount of anisotropic filtering used.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Canvas:getHeight" name = "Canvas:getHeight"><span>Canvas:</span><wbr>getHeight</a></p>
-<p class = "function_description">Gets the height of the <a href="#Canvas">Canvas</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">height</span> = Canvas:<wbr>getHeight()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">height</td>
-<td class = "ra_type">number</td>
-<td>The height of the <a href="#Canvas">Canvas</a>, in pixels.</td>
-</tr>
 </table>
 </div>
 <div class = "section">
@@ -9678,42 +10004,13 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#Canvas:getMipmapMode" name = "Canvas:getMipmapMode"><span>Canvas:</span><wbr>getMipmapMode</a></p>
-<p class = "function_description">Gets the MipmapMode this <a href="#Canvas">Canvas</a> was created with.</p>
+<p class = "function_description">Gets the <a href="#MipmapMode">MipmapMode</a> this <a href="#Canvas">Canvas</a> was created with.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">mode</span> = Canvas:<wbr>getMipmapMode()</span></span></p>
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">mode</td>
-<td class = "ra_type">MipmapMode</td>
+<td class = "ra_type"><a href="#MipmapMode">MipmapMode</a></td>
 <td>The mipmap mode this <a href="#Canvas">Canvas</a> was created with.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Canvas:getWidth" name = "Canvas:getWidth"><span>Canvas:</span><wbr>getWidth</a></p>
-<p class = "function_description">Gets the width of the <a href="#Canvas">Canvas</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">width</span> = Canvas:<wbr>getWidth()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">width</td>
-<td class = "ra_type">number</td>
-<td>The width of the <a href="#Canvas">Canvas</a>, in pixels.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Canvas:getWrap" name = "Canvas:getWrap"><span>Canvas:</span><wbr>getWrap</a></p>
-<p class = "function_description">Gets the wrapping properties of a <a href="#Canvas">Canvas</a>.<br /><br />This function returns the currently set horizontal and vertical wrapping modes for the <a href="#Canvas">Canvas</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">horiz</span>, <span class = "returns">vert</span> = Canvas:<wbr>getWrap()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">horiz</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Horizontal wrapping mode of the <a href="#Canvas">Canvas</a>.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">vert</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Vertical wrapping mode of the <a href="#Canvas">Canvas</a>.</td>
 </tr>
 </table>
 </div>
@@ -9780,60 +10077,27 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
-<p class = "function_heading"><a href = "#Canvas:setFilter" name = "Canvas:setFilter"><span>Canvas:</span><wbr>setFilter</a></p>
-<p class = "function_description">Sets the filter mode of the <a href="#Canvas">Canvas</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Canvas:<wbr>setFilter( <span class = "arguments">min</span>, <span class = "arguments">mag</span> )</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "arguments ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode to use when minifying the canvas.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode to use when magnifying the canvas.</td>
-</tr>
-</table>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Canvas:<wbr>setFilter( <span class = "arguments">min</span>, <span class = "arguments">mag</span>, <span class = "arguments">anisotropy</span> )</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "arguments ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode to use when minifying the canvas.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode to use when magnifying the canvas.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">anisotropy <span class = "default">(1)</span></td>
-<td class = "ra_type">number</td>
-<td>Maximum amount of anisotropic filtering to use.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Canvas:setWrap" name = "Canvas:setWrap"><span>Canvas:</span><wbr>setWrap</a></p>
-<p class = "function_description">Sets the wrapping properties of a <a href="#Canvas">Canvas</a>.<br /><br />This function sets the way the edges of a <a href="#Canvas">Canvas</a> are treated if it is scaled or rotated. If the <a href="#WrapMode">WrapMode</a> is set to 'clamp', the edge will not be interpolated. If set to 'repeat', the edge will be interpolated with the pixels on the opposing side of the framebuffer.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Canvas:<wbr>setWrap( <span class = "arguments">horiz</span>, <span class = "arguments">vert</span> )</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "arguments ra_name">horiz</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Horizontal wrapping mode of the <a href="#Canvas">Canvas</a>.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">vert</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Vertical wrapping mode of the <a href="#Canvas">Canvas</a>.</td>
-</tr>
-</table>
+<p class = "section_heading"><a href = "#Drawable" name = "Drawable">Drawable</a></p>
+<p class = "section_description">Superclass for all things that can be drawn on screen. This is an abstract type that can't be created directly.</p>
+<p class = "section_navigation_subheading">Supertypes</p>
+<p class = "section_navigation_link"><a href="#Object">Object</a></p>
+<p class = "section_navigation_subheading">Subtypes</p>
+<p class = "section_navigation_link"><a href="#Canvas">Canvas</a></p>
+<p class = "section_navigation_link"><a href="#Image">Image</a></p>
+<p class = "section_navigation_link"><a href="#Mesh">Mesh</a></p>
+<p class = "section_navigation_link"><a href="#ParticleSystem">ParticleSystem</a></p>
+<p class = "section_navigation_link"><a href="#SpriteBatch">SpriteBatch</a></p>
+<p class = "section_navigation_link"><a href="#Text">Text</a></p>
+<p class = "section_navigation_link"><a href="#Texture">Texture</a></p>
+<p class = "section_navigation_link"><a href="#Video">Video</a></p>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#Font" name = "Font">Font</a></p>
 <p class = "section_description">Defines the shape of characters that can be drawn onto the screen.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newFont">newFont</a></p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.setNewFont">setNewFont</a></p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newImageFont">newImageFont</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Font:<a href="#Font:getFilter">get</a><span class = "slash">/</span><a href="#Font:setFilter">setFilter</a></p>
 <p class = "section_navigation_subsection_heading">Glyph support</p>
@@ -10097,71 +10361,20 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Image" name = "Image">Image</a></p>
 <p class = "section_description">Drawable image type.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newImage">newImage</a></p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newVolumeImage">newVolumeImage</a></p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newCubeImage">newCubeImage</a></p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newArrayImage">newArrayImage</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Image:<a href="#Image:getFlags">getFlags</a></p>
-<p class = "section_navigation_link">Image:<a href="#Image:getFilter">get</a><span class = "slash">/</span><a href="#Image:setFilter">setFilter</a></p>
-<p class = "section_navigation_link">Image:<a href="#Image:getWrap">get</a><span class = "slash">/</span><a href="#Image:setWrap">setWrap</a></p>
 <p class = "section_navigation_subsection_heading">Dimensions</p>
-<p class = "section_navigation_link">Image:<a href="#Image:getDimensions">getDimensions</a></p>
-<p class = "section_navigation_link">Image:<a href="#Image:getWidth">getWidth</a></p>
-<p class = "section_navigation_link">Image:<a href="#Image:getHeight">getHeight</a></p>
+<p class = "section_navigation_link">Image:<a href="#Image:isCompressed">isCompressed</a></p>
 <p class = "section_navigation_link">Image:<a href="#Image:replacePixels">replacePixels</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
 <p class = "section_navigation_link"><a href="#Texture">Texture</a></p>
 <p class = "section_navigation_link"><a href="#Drawable">Drawable</a></p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Image:getDimensions" name = "Image:getDimensions"><span>Image:</span><wbr>getDimensions</a></p>
-<p class = "function_description">Gets the width and height of the <a href="#Image">Image</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">width</span>, <span class = "returns">height</span> = Image:<wbr>getDimensions()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">width</td>
-<td class = "ra_type">number</td>
-<td>The width of the <a href="#Image">Image</a>, in pixels.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">height</td>
-<td class = "ra_type">number</td>
-<td>The height of the <a href="#Image">Image</a>, in pixels.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Image:getFilter" name = "Image:getFilter"><span>Image:</span><wbr>getFilter</a></p>
-<p class = "function_description">Gets the filter mode for an image.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">min</span>, <span class = "returns">mag</span> = Image:<wbr>getFilter()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when minifying the image.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when magnifying the image.</td>
-</tr>
-</table>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">min</span>, <span class = "returns">mag</span>, <span class = "returns">anisotropy</span> = Image:<wbr>getFilter()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when minifying the image.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>Filter mode used when magnifying the image.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">anisotropy</td>
-<td class = "ra_type">number</td>
-<td>Maximum amount of anisotropic filtering used.</td>
-</tr>
-</table>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#Image:getFlags" name = "Image:getFlags"><span>Image:</span><wbr>getFlags</a></p>
@@ -10176,43 +10389,14 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
-<p class = "function_heading"><a href = "#Image:getHeight" name = "Image:getHeight"><span>Image:</span><wbr>getHeight</a></p>
-<p class = "function_description">Gets the height of the <a href="#Image">Image</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">height</span> = Image:<wbr>getHeight()</span></span></p>
+<p class = "function_heading"><a href = "#Image:isCompressed" name = "Image:isCompressed"><span>Image:</span><wbr>isCompressed</a></p>
+<p class = "function_description">Gets whether the <a href="#Image">Image</a> was created from <a href="#CompressedData">CompressedData</a>.<br /><br />Compressed images take up less space in VRAM, and drawing a compressed image will generally be more efficient than drawing one created from raw pixel data.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">compressed</span> = Image:<wbr>isCompressed()</span></span></p>
 <table class = "ra_table">
 <tr>
-<td class = "returns ra_name">height</td>
-<td class = "ra_type">number</td>
-<td>The height of the <a href="#Image">Image</a>, in pixels.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Image:getWidth" name = "Image:getWidth"><span>Image:</span><wbr>getWidth</a></p>
-<p class = "function_description">Gets the width of the <a href="#Image">Image</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">width</span> = Image:<wbr>getWidth()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">width</td>
-<td class = "ra_type">number</td>
-<td>The width of the <a href="#Image">Image</a>, in pixels.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Image:getWrap" name = "Image:getWrap"><span>Image:</span><wbr>getWrap</a></p>
-<p class = "function_description">Gets the wrapping properties of an <a href="#Image">Image</a>.<br /><br />This function returns the currently set horizontal and vertical wrapping modes for the image.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">horiz</span>, <span class = "returns">vert</span> = Image:<wbr>getWrap()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">horiz</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Horizontal wrapping mode of the image.</td>
-</tr>
-<tr>
-<td class = "returns ra_name">vert</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Vertical wrapping mode of the image.</td>
+<td class = "returns ra_name">compressed</td>
+<td class = "ra_type">boolean</td>
+<td>Whether the <a href="#Image">Image</a> is stored as a compressed texture on the GPU.</td>
 </tr>
 </table>
 </div>
@@ -10254,60 +10438,10 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
-<p class = "function_heading"><a href = "#Image:setFilter" name = "Image:setFilter"><span>Image:</span><wbr>setFilter</a></p>
-<p class = "function_description">Sets the filter mode for an image.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Image:<wbr>setFilter( <span class = "arguments">min</span>, <span class = "arguments">mag</span> )</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "arguments ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>How to scale an image down.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>How to scale an image up.</td>
-</tr>
-</table>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Image:<wbr>setFilter( <span class = "arguments">min</span>, <span class = "arguments">mag</span>, <span class = "arguments">anisotropy</span> )</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "arguments ra_name">min</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>How to scale an image down.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">mag</td>
-<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
-<td>How to scale an image up.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">anisotropy <span class = "default">(1)</span></td>
-<td class = "ra_type">number</td>
-<td>Maximum amount of anisotropic filtering used.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#Image:setWrap" name = "Image:setWrap"><span>Image:</span><wbr>setWrap</a></p>
-<p class = "function_description">Sets the wrapping properties of an <a href="#Image">Image</a>.<br /><br />This function sets the way an <a href="#Image">Image</a> is repeated when it is drawn with a  <a href="#Quad">Quad</a> that is larger than the image's extent. An image may be clamped or set to repeat in both horizontal and vertical directions. Clamped images appear only once, but repeated ones repeat as many times as there is room in the <a href="#Quad">Quad</a>.<br /><br />N.B. If you use a <a href="#Quad">Quad</a> that is larger than the image extent and do not use repeated tiling, there may be an unwanted visual effect of the image stretching all the way to fill the <a href="#Quad">Quad</a>. If this is the case, setting <a href="#Image">Image</a>:setWrap('repeat', 'repeat') for all the images to be repeated, and using <a href="#Quad">Quads</a> of appropriate size will result in the best visual appearance.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Image:<wbr>setWrap( <span class = "arguments">horiz</span>, <span class = "arguments">vert</span> )</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "arguments ra_name">horiz</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Horizontal wrapping mode of the image.</td>
-</tr>
-<tr>
-<td class = "arguments ra_name">vert</td>
-<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
-<td>Vertical wrapping mode of the image.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
 <p class = "section_heading"><a href = "#Mesh" name = "Mesh">Mesh</a></p>
 <p class = "section_description">A 2D polygon mesh used for drawing arbitrary textured shapes.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newMesh">newMesh</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Mesh:<a href="#Mesh:getTexture">get</a><span class = "slash">/</span><a href="#Mesh:setTexture">setTexture</a></p>
 <p class = "section_navigation_link">Mesh:<a href="#Mesh:getVertexFormat">getVertexFormat</a></p>
@@ -10356,7 +10490,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">step <span class = "default">('pervertex')</span></td>
-<td class = "ra_type">VertexAttributeStep</td>
+<td class = "ra_type"><a href="#VertexAttributeStep">VertexAttributeStep</a></td>
 <td>Whether the attribute will be per-vertex or per-instance when the mesh is drawn.</td>
 </tr>
 <tr>
@@ -10397,7 +10531,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">step <span class = "default">('pervertex')</span></td>
-<td class = "ra_type">VertexAttributeStep</td>
+<td class = "ra_type"><a href="#VertexAttributeStep">VertexAttributeStep</a></td>
 <td>Whether the attribute will be per-vertex or per-instance when the mesh is drawn.</td>
 </tr>
 <tr>
@@ -10923,7 +11057,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">datatype</td>
-<td class = "ra_type">IndexDataType</td>
+<td class = "ra_type"><a href="#IndexDataType">IndexDataType</a></td>
 <td>Datatype of the vertex indices array above.</td>
 </tr>
 </table>
@@ -10956,7 +11090,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 </table>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Mesh:<wbr>setVertices( <span class = "arguments">data</span>, <span class = "arguments">startvertex</span> )</span></span></p>
-<p class = "variant_description">Sets the vertex components of the <a href="#Mesh">Mesh</a> by copying directly from the memory of a <a href="#Data">Data</a> object.<br /><br />If LuaJIT's FFI is used to populate the <a href="#Data">Data</a> object via <a href="#Data">Data</a>:getPointer and ffi.cast, this variant can be drastically more efficient than other methods of setting <a href="#Mesh">Mesh</a> vertex data.</p>
+<p class = "variant_description">Sets the vertex components of the <a href="#Mesh">Mesh</a> by copying directly from the memory of a <a href="#Data">Data</a> object.<br /><br />If LuaJIT's FFI is used to populate the <a href="#Data">Data</a> object via <a href="#Data:getPointer">Data:getPointer</a> and ffi.cast, this variant can be drastically more efficient than other methods of setting <a href="#Mesh">Mesh</a> vertex data.</p>
 <table class = "ra_table">
 <tr>
 <td class = "arguments ra_name">data</td>
@@ -11022,6 +11156,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#ParticleSystem" name = "ParticleSystem">ParticleSystem</a></p>
 <p class = "section_description">A ParticleSystem can be used to create particle effects like fire or smoke.<br /><br />The particle system has to be created using update it in the update callback to see any changes in the particles emitted.<br /><br />The particle system won't create any particles unless you call setParticleLifetime and setEmissionRate.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newParticleSystem">newParticleSystem</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:start">start</a></p>
 <p class = "section_navigation_link">ParticleSystem:<a href="#ParticleSystem:stop">stop</a></p>
@@ -12082,6 +12218,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Quad" name = "Quad">Quad</a></p>
 <p class = "section_description">A quadrilateral (a polygon with four sides and four corners) with texture coordinate information.<br /><br />Quads can be used to select part of a texture to draw. In this way, one large texture atlas can be loaded, and then split up into sub-images.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newQuad">newQuad</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Quad:<a href="#Quad:getTextureDimensions">getTextureDimensions</a></p>
 <p class = "section_navigation_link">Quad:<a href="#Quad:getViewport">get</a><span class = "slash">/</span><a href="#Quad:setViewport">setViewport</a></p>
@@ -12172,6 +12310,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Shader" name = "Shader">Shader</a></p>
 <p class = "section_description">A Shader is used for advanced hardware-accelerated pixel or vertex manipulation. These effects are written in a language based on GLSL (OpenGL Shading Language) with a few things simplified for easier coding.<br /><br />Potential uses for shaders include HDR/bloom, motion blur, grayscale/invert/sepia/any kind of color effect, reflection/refraction, distortions, bump mapping, and much more! Here is a collection of basic shaders and good starting point to learn: https://github.com/vrld/moonshine</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newShader">newShader</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Shader:<a href="#Shader:send">send</a></p>
 <p class = "section_navigation_link">Shader:<a href="#Shader:sendColor">sendColor</a></p>
@@ -12400,6 +12540,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#SpriteBatch" name = "SpriteBatch">SpriteBatch</a></p>
 <p class = "section_description">Using a single image, draw any number of identical copies of the image using a single call to <a href="#love.graphics.draw">love.graphics.draw</a>(). This can be used, for example, to draw repeating copies of a single background image with high performance.<br /><br />A SpriteBatch can be even more useful when the underlying image is a texture atlas (a single image file containing many independent images); by adding <a href="#Quad">Quads</a> to the batch, different sub-images from within the atlas can be drawn.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newSpriteBatch">newSpriteBatch</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">SpriteBatch:<a href="#SpriteBatch:add">add</a></p>
 <p class = "section_navigation_link">SpriteBatch:<a href="#SpriteBatch:addLayer">addLayer</a></p>
@@ -13151,6 +13293,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Text" name = "Text">Text</a></p>
 <p class = "section_description">Drawable text.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newText">newText</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Text:<a href="#Text:add">add</a></p>
 <p class = "section_navigation_link">Text:<a href="#Text:addf">addf</a></p>
@@ -13715,14 +13859,21 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getDPIScale">getDPIScale</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getDepth">getDepth</a></p>
+<p class = "section_navigation_link">Texture:<a href="#Texture:getDimensions">getDimensions</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getFormat">getFormat</a></p>
+<p class = "section_navigation_link">Texture:<a href="#Texture:getHeight">getHeight</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getLayerCount">getLayerCount</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getMipmapCount">getMipmapCount</a></p>
+<p class = "section_navigation_link">Texture:<a href="#Texture:getPixelDimensions">getPixelDimensions</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getPixelHeight">getPixelHeight</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getPixelWidth">getPixelWidth</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getTextureType">getTextureType</a></p>
+<p class = "section_navigation_link">Texture:<a href="#Texture:getWidth">getWidth</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:isReadable">isReadable</a></p>
+<p class = "section_navigation_link">Texture:<a href="#Texture:getDepthSampleMode">get</a><span class = "slash">/</span><a href="#Texture:setDepthSampleMode">setDepthSampleMode</a></p>
+<p class = "section_navigation_link">Texture:<a href="#Texture:getFilter">get</a><span class = "slash">/</span><a href="#Texture:setFilter">setFilter</a></p>
 <p class = "section_navigation_link">Texture:<a href="#Texture:getMipmapFilter">get</a><span class = "slash">/</span><a href="#Texture:setMipmapFilter">setMipmapFilter</a></p>
+<p class = "section_navigation_link">Texture:<a href="#Texture:getWrap">get</a><span class = "slash">/</span><a href="#Texture:setWrap">setWrap</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
 <p class = "section_navigation_link"><a href="#Drawable">Drawable</a></p>
 <p class = "section_navigation_link"><a href="#Object">Object</a></p>
@@ -13755,14 +13906,77 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#Texture:getDepthSampleMode" name = "Texture:getDepthSampleMode"><span>Texture:</span><wbr>getDepthSampleMode</a></p>
+<p class = "function_description">Gets the comparison mode used when sampling from a depth texture in a shader.<br /><br />Depth texture comparison modes are advanced low-level functionality typically used with shadow mapping in 3D.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">compare</span> = Texture:<wbr>getDepthSampleMode()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">compare <span class = "default">(nil)</span></td>
+<td class = "ra_type"><a href="#CompareMode">CompareMode</a></td>
+<td>The comparison mode used when sampling from this texture in a shader, or nil if setDepthSampleMode has not been called on this <a href="#Texture">Texture</a>.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Texture:getDimensions" name = "Texture:getDimensions"><span>Texture:</span><wbr>getDimensions</a></p>
+<p class = "function_description">Gets the width and height of the <a href="#Texture">Texture</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">width</span>, <span class = "returns">height</span> = Texture:<wbr>getDimensions()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">width</td>
+<td class = "ra_type">number</td>
+<td>The width of the <a href="#Texture">Texture</a>.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">height</td>
+<td class = "ra_type">number</td>
+<td>The height of the <a href="#Texture">Texture</a>.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Texture:getFilter" name = "Texture:getFilter"><span>Texture:</span><wbr>getFilter</a></p>
+<p class = "function_description">Gets the filter mode of the <a href="#Texture">Texture</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">min</span>, <span class = "returns">mag</span>, <span class = "returns">anisotropy</span> = Texture:<wbr>getFilter()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">min</td>
+<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
+<td>Filter mode to use when minifying the texture (rendering it at a smaller size on-screen than its size in pixels).</td>
+</tr>
+<tr>
+<td class = "returns ra_name">mag</td>
+<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
+<td>Filter mode to use when magnifying the texture (rendering it at a smaller size on-screen than its size in pixels).</td>
+</tr>
+<tr>
+<td class = "returns ra_name">anisotropy</td>
+<td class = "ra_type">number</td>
+<td>Maximum amount of anisotropic filtering used.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "function_heading"><a href = "#Texture:getFormat" name = "Texture:getFormat"><span>Texture:</span><wbr>getFormat</a></p>
 <p class = "function_description">Gets the pixel format of the <a href="#Texture">Texture</a>.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">format</span> = Texture:<wbr>getFormat()</span></span></p>
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">format</td>
-<td class = "ra_type">PixelFormat</td>
+<td class = "ra_type"><a href="#PixelFormat">PixelFormat</a></td>
 <td>The pixel format the <a href="#Texture">Texture</a> was created with.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Texture:getHeight" name = "Texture:getHeight"><span>Texture:</span><wbr>getHeight</a></p>
+<p class = "function_description">Gets the height of the <a href="#Texture">Texture</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">height</span> = Texture:<wbr>getHeight()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">height</td>
+<td class = "ra_type">number</td>
+<td>The height of the <a href="#Texture">Texture</a>.</td>
 </tr>
 </table>
 </div>
@@ -13808,6 +14022,23 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#Texture:getPixelDimensions" name = "Texture:getPixelDimensions"><span>Texture:</span><wbr>getPixelDimensions</a></p>
+<p class = "function_description">Gets the width and height in pixels of the <a href="#Texture">Texture</a>.<br /><br /><a href="#Texture:getDimensions">Texture:getDimensions</a> gets the dimensions of the texture in units scaled by the texture's DPI scale factor, rather than pixels. Use getDimensions for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelDimensions only when dealing specifically with pixels, for example when using <a href="#Canvas:newImageData">Canvas:newImageData</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">pixelwidth</span>, <span class = "returns">pixelheight</span> = Texture:<wbr>getPixelDimensions()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">pixelwidth</td>
+<td class = "ra_type">number</td>
+<td>The width of the <a href="#Texture">Texture</a>, in pixels.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">pixelheight</td>
+<td class = "ra_type">number</td>
+<td>The height of the <a href="#Texture">Texture</a>, in pixels.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "function_heading"><a href = "#Texture:getPixelHeight" name = "Texture:getPixelHeight"><span>Texture:</span><wbr>getPixelHeight</a></p>
 <p class = "function_description">Gets the height in pixels of the <a href="#Texture">Texture</a>.<br /><br />DPI scale factor, rather than pixels. Use getHeight for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelHeight only when dealing specifically with pixels, for example when using <a href="#Canvas:newImageData">Canvas:newImageData</a>.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">pixelheight</span> = Texture:<wbr>getPixelHeight()</span></span></p>
@@ -13844,14 +14075,82 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#Texture:getWidth" name = "Texture:getWidth"><span>Texture:</span><wbr>getWidth</a></p>
+<p class = "function_description">Gets the width of the <a href="#Texture">Texture</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">width</span> = Texture:<wbr>getWidth()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">width</td>
+<td class = "ra_type">number</td>
+<td>The width of the <a href="#Texture">Texture</a>.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Texture:getWrap" name = "Texture:getWrap"><span>Texture:</span><wbr>getWrap</a></p>
+<p class = "function_description">Gets the wrapping properties of a <a href="#Texture">Texture</a>.<br /><br />This function returns the currently set horizontal and vertical wrapping modes for the texture.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">horiz</span>, <span class = "returns">vert</span>, <span class = "returns">depth</span> = Texture:<wbr>getWrap()</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">horiz</td>
+<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
+<td>Horizontal wrapping mode of the texture.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">vert</td>
+<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
+<td>Vertical wrapping mode of the texture.</td>
+</tr>
+<tr>
+<td class = "returns ra_name">depth</td>
+<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
+<td>Wrapping mode for the z-axis of a Volume texture.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "function_heading"><a href = "#Texture:isReadable" name = "Texture:isReadable"><span>Texture:</span><wbr>isReadable</a></p>
-<p class = "function_description">Gets whether the <a href="#Texture">Texture</a> can be drawn and sent to a <a href="#Shader">Shader</a>.<br /><br /><a href="#Canvas">Canvases</a> created with stencil and/or depth PixelFormats are not readable by default, unless readable=true is specified in the settings table passed into <a href="#love.graphics.newCanvas">love.graphics.newCanvas</a>.<br /><br />Non-readable <a href="#Canvas">Canvases</a> can still be rendered to.</p>
+<p class = "function_description">Gets whether the <a href="#Texture">Texture</a> can be drawn and sent to a <a href="#Shader">Shader</a>.<br /><br /><a href="#Canvas">Canvases</a> created with stencil and/or depth <a href="#PixelFormat">PixelFormats</a> are not readable by default, unless readable=true is specified in the settings table passed into <a href="#love.graphics.newCanvas">love.graphics.newCanvas</a>.<br /><br />Non-readable <a href="#Canvas">Canvases</a> can still be rendered to.</p>
 <p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">readable</span> = Texture:<wbr>isReadable()</span></span></p>
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">readable</td>
 <td class = "ra_type">boolean</td>
 <td>Whether the <a href="#Texture">Texture</a> is readable.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Texture:setDepthSampleMode" name = "Texture:setDepthSampleMode"><span>Texture:</span><wbr>setDepthSampleMode</a></p>
+<p class = "function_description">Sets the comparison mode used when sampling from a depth texture in a shader. Depth texture comparison modes are advanced low-level functionality typically used with shadow mapping in 3D.<br /><br />When using a depth texture with a comparison mode set in a shader, it must be declared as a sampler2DShadow and used in a GLSL 3 <a href="#Shader">Shader</a>. The result of accessing the texture in the shader will return a float between 0 and 1, proportional to the number of samples (up to 4 samples will be used if bilinear filtering is enabled) that passed the test set by the comparison operation.<br /><br />Depth texture comparison can only be used with readable depth-formatted <a href="#Canvas">Canvases</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Texture:<wbr>setDepthSampleMode( <span class = "arguments">compare</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">compare</td>
+<td class = "ra_type"><a href="#CompareMode">CompareMode</a></td>
+<td>The comparison mode used when sampling from this texture in a shader.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#Texture:setFilter" name = "Texture:setFilter"><span>Texture:</span><wbr>setFilter</a></p>
+<p class = "function_description">Sets the filter mode of the <a href="#Texture">Texture</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Texture:<wbr>setFilter( <span class = "arguments">min</span>, <span class = "arguments">mag</span>, <span class = "arguments">anisotropy</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">min</td>
+<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
+<td>Filter mode to use when minifying the texture (rendering it at a smaller size on-screen than its size in pixels).</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">mag</td>
+<td class = "ra_type"><a href="#FilterMode">FilterMode</a></td>
+<td>Filter mode to use when magnifying the texture (rendering it at a larger size on-screen than its size in pixels).</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">anisotropy <span class = "default">(1)</span></td>
+<td class = "ra_type">number</td>
+<td>Maximum amount of anisotropic filtering to use.</td>
 </tr>
 </table>
 </div>
@@ -13878,8 +14177,32 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
+<p class = "function_heading"><a href = "#Texture:setWrap" name = "Texture:setWrap"><span>Texture:</span><wbr>setWrap</a></p>
+<p class = "function_description">Sets the wrapping properties of a <a href="#Texture">Texture</a>.<br /><br />This function sets the way a <a href="#Texture">Texture</a> is repeated when it is drawn with a <a href="#Quad">Quad</a> that is larger than the texture's extent, or when a custom <a href="#Shader">Shader</a> is used which uses texture coordinates outside of [0, 1]. A texture may be clamped or set to repeat in both horizontal and vertical directions.<br /><br />Clamped textures appear only once (with the edges of the texture stretching to fill the extent of the <a href="#Quad">Quad</a>), whereas repeated ones repeat as many times as there is room in the <a href="#Quad">Quad</a>.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative">Texture:<wbr>setWrap( <span class = "arguments">horiz</span>, <span class = "arguments">vert</span>, <span class = "arguments">depth</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "arguments ra_name">horiz</td>
+<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
+<td>Horizontal wrapping mode of the texture.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">vert <span class = "default">(horiz)</span></td>
+<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
+<td>Vertical wrapping mode of the texture.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">depth <span class = "default">(horiz)</span></td>
+<td class = "ra_type"><a href="#WrapMode">WrapMode</a></td>
+<td>Wrapping mode for the z-axis of a Volume texture.</td>
+</tr>
+</table>
+</div>
+<div class = "section">
 <p class = "section_heading"><a href = "#Video" name = "Video">Video</a></p>
 <p class = "section_description">A drawable video.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.graphics.<a href="#love.graphics.newVideo">newVideo</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Video:<a href="#Video:play">play</a></p>
 <p class = "section_navigation_link">Video:<a href="#Video:isPlaying">isPlaying</a></p>
@@ -14069,11 +14392,10 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#ImageData">ImageData</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">love.image.<a href="#love.image.isCompressed">isCompressed</a></p>
-<p class = "section_navigation_link">love.image.<a href="#love.image.newCompressedData">newCompressedData</a></p>
-<p class = "section_navigation_link">love.image.<a href="#love.image.newImageData">newImageData</a></p>
 <p class = "section_navigation_subheading">Enums</p>
 <p class = "section_navigation_link"><a href="#CompressedImageFormat">CompressedImageFormat</a></p>
 <p class = "section_navigation_link"><a href="#ImageFormat">ImageFormat</a></p>
+<p class = "section_navigation_link"><a href="#PixelFormat">PixelFormat</a></p>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.image.isCompressed" name = "love.image.isCompressed"><span>love.image.</span><wbr>isCompressed</a></p>
@@ -14175,7 +14497,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </tr>
 <tr>
 <td class = "arguments ra_name">format <span class = "default">('rgba8')</span></td>
-<td class = "ra_type">PixelFormat</td>
+<td class = "ra_type"><a href="#PixelFormat">PixelFormat</a></td>
 <td>The pixel format of the <a href="#ImageData">ImageData</a>.</td>
 </tr>
 <tr>
@@ -14321,8 +14643,141 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "constant_description">BMP image format.</p>
 </div>
 <div class = "section">
+<p class = "section_heading"><a href = "#PixelFormat" name = "PixelFormat">PixelFormat</a></p>
+<p class = "constant_name">unknown</p>
+<p class = "constant_description">Indicates unknown pixel format, used internally.</p>
+<p class = "constant_name">normal</p>
+<p class = "constant_description">Alias for rgba8, or srgba8 if gamma-correct rendering is enabled.</p>
+<p class = "constant_name">hdr</p>
+<p class = "constant_description">A format suitable for high dynamic range content - an alias for the rgba16f format, normally.</p>
+<p class = "constant_name">r8</p>
+<p class = "constant_description">Single-channel (red component) format (8 bpp).</p>
+<p class = "constant_name">rg8</p>
+<p class = "constant_description">Two channels (red and green components) with 8 bits per channel (16 bpp).</p>
+<p class = "constant_name">rgba8</p>
+<p class = "constant_description">8 bits per channel (32 bpp) RGBA. Color channel values range from 0-255 (0-1 in shaders).</p>
+<p class = "constant_name">srgba8</p>
+<p class = "constant_description">gamma-correct version of rgba8.</p>
+<p class = "constant_name">r16</p>
+<p class = "constant_description">Single-channel (red component) format (16 bpp).</p>
+<p class = "constant_name">rg16</p>
+<p class = "constant_description">Two channels (red and green components) with 16 bits per channel (32 bpp).</p>
+<p class = "constant_name">rgba16</p>
+<p class = "constant_description">16 bits per channel (64 bpp) RGBA. Color channel values range from 0-65535 (0-1 in shaders).</p>
+<p class = "constant_name">r16f</p>
+<p class = "constant_description">Floating point single-channel format (16 bpp). Color values can range from [-65504, +65504].</p>
+<p class = "constant_name">rg16f</p>
+<p class = "constant_description">Floating point two-channel format with 16 bits per channel (32 bpp). Color values can range from [-65504, +65504].</p>
+<p class = "constant_name">rgba16f</p>
+<p class = "constant_description">Floating point RGBA with 16 bits per channel (64 bpp). Color values can range from [-65504, +65504].</p>
+<p class = "constant_name">r32f</p>
+<p class = "constant_description">Floating point single-channel format (32 bpp).</p>
+<p class = "constant_name">rg32f</p>
+<p class = "constant_description">Floating point two-channel format with 32 bits per channel (64 bpp).</p>
+<p class = "constant_name">rgba32f</p>
+<p class = "constant_description">Floating point RGBA with 32 bits per channel (128 bpp).</p>
+<p class = "constant_name">la8</p>
+<p class = "constant_description">Same as rg8, but accessed as (L, L, L, A)</p>
+<p class = "constant_name">rgba4</p>
+<p class = "constant_description">4 bits per channel (16 bpp) RGBA.</p>
+<p class = "constant_name">rgb5a1</p>
+<p class = "constant_description">RGB with 5 bits each, and a 1-bit alpha channel (16 bpp).</p>
+<p class = "constant_name">rgb565</p>
+<p class = "constant_description">RGB with 5, 6, and 5 bits each, respectively (16 bpp). There is no alpha channel in this format.</p>
+<p class = "constant_name">rgb10a2</p>
+<p class = "constant_description">RGB with 10 bits per channel, and a 2-bit alpha channel (32 bpp).</p>
+<p class = "constant_name">rg11b10f</p>
+<p class = "constant_description">Floating point RGB with 11 bits in the red and green channels, and 10 bits in the blue channel (32 bpp). There is no alpha channel. Color values can range from [0, +65024].</p>
+<p class = "constant_name">stencil8</p>
+<p class = "constant_description">No depth buffer and 8-bit stencil buffer.</p>
+<p class = "constant_name">depth16</p>
+<p class = "constant_description">16-bit depth buffer and no stencil buffer.</p>
+<p class = "constant_name">depth24</p>
+<p class = "constant_description">24-bit depth buffer and no stencil buffer.</p>
+<p class = "constant_name">depth32f</p>
+<p class = "constant_description">32-bit float depth buffer and no stencil buffer.</p>
+<p class = "constant_name">depth24stencil8</p>
+<p class = "constant_description">24-bit depth buffer and 8-bit stencil buffer.</p>
+<p class = "constant_name">depth32fstencil8</p>
+<p class = "constant_description">32-bit float depth buffer and 8-bit stencil buffer.</p>
+<p class = "constant_name">DXT1</p>
+<p class = "constant_description">The DXT1 format. RGB data at 4 bits per pixel (compared to 32 bits for <a href="#ImageData">ImageData</a> and regular <a href="#Image">Images</a>.) Suitable for fully opaque images on desktop systems.</p>
+<p class = "constant_name">DXT3</p>
+<p class = "constant_description">The DXT3 format. RGBA data at 8 bits per pixel. Smooth variations in opacity do not mix well with this format.</p>
+<p class = "constant_name">DXT5</p>
+<p class = "constant_description">The DXT5 format. RGBA data at 8 bits per pixel. Recommended for images with varying opacity on desktop systems.</p>
+<p class = "constant_name">BC4</p>
+<p class = "constant_description">The BC4 format (also known as 3Dc+ or ATI1.) Stores just the red channel, at 4 bits per pixel.</p>
+<p class = "constant_name">BC4s</p>
+<p class = "constant_description">The signed variant of the BC4 format. Same as above but pixel values in the texture are in the range of 1 instead of 1 in shaders.</p>
+<p class = "constant_name">BC5</p>
+<p class = "constant_description">The BC5 format (also known as 3Dc or ATI2.) Stores red and green channels at 8 bits per pixel.</p>
+<p class = "constant_name">BC5s</p>
+<p class = "constant_description">The signed variant of the BC5 format.</p>
+<p class = "constant_name">BC6h</p>
+<p class = "constant_description">The BC6H format. Stores half-precision floating-point RGB data in the range of 65504 at 8 bits per pixel. Suitable for HDR images on desktop systems.</p>
+<p class = "constant_name">BC6hs</p>
+<p class = "constant_description">The signed variant of the BC6H format. Stores RGB data in the range of +65504.</p>
+<p class = "constant_name">BC7</p>
+<p class = "constant_description">The BC7 format (also known as BPTC.) Stores RGB or RGBA data at 8 bits per pixel.</p>
+<p class = "constant_name">ETC1</p>
+<p class = "constant_description">The ETC1 format. RGB data at 4 bits per pixel. Suitable for fully opaque images on older Android devices.</p>
+<p class = "constant_name">ETC2rgb</p>
+<p class = "constant_description">The RGB variant of the ETC2 format. RGB data at 4 bits per pixel. Suitable for fully opaque images on newer mobile devices.</p>
+<p class = "constant_name">ETC2rgba</p>
+<p class = "constant_description">The RGBA variant of the ETC2 format. RGBA data at 8 bits per pixel. Recommended for images with varying opacity on newer mobile devices.</p>
+<p class = "constant_name">ETC2rgba1</p>
+<p class = "constant_description">The RGBA variant of the ETC2 format where pixels are either fully transparent or fully opaque. RGBA data at 4 bits per pixel.</p>
+<p class = "constant_name">EACr</p>
+<p class = "constant_description">The single-channel variant of the EAC format. Stores just the red channel, at 4 bits per pixel.</p>
+<p class = "constant_name">EACrs</p>
+<p class = "constant_description">The signed single-channel variant of the EAC format. Same as above but pixel values in the texture are in the range of 1 instead of 1 in shaders.</p>
+<p class = "constant_name">EACrg</p>
+<p class = "constant_description">The two-channel variant of the EAC format. Stores red and green channels at 8 bits per pixel.</p>
+<p class = "constant_name">EACrgs</p>
+<p class = "constant_description">The signed two-channel variant of the EAC format.</p>
+<p class = "constant_name">PVR1rgb2</p>
+<p class = "constant_description">The 2 bit per pixel RGB variant of the PVRTC1 format. Stores RGB data at 2 bits per pixel. <a href="#Texture">Textures</a> compressed with PVRTC1 formats must be square and power-of-two sized.</p>
+<p class = "constant_name">PVR1rgb4</p>
+<p class = "constant_description">The 4 bit per pixel RGB variant of the PVRTC1 format. Stores RGB data at 4 bits per pixel.</p>
+<p class = "constant_name">PVR1rgba2</p>
+<p class = "constant_description">The 2 bit per pixel RGBA variant of the PVRTC1 format.</p>
+<p class = "constant_name">PVR1rgba4</p>
+<p class = "constant_description">The 4 bit per pixel RGBA variant of the PVRTC1 format.</p>
+<p class = "constant_name">ASTC4x4</p>
+<p class = "constant_description">The 4x4 pixels per block variant of the ASTC format. RGBA data at 8 bits per pixel.</p>
+<p class = "constant_name">ASTC5x4</p>
+<p class = "constant_description">The 5x4 pixels per block variant of the ASTC format. RGBA data at 6.4 bits per pixel.</p>
+<p class = "constant_name">ASTC5x5</p>
+<p class = "constant_description">The 5x5 pixels per block variant of the ASTC format. RGBA data at 5.12 bits per pixel.</p>
+<p class = "constant_name">ASTC6x5</p>
+<p class = "constant_description">The 6x5 pixels per block variant of the ASTC format. RGBA data at 4.27 bits per pixel.</p>
+<p class = "constant_name">ASTC6x6</p>
+<p class = "constant_description">The 6x6 pixels per block variant of the ASTC format. RGBA data at 3.56 bits per pixel.</p>
+<p class = "constant_name">ASTC8x5</p>
+<p class = "constant_description">The 8x5 pixels per block variant of the ASTC format. RGBA data at 3.2 bits per pixel.</p>
+<p class = "constant_name">ASTC8x6</p>
+<p class = "constant_description">The 8x6 pixels per block variant of the ASTC format. RGBA data at 2.67 bits per pixel.</p>
+<p class = "constant_name">ASTC8x8</p>
+<p class = "constant_description">The 8x8 pixels per block variant of the ASTC format. RGBA data at 2 bits per pixel.</p>
+<p class = "constant_name">ASTC10x5</p>
+<p class = "constant_description">The 10x5 pixels per block variant of the ASTC format. RGBA data at 2.56 bits per pixel.</p>
+<p class = "constant_name">ASTC10x6</p>
+<p class = "constant_description">The 10x6 pixels per block variant of the ASTC format. RGBA data at 2.13 bits per pixel.</p>
+<p class = "constant_name">ASTC10x8</p>
+<p class = "constant_description">The 10x8 pixels per block variant of the ASTC format. RGBA data at 1.6 bits per pixel.</p>
+<p class = "constant_name">ASTC10x10</p>
+<p class = "constant_description">The 10x10 pixels per block variant of the ASTC format. RGBA data at 1.28 bits per pixel.</p>
+<p class = "constant_name">ASTC12x10</p>
+<p class = "constant_description">The 12x10 pixels per block variant of the ASTC format. RGBA data at 1.07 bits per pixel.</p>
+<p class = "constant_name">ASTC12x12</p>
+<p class = "constant_description">The 12x12 pixels per block variant of the ASTC format. RGBA data at 0.89 bits per pixel.</p>
+</div>
+<div class = "section">
 <p class = "section_heading"><a href = "#CompressedImageData" name = "CompressedImageData">CompressedImageData</a></p>
 <p class = "section_description">Represents compressed image data designed to stay compressed in RAM.<br /><br />CompressedImageData encompasses standard compressed texture formats such as  DXT1, DXT5, and BC5 / 3Dc.<br /><br />You can't draw CompressedImageData directly to the screen. See <a href="#Image">Image</a> for that.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.image.<a href="#love.image.newCompressedData">newCompressedData</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">CompressedImageData:<a href="#CompressedImageData:getDimensions">getDimensions</a></p>
 <p class = "section_navigation_link">CompressedImageData:<a href="#CompressedImageData:getFormat">getFormat</a></p>
@@ -14446,6 +14901,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#ImageData" name = "ImageData">ImageData</a></p>
 <p class = "section_description">Raw (decoded) image data.<br /><br />You can't draw ImageData directly to screen. See <a href="#Image">Image</a> for that.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.image.<a href="#love.image.newImageData">newImageData</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">ImageData:<a href="#ImageData:getPixel">get</a><span class = "slash">/</span><a href="#ImageData:setPixel">setPixel</a></p>
 <p class = "section_navigation_link">ImageData:<a href="#ImageData:mapPixel">mapPixel</a></p>
@@ -16227,7 +16684,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_heading"><a href = "#love.math" name = "love.math">love.math</a></p>
 <p class = "section_navigation_subheading">Types</p>
 <p class = "section_navigation_link"><a href="#BezierCurve">BezierCurve</a></p>
-<p class = "section_navigation_link"><a href="#CompressedData">CompressedData</a></p>
 <p class = "section_navigation_link"><a href="#RandomGenerator">RandomGenerator</a></p>
 <p class = "section_navigation_link"><a href="#Transform">Transform</a></p>
 <p class = "section_navigation_subheading">Functions</p>
@@ -16248,11 +16704,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.math.<a href="#love.math.gammaToLinear">gammaToLinear</a></p>
 <p class = "section_navigation_link">love.math.<a href="#love.math.colorFromBytes">colorFromBytes</a></p>
 <p class = "section_navigation_link">love.math.<a href="#love.math.colorToBytes">colorToBytes</a></p>
-<p class = "section_navigation_link">love.math.<a href="#love.math.newBezierCurve">newBezierCurve</a></p>
-<p class = "section_navigation_link">love.math.<a href="#love.math.newRandomGenerator">newRandomGenerator</a></p>
-<p class = "section_navigation_link">love.math.<a href="#love.math.newTransform">newTransform</a></p>
 <p class = "section_navigation_subheading">Enums</p>
-<p class = "section_navigation_link"><a href="#CompressedDataFormat">CompressedDataFormat</a></p>
 <p class = "section_navigation_link"><a href="#MatrixLayout">MatrixLayout</a></p>
 </div>
 <div class = "section">
@@ -17108,17 +17560,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
-<p class = "section_heading"><a href = "#CompressedDataFormat" name = "CompressedDataFormat">CompressedDataFormat</a></p>
-<p class = "constant_name">lz4</p>
-<p class = "constant_description">The LZ4 compression format. Compresses and decompresses very quickly, but the compression ratio is not the best. LZ4-HC is used when compression level 9 is specified. Some benchmarks are available here.</p>
-<p class = "constant_name">zlib</p>
-<p class = "constant_description">The zlib format is DEFLATE-compressed data with a small bit of header data. Compresses relatively slowly and decompresses moderately quickly, and has a decent compression ratio.</p>
-<p class = "constant_name">gzip</p>
-<p class = "constant_description">The gzip format is DEFLATE-compressed data with a slightly larger header than zlib. Since it uses DEFLATE it has the same compression characteristics as the zlib format.</p>
-<p class = "constant_name">deflate</p>
-<p class = "constant_description">Raw DEFLATE-compressed data (no header).</p>
-</div>
-<div class = "section">
 <p class = "section_heading"><a href = "#MatrixLayout" name = "MatrixLayout">MatrixLayout</a></p>
 <p class = "constant_name">row</p>
 <p class = "constant_description">The matrix is row-major:</p>
@@ -17128,6 +17569,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#BezierCurve" name = "BezierCurve">BezierCurve</a></p>
 <p class = "section_description">A B&eacute;zier curve object that can evaluate and render B&eacute;zier curves of arbitrary degree.<br /><br />For more information on B&eacute;zier curves check this great article on Wikipedia.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.math.<a href="#love.math.newBezierCurve">newBezierCurve</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">BezierCurve:<a href="#BezierCurve:render">render</a></p>
 <p class = "section_navigation_link">BezierCurve:<a href="#BezierCurve:renderSegment">renderSegment</a></p>
@@ -17411,29 +17854,10 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
-<p class = "section_heading"><a href = "#CompressedData" name = "CompressedData">CompressedData</a></p>
-<p class = "section_description">Represents byte data compressed using a specific algorithm.<br /><br /><a href="#love.data.decompress">love.data.decompress</a> can be used to de-compress the data (or <a href="#love.math.decompress">love.math.decompress</a> in 0.10.2 or earlier).</p>
-<p class = "section_navigation_subheading">Functions</p>
-<p class = "section_navigation_link">CompressedData:<a href="#CompressedData:getFormat">getFormat</a></p>
-<p class = "section_navigation_subheading">Supertypes</p>
-<p class = "section_navigation_link"><a href="#Data">Data</a></p>
-<p class = "section_navigation_link"><a href="#Object">Object</a></p>
-</div>
-<div class = "section">
-<p class = "function_heading"><a href = "#CompressedData:getFormat" name = "CompressedData:getFormat"><span>CompressedData:</span><wbr>getFormat</a></p>
-<p class = "function_description">Gets the compression format of the <a href="#CompressedData">CompressedData</a>.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">format</span> = CompressedData:<wbr>getFormat()</span></span></p>
-<table class = "ra_table">
-<tr>
-<td class = "returns ra_name">format</td>
-<td class = "ra_type"><a href="#CompressedDataFormat">CompressedDataFormat</a></td>
-<td>The format of the <a href="#CompressedData">CompressedData</a>.</td>
-</tr>
-</table>
-</div>
-<div class = "section">
 <p class = "section_heading"><a href = "#RandomGenerator" name = "RandomGenerator">RandomGenerator</a></p>
 <p class = "section_description">A random number generation object which has its own random state.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.math.<a href="#love.math.newRandomGenerator">newRandomGenerator</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">RandomGenerator:<a href="#RandomGenerator:random">random</a></p>
 <p class = "section_navigation_link">RandomGenerator:<a href="#RandomGenerator:randomNormal">randomNormal</a></p>
@@ -17583,12 +18007,14 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Transform" name = "Transform">Transform</a></p>
 <p class = "section_description"><a href="#Object">Object</a> containing a coordinate system transformation.<br /><br />The love.graphics module has several functions and function variants which accept Transform objects.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.math.<a href="#love.math.newTransform">newTransform</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Transform:<a href="#Transform:apply">apply</a></p>
 <p class = "section_navigation_link">Transform:<a href="#Transform:clone">clone</a></p>
 <p class = "section_navigation_link">Transform:<a href="#Transform:inverse">inverse</a></p>
 <p class = "section_navigation_link">Transform:<a href="#Transform:inverseTransformPoint">inverseTransformPoint</a></p>
-<p class = "section_navigation_link">Transform:<a href="#Transform:isAffine">isAffine</a></p>
+<p class = "section_navigation_link">Transform:<a href="#Transform:isAffine2DTransform">isAffine2DTransform</a></p>
 <p class = "section_navigation_link">Transform:<a href="#Transform:reset">reset</a></p>
 <p class = "section_navigation_link">Transform:<a href="#Transform:rotate">rotate</a></p>
 <p class = "section_navigation_link">Transform:<a href="#Transform:scale">scale</a></p>
@@ -17696,9 +18122,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 </table>
 </div>
 <div class = "section">
-<p class = "function_heading"><a href = "#Transform:isAffine" name = "Transform:isAffine"><span>Transform:</span><wbr>isAffine</a></p>
+<p class = "function_heading"><a href = "#Transform:isAffine2DTransform" name = "Transform:isAffine2DTransform"><span>Transform:</span><wbr>isAffine2DTransform</a></p>
 <p class = "function_description">Checks whether the <a href="#Transform">Transform</a> is an affine transformation.</p>
-<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">affine</span> = Transform:<wbr>isAffine()</span></span></p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">affine</span> = Transform:<wbr>isAffine2DTransform()</span></span></p>
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">affine</td>
@@ -18001,10 +18427,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getRelativeMode">get</a><span class = "slash">/</span><a href="#love.mouse.setRelativeMode">setRelativeMode</a></p>
 <p class = "section_navigation_subsection_heading">Cursor</p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getCursor">get</a><span class = "slash">/</span><a href="#love.mouse.setCursor">setCursor</a></p>
-<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getSystemCursor">getSystemCursor</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isVisible">is</a><span class = "slash">/</span><a href="#love.mouse.setVisible">setVisible</a></p>
 <p class = "section_navigation_link">love.mouse.<a href="#love.mouse.isCursorSupported">isCursorSupported</a></p>
-<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.newCursor">newCursor</a></p>
 <p class = "section_navigation_subheading">Enums</p>
 <p class = "section_navigation_link"><a href="#CursorType">CursorType</a></p>
 </div>
@@ -18372,6 +18796,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Cursor" name = "Cursor">Cursor</a></p>
 <p class = "section_description">Represents a hardware cursor.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.newCursor">newCursor</a></p>
+<p class = "section_navigation_link">love.mouse.<a href="#love.mouse.getSystemCursor">getSystemCursor</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Cursor:<a href="#Cursor:getType">getType</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
@@ -18415,25 +18842,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link"><a href="#World">World</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">love.physics.<a href="#love.physics.getDistance">getDistance</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newBody">newBody</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newChainShape">newChainShape</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newCircleShape">newCircleShape</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newDistanceJoint">newDistanceJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newEdgeShape">newEdgeShape</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newFixture">newFixture</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newFrictionJoint">newFrictionJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newGearJoint">newGearJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newMotorJoint">newMotorJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newMouseJoint">newMouseJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newPolygonShape">newPolygonShape</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newPrismaticJoint">newPrismaticJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newPulleyJoint">newPulleyJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newRectangleShape">newRectangleShape</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newRevoluteJoint">newRevoluteJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newRopeJoint">newRopeJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newWeldJoint">newWeldJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newWheelJoint">newWheelJoint</a></p>
-<p class = "section_navigation_link">love.physics.<a href="#love.physics.newWorld">newWorld</a></p>
 <p class = "section_navigation_link">love.physics.<a href="#love.physics.getMeter">get</a><span class = "slash">/</span><a href="#love.physics.setMeter">setMeter</a></p>
 <p class = "section_navigation_subheading">Enums</p>
 <p class = "section_navigation_link"><a href="#BodyType">BodyType</a></p>
@@ -19719,6 +20127,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Body" name = "Body">Body</a></p>
 <p class = "section_description">Bodies are objects with velocity and position.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newBody">newBody</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Body:<a href="#Body:applyAngularImpulse">applyAngularImpulse</a></p>
 <p class = "section_navigation_link">Body:<a href="#Body:applyForce">applyForce</a></p>
@@ -20755,6 +21165,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#ChainShape" name = "ChainShape">ChainShape</a></p>
 <p class = "section_description">A ChainShape consists of multiple line segments. It can be used to create the boundaries of your terrain. The shape does not have volume and can only collide with <a href="#PolygonShape">PolygonShape</a> and <a href="#CircleShape">CircleShape</a>.<br /><br />Unlike the <a href="#PolygonShape">PolygonShape</a>, the ChainShape does not have a vertices limit or has to form a convex shape, but self intersections are not supported.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newChainShape">newChainShape</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">ChainShape:<a href="#ChainShape:getChildEdge">getChildEdge</a></p>
 <p class = "section_navigation_link">ChainShape:<a href="#ChainShape:getPoint">getPoint</a></p>
@@ -20915,6 +21327,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#CircleShape" name = "CircleShape">CircleShape</a></p>
 <p class = "section_description">Circle extends <a href="#Shape">Shape</a> and adds a radius and a local position.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newCircleShape">newCircleShape</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">CircleShape:<a href="#CircleShape:getPoint">get</a><span class = "slash">/</span><a href="#CircleShape:setPoint">setPoint</a></p>
 <p class = "section_navigation_link">CircleShape:<a href="#CircleShape:getRadius">get</a><span class = "slash">/</span><a href="#CircleShape:setRadius">setRadius</a></p>
@@ -21158,6 +21572,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#DistanceJoint" name = "DistanceJoint">DistanceJoint</a></p>
 <p class = "section_description">Keeps two bodies at the same distance.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newDistanceJoint">newDistanceJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">DistanceJoint:<a href="#DistanceJoint:getDampingRatio">get</a><span class = "slash">/</span><a href="#DistanceJoint:setDampingRatio">setDampingRatio</a></p>
 <p class = "section_navigation_link">DistanceJoint:<a href="#DistanceJoint:getFrequency">get</a><span class = "slash">/</span><a href="#DistanceJoint:setFrequency">setFrequency</a></p>
@@ -21241,6 +21657,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#EdgeShape" name = "EdgeShape">EdgeShape</a></p>
 <p class = "section_description">A EdgeShape is a line segment. They can be used to create the boundaries of your terrain. The shape does not have volume and can only collide with <a href="#PolygonShape">PolygonShape</a> and <a href="#CircleShape">CircleShape</a>.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newEdgeShape">newEdgeShape</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">EdgeShape:<a href="#EdgeShape:getPoints">getPoints</a></p>
 <p class = "section_navigation_link">EdgeShape:<a href="#EdgeShape:getNextVertex">get</a><span class = "slash">/</span><a href="#EdgeShape:setNextVertex">setNextVertex</a></p>
@@ -21347,6 +21765,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Fixture" name = "Fixture">Fixture</a></p>
 <p class = "section_description">Fixtures attach shapes to bodies.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newFixture">newFixture</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Fixture:<a href="#Fixture:destroy">destroy</a></p>
 <p class = "section_navigation_link">Fixture:<a href="#Fixture:getBody">getBody</a></p>
@@ -21803,6 +22223,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#FrictionJoint" name = "FrictionJoint">FrictionJoint</a></p>
 <p class = "section_description">A FrictionJoint applies friction to a body.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newFrictionJoint">newFrictionJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">FrictionJoint:<a href="#FrictionJoint:getMaxForce">get</a><span class = "slash">/</span><a href="#FrictionJoint:setMaxForce">setMaxForce</a></p>
 <p class = "section_navigation_link">FrictionJoint:<a href="#FrictionJoint:getMaxTorque">get</a><span class = "slash">/</span><a href="#FrictionJoint:setMaxTorque">setMaxTorque</a></p>
@@ -21861,6 +22283,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#GearJoint" name = "GearJoint">GearJoint</a></p>
 <p class = "section_description">Keeps bodies together in such a way that they act like gears.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newGearJoint">newGearJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">GearJoint:<a href="#GearJoint:getJoints">getJoints</a></p>
 <p class = "section_navigation_link">GearJoint:<a href="#GearJoint:getRatio">get</a><span class = "slash">/</span><a href="#GearJoint:setRatio">setRatio</a></p>
@@ -22090,6 +22514,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#MotorJoint" name = "MotorJoint">MotorJoint</a></p>
 <p class = "section_description">Controls the relative motion between two Bodies. Position and rotation offsets can be specified, as well as the maximum motor force and torque that will be applied to reach the target offsets.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newMotorJoint">newMotorJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">MotorJoint:<a href="#MotorJoint:getAngularOffset">get</a><span class = "slash">/</span><a href="#MotorJoint:setAngularOffset">setAngularOffset</a></p>
 <p class = "section_navigation_link">MotorJoint:<a href="#MotorJoint:getLinearOffset">get</a><span class = "slash">/</span><a href="#MotorJoint:setLinearOffset">setLinearOffset</a></p>
@@ -22158,6 +22584,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#MouseJoint" name = "MouseJoint">MouseJoint</a></p>
 <p class = "section_description">For controlling objects with the mouse.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newMouseJoint">newMouseJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">MouseJoint:<a href="#MouseJoint:getDampingRatio">get</a><span class = "slash">/</span><a href="#MouseJoint:setDampingRatio">setDampingRatio</a></p>
 <p class = "section_navigation_link">MouseJoint:<a href="#MouseJoint:getFrequency">get</a><span class = "slash">/</span><a href="#MouseJoint:setFrequency">setFrequency</a></p>
@@ -22276,6 +22704,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#PolygonShape" name = "PolygonShape">PolygonShape</a></p>
 <p class = "section_description">A PolygonShape is a convex polygon with up to 8 vertices.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newPolygonShape">newPolygonShape</a></p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newRectangleShape">newRectangleShape</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">PolygonShape:<a href="#PolygonShape:getPoints">getPoints</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
@@ -22312,6 +22743,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#PrismaticJoint" name = "PrismaticJoint">PrismaticJoint</a></p>
 <p class = "section_description">Restricts relative motion between Bodies to one shared axis.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newPrismaticJoint">newPrismaticJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">PrismaticJoint:<a href="#PrismaticJoint:getAxis">getAxis</a></p>
 <p class = "section_navigation_link">PrismaticJoint:<a href="#PrismaticJoint:getJointSpeed">getJointSpeed</a></p>
@@ -22567,6 +23000,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#PulleyJoint" name = "PulleyJoint">PulleyJoint</a></p>
 <p class = "section_description">Allows you to simulate bodies connected through pulleys.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newPulleyJoint">newPulleyJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">PulleyJoint:<a href="#PulleyJoint:getGroundAnchors">getGroundAnchors</a></p>
 <p class = "section_navigation_link">PulleyJoint:<a href="#PulleyJoint:getLengthA">getLengthA</a></p>
@@ -22714,12 +23149,14 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#RevoluteJoint" name = "RevoluteJoint">RevoluteJoint</a></p>
 <p class = "section_description">Allow two Bodies to revolve around a shared point.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newRevoluteJoint">newRevoluteJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getJointAngle">getJointAngle</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getJointSpeed">getJointSpeed</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getMotorTorque">getMotorTorque</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getLimits">get</a><span class = "slash">/</span><a href="#RevoluteJoint:setLimits">setLimits</a></p>
-<p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:areLimitsEnabled">are</a><span class = "slash">/</span><a href="#RevoluteJoint:setLimitsEnabled">setLimitsEnabled</a></p>
+<p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:hasLimitsEnabled">has</a><span class = "slash">/</span><a href="#RevoluteJoint:setLimitsEnabled">setLimitsEnabled</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getLowerLimit">get</a><span class = "slash">/</span><a href="#RevoluteJoint:setLowerLimit">setLowerLimit</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:getMaxMotorTorque">get</a><span class = "slash">/</span><a href="#RevoluteJoint:setMaxMotorTorque">setMaxMotorTorque</a></p>
 <p class = "section_navigation_link">RevoluteJoint:<a href="#RevoluteJoint:isMotorEnabled">is</a><span class = "slash">/</span><a href="#RevoluteJoint:setMotorEnabled">setMotorEnabled</a></p>
@@ -22958,6 +23395,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#RopeJoint" name = "RopeJoint">RopeJoint</a></p>
 <p class = "section_description">The RopeJoint enforces a maximum distance between two points on two bodies. It has no other effect.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newRopeJoint">newRopeJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">RopeJoint:<a href="#RopeJoint:getMaxLength">get</a><span class = "slash">/</span><a href="#RopeJoint:setMaxLength">setMaxLength</a></p>
 <p class = "section_navigation_subheading">Supertypes</p>
@@ -23229,6 +23668,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#WeldJoint" name = "WeldJoint">WeldJoint</a></p>
 <p class = "section_description">A WeldJoint essentially glues two bodies together.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newWeldJoint">newWeldJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">WeldJoint:<a href="#WeldJoint:getDampingRatio">get</a><span class = "slash">/</span><a href="#WeldJoint:setDampingRatio">setDampingRatio</a></p>
 <p class = "section_navigation_link">WeldJoint:<a href="#WeldJoint:getFrequency">get</a><span class = "slash">/</span><a href="#WeldJoint:setFrequency">setFrequency</a></p>
@@ -23287,6 +23728,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#WheelJoint" name = "WheelJoint">WheelJoint</a></p>
 <p class = "section_description">Restricts a point on the second body to a line on the first body.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newWheelJoint">newWheelJoint</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">WheelJoint:<a href="#WheelJoint:getAxis">getAxis</a></p>
 <p class = "section_navigation_link">WheelJoint:<a href="#WheelJoint:getJointSpeed">getJointSpeed</a></p>
@@ -23470,6 +23913,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#World" name = "World">World</a></p>
 <p class = "section_description">A world is an object that contains all bodies and joints.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.physics.<a href="#love.physics.newWorld">newWorld</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">World:<a href="#World:destroy">destroy</a></p>
 <p class = "section_navigation_link">World:<a href="#World:getBodies">getBodies</a></p>
@@ -23848,13 +24293,70 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_heading"><a href = "#love.sound" name = "love.sound">love.sound</a></p>
 <p class = "section_navigation_subheading">Types</p>
 <p class = "section_navigation_link"><a href="#SoundData">SoundData</a></p>
-<p class = "section_navigation_subheading">Functions</p>
-<p class = "section_navigation_link">love.sound.<a href="#love.sound.newDecoder">newDecoder</a></p>
-<p class = "section_navigation_link">love.sound.<a href="#love.sound.newSoundData">newSoundData</a></p>
+</div>
+<div class = "section">
+<p class = "function_heading"><a href = "#love.sound.newSoundData" name = "love.sound.newSoundData"><span>love.sound.</span><wbr>newSoundData</a></p>
+<p class = "function_description">Creates new <a href="#SoundData">SoundData</a> from a filepath, <a href="#File">File</a>, or <a href="#Decoder">Decoder</a>. It's also possible to create <a href="#SoundData">SoundData</a> with a custom sample rate, channel and bit depth.<br /><br />The sound data will be decoded to the memory in a raw format. It is recommended to create only short sounds like effects, as a 3 minute song uses 30 MB of memory this way.</p>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">soundData</span> = love.sound.<wbr>newSoundData( <span class = "arguments">filename</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">soundData</td>
+<td class = "ra_type"><a href="#SoundData">SoundData</a></td>
+<td>A new <a href="#SoundData">SoundData</a> object.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">filename</td>
+<td class = "ra_type">string</td>
+<td>The file name of the file to load.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">soundData</span> = love.sound.<wbr>newSoundData( <span class = "arguments">file</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">soundData</td>
+<td class = "ra_type"><a href="#SoundData">SoundData</a></td>
+<td>A new <a href="#SoundData">SoundData</a> object.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">file</td>
+<td class = "ra_type"><a href="#File">File</a></td>
+<td>A File pointing to an audio file.</td>
+</tr>
+</table>
+<p class = "synopsis"><span class = "synopsis_background"><span class = "relative"><span class = "returns">soundData</span> = love.sound.<wbr>newSoundData( <span class = "arguments">samples</span>, <span class = "arguments">rate</span>, <span class = "arguments">bits</span>, <span class = "arguments">channels</span> )</span></span></p>
+<table class = "ra_table">
+<tr>
+<td class = "returns ra_name">soundData</td>
+<td class = "ra_type"><a href="#SoundData">SoundData</a></td>
+<td>A new <a href="#SoundData">SoundData</a> object.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">samples</td>
+<td class = "ra_type">number</td>
+<td>Total number of samples.</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">rate <span class = "default">(44100)</span></td>
+<td class = "ra_type">number</td>
+<td>Number of samples per second</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">bits <span class = "default">(16)</span></td>
+<td class = "ra_type">number</td>
+<td>Bits per sample (8 or 16).</td>
+</tr>
+<tr>
+<td class = "arguments ra_name">channels <span class = "default">(2)</span></td>
+<td class = "ra_type">number</td>
+<td>Either 1 for mono or 2 for stereo.</td>
+</tr>
+</table>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#SoundData" name = "SoundData">SoundData</a></p>
 <p class = "section_description">Contains raw audio samples.<br /><br />You can not play SoundData back directly. You must wrap a <a href="#Source">Source</a> object around it.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.sound.<a href="#love.sound.newSoundData">newSoundData</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">SoundData:<a href="#SoundData:getSample">get</a><span class = "slash">/</span><a href="#SoundData:setSample">setSample</a></p>
 <p class = "section_navigation_link">SoundData:<a href="#SoundData:getSampleCount">getSampleCount</a></p>
@@ -24144,10 +24646,6 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_subheading">Types</p>
 <p class = "section_navigation_link"><a href="#Channel">Channel</a></p>
 <p class = "section_navigation_link"><a href="#Thread">Thread</a></p>
-<p class = "section_navigation_subheading">Functions</p>
-<p class = "section_navigation_link">love.thread.<a href="#love.thread.getChannel">getChannel</a></p>
-<p class = "section_navigation_link">love.thread.<a href="#love.thread.newChannel">newChannel</a></p>
-<p class = "section_navigation_link">love.thread.<a href="#love.thread.newThread">newThread</a></p>
 </div>
 <div class = "section">
 <p class = "function_heading"><a href = "#love.thread.getChannel" name = "love.thread.getChannel"><span>love.thread.</span><wbr>getChannel</a></p>
@@ -24224,6 +24722,9 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Channel" name = "Channel">Channel</a></p>
 <p class = "section_description">An object which can be used to send and receive data between different threads.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.thread.<a href="#love.thread.newChannel">newChannel</a></p>
+<p class = "section_navigation_link">love.thread.<a href="#love.thread.getChannel">getChannel</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Channel:<a href="#Channel:push">push</a></p>
 <p class = "section_navigation_link">Channel:<a href="#Channel:pop">pop</a></p>
@@ -24409,6 +24910,8 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <div class = "section">
 <p class = "section_heading"><a href = "#Thread" name = "Thread">Thread</a></p>
 <p class = "section_description">A Thread is a chunk of code that can run in parallel with other threads. <a href="#Data">Data</a> can be sent between different threads with <a href="#Channel">Channel</a> objects.</p>
+<p class = "section_navigation_subheading">Constructors</p>
+<p class = "section_navigation_link">love.thread.<a href="#love.thread.newThread">newThread</a></p>
 <p class = "section_navigation_subheading">Functions</p>
 <p class = "section_navigation_link">Thread:<a href="#Thread:start">start</a></p>
 <p class = "section_navigation_link">Thread:<a href="#Thread:wait">wait</a></p>
@@ -24647,6 +25150,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <p class = "section_navigation_link">love.window.<a href="#love.window.toPixels">toPixels</a></p>
 <p class = "section_navigation_link">love.window.<a href="#love.window.updateMode">updateMode</a></p>
 <p class = "section_navigation_subheading">Enums</p>
+<p class = "section_navigation_link"><a href="#DisplayOrientation">DisplayOrientation</a></p>
 <p class = "section_navigation_link"><a href="#FullscreenType">FullscreenType</a></p>
 <p class = "section_navigation_link"><a href="#MessageBoxType">MessageBoxType</a></p>
 </div>
@@ -24735,7 +25239,7 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <table class = "ra_table">
 <tr>
 <td class = "returns ra_name">orientation</td>
-<td class = "ra_type">DisplayOrientation</td>
+<td class = "ra_type"><a href="#DisplayOrientation">DisplayOrientation</a></td>
 <td>Current device display orientation.</td>
 </tr>
 <tr>
@@ -25505,6 +26009,19 @@ The t.window table was named t.screen in versions prior to 0.9.0. The t.screen t
 <td>The y-coordinate of the window's position in the specified display.</td>
 </tr>
 </table>
+</div>
+<div class = "section">
+<p class = "section_heading"><a href = "#DisplayOrientation" name = "DisplayOrientation">DisplayOrientation</a></p>
+<p class = "constant_name">unknown</p>
+<p class = "constant_description">Orientation cannot be determined.</p>
+<p class = "constant_name">landscape</p>
+<p class = "constant_description">Landscape orientation.</p>
+<p class = "constant_name">landscapeflipped</p>
+<p class = "constant_description">Landscape orientation (flipped).</p>
+<p class = "constant_name">portrait</p>
+<p class = "constant_description">Portrait orientation.</p>
+<p class = "constant_name">portraitflipped</p>
+<p class = "constant_description">Portrait orientation (flipped).</p>
 </div>
 <div class = "section">
 <p class = "section_heading"><a href = "#FullscreenType" name = "FullscreenType">FullscreenType</a></p>
