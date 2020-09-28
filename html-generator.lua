@@ -1656,16 +1656,11 @@ td {
             local callbacks = {}
             for _, v in ipairs(mt.noncallbackfunctions) do
 
-                if (not v.constructs) or v.name == 'compress' or v.name == 'getJoysticks' or v.name == 'getIcon' then
+                if (not v.constructs) or v.name == 'compress' or v.name == 'getJoysticks' then
                     table.insert(nonConstructors, v)
                 end
             end
             
-            if mt.name == 'window' then
-                for i, v in ipairs(nonConstructors) do
-                    print(v.fullname)
-                end
-            end
             subsection('Callbacks', mt.callbacks)
             subsection('Functions', nonConstructors)
             subsection('Enums', mt.enums)
